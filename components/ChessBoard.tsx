@@ -43,7 +43,7 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
         setOptionSquares({});
     }, [roomId, fen]);
 
-    function onDrop(sourceSquare: string, targetSquare: string) {
+    function onDrop({ sourceSquare, targetSquare }: { sourceSquare: string, targetSquare: string | null }) {
         if (!targetSquare) return false;
         const moveResult = makeMove(sourceSquare, targetSquare);
         if (moveResult) {
@@ -68,7 +68,7 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
         moves.map((move) => {
             newSquares[move.to] = {
                 background:
-                    chess.get(move.to as Square) && chess.get(move.to as Square).color !== chess.get(square as Square).color
+                    chess.get(move.to as Square) && chess.get(move.to as Square)?.color !== chess.get(square as Square)?.color
                         ? 'radial-gradient(circle, rgba(0,0,0,.1) 85%, transparent 85%)'
                         : 'radial-gradient(circle, rgba(0,0,0,.1) 25%, transparent 25%)',
                 borderRadius: '50%',
@@ -82,7 +82,7 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
         return true;
     }
 
-    function onSquareClick(square: string) {
+    function onSquareClick({ square }: { square: string }) {
         if (selectedSquare === square) {
             setSelectedSquare(null);
             setOptionSquares({});
@@ -207,16 +207,18 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
             {/* Board */}
             <div className="w-full aspect-square shadow-2xl rounded-lg overflow-hidden border-4 border-zinc-800 bg-zinc-900 relative group">
                 <Chessboard
-                    id="MainBoard"
-                    position={fen}
-                    boardOrientation={boardOrientation}
-                    onPieceDrop={onDrop}
-                    onSquareClick={onSquareClick}
-                    customDarkSquareStyle={{ backgroundColor: '#71717a' }}
-                    customLightSquareStyle={{ backgroundColor: '#f4f4f5' }}
-                    customSquareStyles={customSquareStyles}
-                    animationDuration={200}
-                    arePiecesDraggable={!isOnline || (playerColor !== 'spectator' && ((playerColor === 'white' && turn === 'w') || (playerColor === 'black' && turn === 'b')))}
+                    options={{
+                        id: "MainBoard",
+                        position: fen,
+                        boardOrientation: boardOrientation,
+                        onPieceDrop: onDrop,
+                        onSquareClick: onSquareClick,
+                        darkSquareStyle: { backgroundColor: '#71717a' },
+                        lightSquareStyle: { backgroundColor: '#f4f4f5' },
+                        squareStyles: customSquareStyles,
+                        animationDurationInMs: 200,
+                        allowDragging: !isOnline || (playerColor !== 'spectator' && ((playerColor === 'white' && turn === 'w') || (playerColor === 'black' && turn === 'b')))
+                    }}
                 />
 
                 {/* Connection Overlay */}
