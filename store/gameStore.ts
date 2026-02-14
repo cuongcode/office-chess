@@ -9,6 +9,7 @@ interface GameState {
     status: 'playing' | 'checkmate' | 'stalemate' | 'draw' | 'check';
     winner: 'w' | 'b' | null;
     boardOrientation: 'white' | 'black';
+    lastMove: { from: string; to: string } | null;
 
     makeMove: (source: string, target: string, promotion?: string) => boolean;
     undoMove: () => void;
@@ -24,6 +25,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     status: 'playing',
     winner: null,
     boardOrientation: 'white',
+    lastMove: null,
 
     makeMove: (source, target, promotion = 'q') => {
         const { chess } = get();
@@ -51,6 +53,7 @@ export const useGameStore = create<GameState>((set, get) => ({
                     history: chess.history(),
                     status,
                     winner,
+                    lastMove: { from: source, to: target },
                 });
                 return true;
             }
@@ -69,6 +72,7 @@ export const useGameStore = create<GameState>((set, get) => ({
             history: chess.history(),
             status: 'playing', // Simple reset to playing or check re-eval
             winner: null,
+            lastMove: null,
         });
         // Re-evaluate check status after undo
         if (chess.isCheck()) {
@@ -85,6 +89,7 @@ export const useGameStore = create<GameState>((set, get) => ({
             history: [],
             status: 'playing',
             winner: null,
+            lastMove: null,
         });
     },
 
