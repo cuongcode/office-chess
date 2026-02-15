@@ -8,6 +8,7 @@ import { Copy, Users, Flag, MessageSquare, LogOut, Wifi, WifiOff } from 'lucide-
 import toast from 'react-hot-toast';
 import DrawOfferDialog from './DrawOfferDialog';
 import GameOverModal from './GameOverModal';
+import ConfirmationModal from './ConfirmationModal';
 
 interface ChessBoardProps {
     onLeave: () => void;
@@ -36,6 +37,12 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
 
     const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
     const [optionSquares, setOptionSquares] = useState<Record<string, React.CSSProperties>>({});
+    const [confirmModal, setConfirmModal] = useState<{
+        isOpen: boolean;
+        title: string;
+        message: string;
+        onConfirm: () => void;
+    }>({ isOpen: false, title: '', message: '', onConfirm: () => { } });
 
     // Reset local state when game changes
     useEffect(() => {
@@ -131,10 +138,28 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
     };
 
     const handleLeave = () => {
-        if (window.confirm('Are you sure you want to leave the game?')) {
-            leaveGame();
-            onLeave();
-        }
+        setConfirmModal({
+            isOpen: true,
+            title: 'Leave Game',
+            message: 'Are you sure you want to leave the game? You will lose your current position.',
+            onConfirm: () => {
+                leaveGame();
+                onLeave();
+                setConfirmModal({ isOpen: false, title: '', message: '', onConfirm: () => { } });
+            },
+        });
+    };
+
+    const handleResign = () => {
+        setConfirmModal({
+            isOpen: true,
+            title: 'Resign Game',
+            message: 'Are you sure you want to resign? This will end the game and count as a loss.',
+            onConfirm: () => {
+                resign();
+                setConfirmModal({ isOpen: false, title: '', message: '', onConfirm: () => { } });
+            },
+        });
     };
 
     const getStatusText = () => {
@@ -194,6 +219,16 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
         <div className="flex flex-col gap-4 w-full max-w-[600px]">
             <DrawOfferDialog />
             <GameOverModal onReturnHome={onLeave} />
+            <ConfirmationModal
+                isOpen={confirmModal.isOpen}
+                title={confirmModal.title}
+                message={confirmModal.message}
+                confirmText="Confirm"
+                cancelText="Cancel"
+                confirmVariant="danger"
+                onConfirm={confirmModal.onConfirm}
+                onCancel={() => setConfirmModal({ isOpen: false, title: '', message: '', onConfirm: () => { } })}
+            />
 
             {/* Header Info */}
             <div className="flex items-center justify-between bg-zinc-900 p-3 rounded-lg border border-zinc-800">
@@ -301,7 +336,7 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
                             <MessageSquare className="w-5 h-5" />
                         </button>
                         <button
-                            onClick={() => { if (window.confirm('Resign game?')) resign(); }}
+                            onClick={handleResign}
                             className="p-2 text-zinc-400 hover:text-red-400 hover:bg-zinc-800 rounded transition-colors"
                             title="Resign"
                         >
