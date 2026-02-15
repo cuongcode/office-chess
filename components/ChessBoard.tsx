@@ -101,7 +101,9 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
         const piece = chess.get(square as Square);
         if (piece && piece.color === chess.turn()) {
             // Allow selection if it's my turn/color or local game
-            if (isOnline && playerColor !== 'spectator') {
+            if (isOnline) {
+                if (playerColor === 'spectator') return;
+
                 const isMyPiece = (playerColor === 'white' && piece.color === 'w') || (playerColor === 'black' && piece.color === 'b');
                 if (!isMyPiece) return;
             }
