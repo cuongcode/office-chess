@@ -20,12 +20,22 @@ export default function Home() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [showActiveGames, setShowActiveGames] = useState(false);
+  const [isRestoring, setIsRestoring] = useState(true);
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/login");
     }
   }, [status, router]);
+
+  // Check for existing game session on mount
+  useEffect(() => {
+    const savedRoomId = localStorage.getItem('chess_room_id');
+    if (savedRoomId) {
+      setView('game');
+    }
+    setIsRestoring(false);
+  }, []);
 
   // Connect to socket on mount if authenticated
   useEffect(() => {
@@ -44,7 +54,7 @@ export default function Home() {
     }
   }, [isOnline]);
 
-  if (status === "loading") {
+  if (status === "loading" || isRestoring) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
