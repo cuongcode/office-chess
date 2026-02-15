@@ -270,13 +270,25 @@ export const useGameStore = create<GameState>((set, get) => ({
 
         newSocket.on('move_made', ({ move, gameState }: any) => {
             const { chess } = get();
-            chess.move(move); // Apply move locally to keep chess instance in sync
+            // Only include promotion if it's actually a promotion move
+            // chess.js will error if we pass promotion for non-pawn moves
+            const moveObj: any = { from: move.from, to: move.to };
+
+            // Check if this is a pawn promotion (pawn moving to rank 8 or 1)
+            const piece = chess.get(move.from);
+            const isPromotion = piece?.type === 'p' && (move.to[1] === '8' || move.to[1] === '1');
+
+            if (isPromotion && move.promotion) {
+                moveObj.promotion = move.promotion;
+            }
+
+            chess.move(moveObj); // Apply move locally to keep chess instance in sync
             set({
                 fen: gameState.fen,
                 turn: gameState.turn,
                 history: gameState.moveHistory || chess.history(), // Fallback
                 status: gameState.status as any,
-                lastMove: move
+                lastMove: { from: move.from, to: move.to }
             });
         });
 
