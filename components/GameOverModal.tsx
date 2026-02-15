@@ -16,8 +16,10 @@ export default function GameOverModal({ onReturnHome }: GameOverModalProps) {
     );
 
     const getTitle = () => {
+        const isSpectator = playerColor === 'spectator';
+
         if (status === 'checkmate') {
-            if (isOnline) {
+            if (isOnline && !isSpectator) {
                 return isWinner ? 'You Won!' : 'You Lost';
             }
             return winner === 'w' ? 'White Wins!' : 'Black Wins!';
@@ -25,7 +27,7 @@ export default function GameOverModal({ onReturnHome }: GameOverModalProps) {
         if (status === 'draw') return 'Draw';
         if (status === 'stalemate') return 'Stalemate';
         if (status === 'resignation') {
-            if (isOnline) {
+            if (isOnline && !isSpectator) {
                 return isWinner ? 'Opponent Resigned' : 'You Resigned';
             }
             return winner === 'w' ? 'White Wins (Resignation)' : 'Black Wins (Resignation)';
@@ -45,7 +47,7 @@ export default function GameOverModal({ onReturnHome }: GameOverModalProps) {
             <div className="bg-gradient-to-br from-gray-900 to-gray-800 border border-white/20 rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl transform scale-100">
                 <div className="flex justify-center mb-6">
                     {status === 'checkmate' || status === 'resignation' ? (
-                        <Trophy className={`w-16 h-16 ${isWinner || (!isOnline && winner) ? 'text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.5)]' : 'text-gray-400'}`} />
+                        <Trophy className={`w-16 h-16 ${(isWinner || playerColor === 'spectator' || !isOnline) && winner ? 'text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.5)]' : 'text-gray-400'}`} />
                     ) : (
                         <div className="text-4xl">🤝</div>
                     )}
