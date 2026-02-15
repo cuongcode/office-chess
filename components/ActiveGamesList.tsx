@@ -19,7 +19,7 @@ interface ActiveGamesListProps {
 export default function ActiveGamesList({ userId, userName, onClose }: ActiveGamesListProps) {
     const [games, setGames] = useState<ActiveGame[]>([]);
     const [loading, setLoading] = useState(true);
-    const { joinGame } = useGameStore();
+    const { spectateGame } = useGameStore();
 
     const fetchGames = async () => {
         setLoading(true);
@@ -41,7 +41,7 @@ export default function ActiveGamesList({ userId, userName, onClose }: ActiveGam
     }, []);
 
     const handleSpectate = (roomId: string) => {
-        joinGame(roomId, userId, userName);
+        spectateGame(roomId, userId, userName);
         onClose();
     };
 

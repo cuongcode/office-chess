@@ -32,6 +32,7 @@ interface GameState {
     connect: () => Promise<void>;
     createGame: (userId: string, userName: string, colorPreference?: 'white' | 'black' | 'random') => void;
     joinGame: (roomId: string, userId: string, userName: string) => void;
+    spectateGame: (roomId: string, userId: string, userName: string) => void;
     leaveGame: () => void;
     resign: () => void;
     offerDraw: () => void;
@@ -189,8 +190,18 @@ export const useGameStore = create<GameState>((set, get) => ({
 
         newSocket.on('game_error', (error: any) => {
             console.error('Game error:', error);
-            if (error.message === 'Room not found') {
+            // Clear room ID on any join error to prevent stuck states
+            if (error.message === 'Room not found' || error.message.includes('Cannot join as player')) {
                 localStorage.removeItem('chess_room_id');
+                // Reset to menu state
+                set({
+                    isOnline: false,
+                    roomId: null,
+                    playerColor: null,
+                    whitePlayerName: null,
+                    blackPlayerName: null,
+                    spectatorCount: 0,
+                });
             }
         });
 
@@ -236,6 +247,8 @@ export const useGameStore = create<GameState>((set, get) => ({
             });
             // Ensure persistence if joined via rejoin logic or normal join
             localStorage.setItem('chess_room_id', roomId);
+            // Store player role for proper rejoining
+            localStorage.setItem('chess_player_role', color);
         });
 
         newSocket.on('player_joined', ({ role, player, whitePlayer, blackPlayer, spectatorCount }: any) => {
@@ -301,6 +314,17 @@ export const useGameStore = create<GameState>((set, get) => ({
         const { socket } = get();
         if (socket) {
             socket.emit('join_game', { roomId, userId, userName });
+            localStorage.setItem('chess_user_id', userId);
+            localStorage.setItem('chess_user_name', userName);
+        }
+    },
+
+    spectateGame: (roomId, userId, userName) => {
+        const { socket } = get();
+        if (socket) {
+            socket.emit('spectate_game', { roomId, userId, userName });
+            localStorage.setItem('chess_user_id', userId);
+            localStorage.setItem('chess_user_name', userName);
         }
     },
 
@@ -312,6 +336,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
         // Clear local storage to prevent auto-rejoin
         localStorage.removeItem('chess_room_id');
+        localStorage.removeItem('chess_player_role');
 
         // Reset online state
         set({
@@ -342,11 +367,18 @@ export const useGameStore = create<GameState>((set, get) => ({
         const roomId = localStorage.getItem('chess_room_id');
         const userId = localStorage.getItem('chess_user_id');
         const userName = localStorage.getItem('chess_user_name');
+        const playerRole = localStorage.getItem('chess_player_role');
 
         if (roomId && userId && userName) {
             const { socket } = get();
             if (socket) {
-                socket.emit('join_game', { roomId, userId, userName });
+                // Use the appropriate event based on stored role
+                if (playerRole === 'spectator') {
+                    socket.emit('spectate_game', { roomId, userId, userName });
+                } else {
+                    // For players (white/black) or if role is unknown, try to join as player
+                    socket.emit('join_game', { roomId, userId, userName });
+                }
             }
         }
     }

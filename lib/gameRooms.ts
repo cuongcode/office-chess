@@ -126,6 +126,51 @@ export const joinRoom = (roomId: string, player: Player): { room: GameRoom; role
     }
 };
 
+// Join room explicitly as a player (not spectator)
+export const joinRoomAsPlayer = (roomId: string, player: Player): { room: GameRoom; role: 'white' | 'black' } | null => {
+    const room = gameRooms.get(roomId);
+    if (!room) return null;
+
+    // Check if player is already in the room (reconnection)
+    if (room.whitePlayer?.id === player.id) {
+        room.whitePlayer.socketId = player.socketId; // Update socket ID
+        return { room, role: 'white' };
+    }
+    if (room.blackPlayer?.id === player.id) {
+        room.blackPlayer.socketId = player.socketId; // Update socket ID
+        return { room, role: 'black' };
+    }
+
+    // Assign to available player slot
+    if (!room.whitePlayer) {
+        room.whitePlayer = player;
+        return { room, role: 'white' };
+    } else if (!room.blackPlayer) {
+        room.blackPlayer = player;
+        return { room, role: 'black' };
+    } else {
+        // Both slots are full, cannot join as player
+        return null;
+    }
+};
+
+// Join room explicitly as a spectator
+export const joinRoomAsSpectator = (roomId: string, player: Player): { room: GameRoom; role: 'spectator' } | null => {
+    const room = gameRooms.get(roomId);
+    if (!room) return null;
+
+    // Check if player is already a spectator (reconnection)
+    const existingSpectator = room.spectators.find(s => s.id === player.id);
+    if (existingSpectator) {
+        existingSpectator.socketId = player.socketId; // Update socket ID
+        return { room, role: 'spectator' };
+    }
+
+    // Add as new spectator
+    room.spectators.push(player);
+    return { room, role: 'spectator' };
+};
+
 export const leaveRoom = (roomId: string, socketId: string): GameRoom | null => {
     const room = gameRooms.get(roomId);
     if (!room) return null;

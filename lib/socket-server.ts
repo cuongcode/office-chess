@@ -3,6 +3,8 @@ import { Server as SocketIOServer } from 'socket.io';
 import {
     createRoom,
     joinRoom,
+    joinRoomAsPlayer,
+    joinRoomAsSpectator,
     leaveRoom,
     updateGameState,
     getRoom,
@@ -48,10 +50,10 @@ export const initSocketServer = (httpServer: NetServer) => {
                 socketId: socket.id
             };
 
-            const result = joinRoom(data.roomId, player);
+            const result = joinRoomAsPlayer(data.roomId, player);
 
             if (!result) {
-                socket.emit('game_error', { message: 'Room not found' });
+                socket.emit('game_error', { message: 'Cannot join as player - room is full or not found' });
                 return;
             }
 
@@ -65,7 +67,7 @@ export const initSocketServer = (httpServer: NetServer) => {
                 gameState: room.gameState,
                 whitePlayer: room.whitePlayer,
                 blackPlayer: room.blackPlayer,
-                spectatorCount: room.spectators.length // Helper to get count
+                spectatorCount: room.spectators.length
             });
 
             // Notify everyone in the room
@@ -84,6 +86,39 @@ export const initSocketServer = (httpServer: NetServer) => {
                     blackPlayer: room.blackPlayer
                 });
             }
+        });
+
+        socket.on('spectate_game', (data: { roomId: string; userId: string; userName: string }) => {
+            const player: Player = {
+                id: data.userId,
+                name: data.userName,
+                socketId: socket.id
+            };
+
+            const result = joinRoomAsSpectator(data.roomId, player);
+
+            if (!result) {
+                socket.emit('game_error', { message: 'Room not found' });
+                return;
+            }
+
+            const { room, role } = result;
+            socket.join(room.roomId);
+
+            // Notify the joiner
+            socket.emit('game_joined', {
+                roomId: room.roomId,
+                color: role,
+                gameState: room.gameState,
+                whitePlayer: room.whitePlayer,
+                blackPlayer: room.blackPlayer,
+                spectatorCount: room.spectators.length
+            });
+
+            // Notify everyone in the room about new spectator
+            io.to(room.roomId).emit('spectator_joined', {
+                count: room.spectators.length
+            });
         });
 
         socket.on('make_move', (data: { roomId: string; move: any; gameState: any }) => {
