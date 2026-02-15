@@ -23,8 +23,20 @@ export interface GameRoom {
 }
 
 // In-memory storage for game rooms
+// In-memory storage for game rooms
 // Note: In a production app with multiple server instances, this should be in Redis
-const gameRooms = new Map<string, GameRoom>();
+// We use globalThis to ensure the map is shared between the Socket.IO server execution context
+// and the Next.js API route execution context in development.
+
+declare global {
+    var socketGameRooms: Map<string, GameRoom> | undefined;
+}
+
+const gameRooms = globalThis.socketGameRooms || new Map<string, GameRoom>();
+
+if (process.env.NODE_ENV !== 'production') {
+    globalThis.socketGameRooms = gameRooms;
+}
 
 // Helper to generate a random room ID
 export const generateRoomId = (): string => {
