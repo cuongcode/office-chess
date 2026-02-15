@@ -10,6 +10,7 @@ export interface GameState {
     turn: 'w' | 'b';
     status: 'playing' | 'checkmate' | 'draw' | 'stalemate' | 'resignation' | 'check';
     winner?: 'white' | 'black' | 'draw';
+    lastMove: { from: string; to: string } | null;
 }
 
 export interface GameRoom {
@@ -64,6 +65,7 @@ export const createRoom = (creator: Player): GameRoom => {
             moveHistory: [],
             turn: 'w',
             status: 'playing',
+            lastMove: null,
         },
         createdAt: new Date(),
     };

@@ -106,7 +106,8 @@ export const useGameStore = create<GameState>((set, get) => ({
                             fen: chess.fen(),
                             moveHistory: chess.history(),
                             turn: chess.turn(),
-                            status: status
+                            status: status,
+                            lastMove: { from: source, to: target }
                         }
                     });
                 }
@@ -231,6 +232,7 @@ export const useGameStore = create<GameState>((set, get) => ({
                 spectatorCount,
                 whitePlayerName: whitePlayer?.name || null,
                 blackPlayerName: blackPlayer?.name || null,
+                lastMove: gameState.lastMove || null,
             });
             // Ensure persistence if joined via rejoin logic or normal join
             localStorage.setItem('chess_room_id', roomId);
