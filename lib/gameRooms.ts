@@ -171,34 +171,38 @@ export const joinRoomAsSpectator = (roomId: string, player: Player): { room: Gam
     return { room, role: 'spectator' };
 };
 
-export const leaveRoom = (roomId: string, socketId: string): GameRoom | null => {
+export const leaveRoom = (roomId: string, socketId: string): { room: GameRoom | null; resignedColor?: 'white' | 'black' } => {
     const room = gameRooms.get(roomId);
-    if (!room) return null;
+    if (!room) return { room: null };
 
-    // We don't remove white/black players on disconnect, just update their connection status (handled by client presence mostly)
-    // For now, let's just remove from spectators.
-    // Major player handling usually requires a 'disconnect' grace period or explicit 'leave' action.
-    // Implicitly, if socket disconnects, we might want to mark them as offline but keep the slot.
+    let resignedColor: 'white' | 'black' | undefined;
 
     // If this is an explicit "leave game" action:
     if (room.whitePlayer?.socketId === socketId) {
-        room.whitePlayer = null; // Open up the slot? Or forfeit?
-        // Usually in chess, leaving means resigning or aborting. 
-        // For simplicity in this v1: if a player leaves, the game might end or they forfeit.
-        // Let's keep it simple: if a player explicitly leaves API-wise, they are removed.
+        resignedColor = 'white';
+        room.whitePlayer = null;
     } else if (room.blackPlayer?.socketId === socketId) {
+        resignedColor = 'black';
         room.blackPlayer = null;
     } else {
+        // Just a spectator leaving
         room.spectators = room.spectators.filter(s => s.socketId !== socketId);
+    }
+
+    // If a player resigned by leaving, update game state
+    if (resignedColor && room.gameState.status === 'playing') {
+        const winner = resignedColor === 'white' ? 'black' : 'white';
+        room.gameState.status = 'resignation';
+        room.gameState.winner = winner;
     }
 
     // If room is empty, delete it
     if (!room.whitePlayer && !room.blackPlayer && room.spectators.length === 0) {
         gameRooms.delete(roomId);
-        return null; // Room deleted
+        return { room: null, resignedColor };
     }
 
-    return room;
+    return { room, resignedColor };
 };
 
 // Handle socket disconnect (not explicit leave)

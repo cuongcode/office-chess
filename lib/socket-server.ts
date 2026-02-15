@@ -137,21 +137,31 @@ export const initSocketServer = (httpServer: NetServer) => {
         });
 
         socket.on('leave_game', (data: { roomId: string }) => {
-            const room = leaveRoom(data.roomId, socket.id);
+            const result = leaveRoom(data.roomId, socket.id);
             socket.leave(data.roomId);
 
-            if (room) {
+            if (result.room) {
                 io.to(data.roomId).emit('player_left', {
                     socketId: socket.id
                 });
 
                 // Notify about spectator count change
                 io.to(data.roomId).emit('spectator_left', {
-                    count: room.spectators.length
+                    count: result.room.spectators.length
                 });
 
+                // If a player left (resigned), emit game over
+                if (result.resignedColor) {
+                    const winner = result.resignedColor === 'white' ? 'black' : 'white';
+                    io.to(data.roomId).emit('game_over', {
+                        result: winner,
+                        reason: 'resignation',
+                        gameState: result.room.gameState
+                    });
+                }
+
                 // If room still exists, send update
-                io.to(data.roomId).emit('room_updated', room);
+                io.to(data.roomId).emit('room_updated', result.room);
             }
         });
 
