@@ -110,6 +110,11 @@ export const initSocketServer = (httpServer: NetServer) => {
                     socketId: socket.id
                 });
 
+                // Notify about spectator count change
+                io.to(data.roomId).emit('spectator_left', {
+                    count: room.spectators.length
+                });
+
                 // If room still exists, send update
                 io.to(data.roomId).emit('room_updated', room);
             }
@@ -153,9 +158,13 @@ export const initSocketServer = (httpServer: NetServer) => {
         socket.on('disconnect', () => {
             console.log('User disconnected:', socket.id);
             const room = handleDisconnect(socket.id);
-            // NOTE: handleDisconnect in current gameRooms implementation only cleans spectators
-            // We might want to broadcast to players if their opponent disconnected?
-            // For now, simple consistent behavior.
+
+            if (room) {
+                // If a room was returned, it means this socket was involved (likely spectator removed)
+                io.to(room.roomId).emit('spectator_left', {
+                    count: room.spectators.length
+                });
+            }
         });
     });
 

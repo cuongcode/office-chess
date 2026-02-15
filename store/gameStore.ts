@@ -276,6 +276,10 @@ export const useGameStore = create<GameState>((set, get) => ({
             set({ spectatorCount: count });
         });
 
+        newSocket.on('spectator_left', ({ count }: { count: number }) => {
+            set({ spectatorCount: count });
+        });
+
         set({ socket: newSocket });
     },
 
