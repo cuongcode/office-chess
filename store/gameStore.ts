@@ -269,32 +269,33 @@ export const useGameStore = create<GameState>((set, get) => ({
         });
 
         newSocket.on('move_made', ({ move, gameState }: any) => {
-            const { chess } = get();
-            // Only include promotion if it's actually a promotion move
-            // chess.js will error if we pass promotion for non-pawn moves
-            const moveObj: any = { from: move.from, to: move.to };
+            // The server sends us the authoritative game state after the move
+            // We should trust the server's FEN rather than trying to apply the move locally
+            const newChess = new Chess(gameState.fen);
 
-            // Check if this is a pawn promotion (pawn moving to rank 8 or 1)
-            const piece = chess.get(move.from);
-            const isPromotion = piece?.type === 'p' && (move.to[1] === '8' || move.to[1] === '1');
-
-            if (isPromotion && move.promotion) {
-                moveObj.promotion = move.promotion;
-            }
-
-            chess.move(moveObj); // Apply move locally to keep chess instance in sync
             set({
+                chess: newChess,
                 fen: gameState.fen,
                 turn: gameState.turn,
-                history: gameState.moveHistory || chess.history(), // Fallback
+                history: gameState.moveHistory || newChess.history(),
                 status: gameState.status as any,
                 lastMove: { from: move.from, to: move.to }
             });
         });
 
         newSocket.on('game_over', ({ result, reason, gameState }: any) => {
+            // Map server reasons to client status
+            let status: GameState['status'] = 'playing';
+            if (reason === 'checkmate') {
+                status = 'checkmate';
+            } else if (reason === 'draw' || reason === 'agreement') {
+                status = 'draw';
+            } else if (reason === 'resignation') {
+                status = 'resignation';
+            }
+
             set({
-                status: reason === 'checkmate' ? 'checkmate' : (reason === 'draw' ? 'draw' : 'resignation'), // simplified mapping
+                status,
                 winner: result === 'draw' ? null : (result === 'white' ? 'w' : 'b')
             });
         });
