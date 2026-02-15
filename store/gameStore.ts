@@ -307,6 +307,10 @@ export const useGameStore = create<GameState>((set, get) => ({
         if (socket && roomId) {
             socket.emit('leave_game', { roomId });
         }
+
+        // Clear local storage to prevent auto-rejoin
+        localStorage.removeItem('chess_room_id');
+
         // Reset online state
         set({
             isOnline: false,
