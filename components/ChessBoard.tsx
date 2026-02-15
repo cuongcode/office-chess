@@ -23,8 +23,8 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
         isOnline,
         roomId,
         playerColor,
-        playerName,
-        opponentName,
+        whitePlayerName,
+        blackPlayerName,
         isConnected,
         spectatorCount,
         turn,
@@ -148,6 +148,46 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
         return `${turn === 'w' ? "White" : "Black"}'s turn`;
     };
 
+    // Helper to determine names based on orientation
+    const getTopPlayerInfo = () => {
+        if (boardOrientation === 'white') {
+            // Top is Black
+            return {
+                name: blackPlayerName || 'Waiting for opponent...',
+                colorLabel: 'Black',
+                isMe: playerColor === 'black'
+            };
+        } else {
+            // Top is White
+            return {
+                name: whitePlayerName || 'Waiting for opponent...',
+                colorLabel: 'White',
+                isMe: playerColor === 'white'
+            };
+        }
+    };
+
+    const getBottomPlayerInfo = () => {
+        if (boardOrientation === 'white') {
+            // Bottom is White
+            return {
+                name: whitePlayerName || 'Waiting...',
+                colorLabel: 'White',
+                isMe: playerColor === 'white'
+            };
+        } else {
+            // Bottom is Black
+            return {
+                name: blackPlayerName || 'Waiting...',
+                colorLabel: 'Black',
+                isMe: playerColor === 'black'
+            };
+        }
+    };
+
+    const topPlayer = getTopPlayerInfo();
+    const bottomPlayer = getBottomPlayerInfo();
+
     return (
         <div className="flex flex-col gap-4 w-full max-w-[600px]">
             <DrawOfferDialog />
@@ -194,10 +234,10 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
                     </div>
                     <div>
                         <div className="font-bold text-zinc-200">
-                            {isOnline ? (opponentName || 'Waiting for opponent...') : 'Black'}
+                            {isOnline ? topPlayer.name : 'Black'}
                         </div>
                         <div className="text-xs text-zinc-500">
-                            {isOnline && playerIdToColorMap(boardOrientation === 'white' ? 'black' : 'white')}
+                            {isOnline && topPlayer.colorLabel}
                         </div>
                     </div>
                 </div>
@@ -241,10 +281,10 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
                     </div>
                     <div>
                         <div className="font-bold text-white">
-                            {isOnline ? (playerName || 'You') : 'White'}
+                            {isOnline ? (bottomPlayer.isMe ? `${bottomPlayer.name} (You)` : bottomPlayer.name) : 'White'}
                         </div>
                         <div className="text-xs text-zinc-500">
-                            {isOnline && playerIdToColorMap(boardOrientation)}
+                            {isOnline && bottomPlayer.colorLabel}
                         </div>
                     </div>
                 </div>

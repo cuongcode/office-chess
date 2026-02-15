@@ -17,8 +17,8 @@ interface GameState {
     socket: Socket | null;
     roomId: string | null;
     playerColor: 'white' | 'black' | 'spectator' | null;
-    playerName: string | null;
-    opponentName: string | null;
+    whitePlayerName: string | null;
+    blackPlayerName: string | null;
     isConnected: boolean;
     spectatorCount: number;
     isOnline: boolean;
@@ -52,8 +52,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     socket: null,
     roomId: null,
     playerColor: null,
-    playerName: null,
-    opponentName: null,
+    whitePlayerName: null,
+    blackPlayerName: null,
     isConnected: false,
     spectatorCount: 0,
     isOnline: false,
@@ -195,6 +195,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
         newSocket.on('game_created', ({ roomId, color }: { roomId: string, color: 'white' | 'black' }) => {
             console.log('Game created:', roomId);
+            const savedName = localStorage.getItem('chess_user_name');
             localStorage.setItem('chess_room_id', roomId);
             set({
                 roomId,
@@ -202,6 +203,8 @@ export const useGameStore = create<GameState>((set, get) => ({
                 boardOrientation: color === 'white' ? 'white' : 'black',
                 isOnline: true,
                 status: 'playing',
+                whitePlayerName: color === 'white' ? savedName : null,
+                blackPlayerName: color === 'black' ? savedName : null,
                 // Reset board for new game
                 chess: new Chess(),
                 fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
@@ -226,7 +229,8 @@ export const useGameStore = create<GameState>((set, get) => ({
                 history: gameState.moveHistory || [],
                 status: gameState.status as any,
                 spectatorCount,
-                opponentName: color === 'white' ? blackPlayer?.name : whitePlayer?.name
+                whitePlayerName: whitePlayer?.name || null,
+                blackPlayerName: blackPlayer?.name || null,
             });
             // Ensure persistence if joined via rejoin logic or normal join
             localStorage.setItem('chess_room_id', roomId);
@@ -237,12 +241,15 @@ export const useGameStore = create<GameState>((set, get) => ({
 
             // If I am playing, and this is my opponent joining
             if (playerColor !== 'spectator') {
-                if (playerColor === 'white' && role === 'black') {
-                    set({ opponentName: player.name });
-                } else if (playerColor === 'black' && role === 'white') {
-                    set({ opponentName: player.name });
-                }
+                // Logic for opponent joining is handled by explicit whitePlayerName/blackPlayerName updates below
             }
+
+            if (role === 'white') {
+                set({ whitePlayerName: player.name });
+            } else if (role === 'black') {
+                set({ blackPlayerName: player.name });
+            }
+
             set({ spectatorCount });
         });
 
@@ -276,7 +283,6 @@ export const useGameStore = create<GameState>((set, get) => ({
         const { socket } = get();
         if (socket) {
             console.log('Emitting create_game', { userId, userName });
-            set({ playerName: userName });
             socket.emit('create_game', { userId, userName });
             localStorage.setItem('chess_user_id', userId);
             localStorage.setItem('chess_user_name', userName);
@@ -288,7 +294,6 @@ export const useGameStore = create<GameState>((set, get) => ({
     joinGame: (roomId, userId, userName) => {
         const { socket } = get();
         if (socket) {
-            set({ playerName: userName });
             socket.emit('join_game', { roomId, userId, userName });
         }
     },
@@ -303,7 +308,8 @@ export const useGameStore = create<GameState>((set, get) => ({
             isOnline: false,
             roomId: null,
             playerColor: null,
-            opponentName: null,
+            whitePlayerName: null,
+            blackPlayerName: null,
             spectatorCount: 0,
         });
     },
@@ -330,7 +336,6 @@ export const useGameStore = create<GameState>((set, get) => ({
         if (roomId && userId && userName) {
             const { socket } = get();
             if (socket) {
-                set({ playerName: userName });
                 socket.emit('join_game', { roomId, userId, userName });
             }
         }
