@@ -12,13 +12,15 @@ interface CreateGameModalProps {
 export default function CreateGameModal({ userId, userName, onClose }: CreateGameModalProps) {
     const { createGame, roomId, isOnline, isConnected } = useGameStore();
     const [copied, setCopied] = useState(false);
+    const [selectedColor, setSelectedColor] = useState<'white' | 'black' | 'random'>('random');
+    const [gameCreated, setGameCreated] = useState(false);
 
     useEffect(() => {
-        // Only create game if we don't have a room yet AND we are connected
-        if (!roomId && isConnected) {
-            createGame(userId, userName);
+        // Only create game if we don't have a room yet AND we are connected AND user hasn't created yet
+        if (!roomId && isConnected && gameCreated) {
+            createGame(userId, userName, selectedColor);
         }
-    }, [createGame, roomId, userId, userName, isConnected]);
+    }, [createGame, roomId, userId, userName, isConnected, gameCreated, selectedColor]);
 
     const copyToClipboard = () => {
         if (roomId) {
@@ -49,57 +51,93 @@ export default function CreateGameModal({ userId, userName, onClose }: CreateGam
 
                 <h2 className="text-2xl font-bold mb-6 text-center">Create Game</h2>
 
-                <div className="space-y-6">
-                    <div className="bg-black/30 p-6 rounded-xl border border-white/5 text-center">
-                        <p className="text-gray-400 mb-2">Room Code</p>
-                        {roomId ? (
+                {!roomId ? (
+                    <div className="space-y-6">
+                        <div>
+                            <p className="text-gray-400 mb-3 text-center">Choose your color</p>
+                            <div className="grid grid-cols-3 gap-3">
+                                <button
+                                    onClick={() => setSelectedColor('white')}
+                                    className={`p-4 rounded-lg border-2 transition-all ${selectedColor === 'white'
+                                            ? 'border-blue-500 bg-blue-500/20'
+                                            : 'border-white/10 hover:border-white/30'
+                                        }`}
+                                >
+                                    <div className="w-12 h-12 rounded-full bg-white mx-auto mb-2"></div>
+                                    <p className="text-sm font-semibold">White</p>
+                                </button>
+                                <button
+                                    onClick={() => setSelectedColor('black')}
+                                    className={`p-4 rounded-lg border-2 transition-all ${selectedColor === 'black'
+                                            ? 'border-blue-500 bg-blue-500/20'
+                                            : 'border-white/10 hover:border-white/30'
+                                        }`}
+                                >
+                                    <div className="w-12 h-12 rounded-full bg-gray-800 border-2 border-white/20 mx-auto mb-2"></div>
+                                    <p className="text-sm font-semibold">Black</p>
+                                </button>
+                                <button
+                                    onClick={() => setSelectedColor('random')}
+                                    className={`p-4 rounded-lg border-2 transition-all ${selectedColor === 'random'
+                                            ? 'border-blue-500 bg-blue-500/20'
+                                            : 'border-white/10 hover:border-white/30'
+                                        }`}
+                                >
+                                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-white to-gray-800 mx-auto mb-2"></div>
+                                    <p className="text-sm font-semibold">Random</p>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button
+                            onClick={() => setGameCreated(true)}
+                            disabled={!isConnected}
+                            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {!isConnected ? 'Connecting...' : 'Create Game'}
+                        </button>
+                    </div>
+                ) : (
+                    <div className="space-y-6">
+                        <div className="bg-black/30 p-6 rounded-xl border border-white/5 text-center">
+                            <p className="text-gray-400 mb-2">Room Code</p>
                             <div
                                 onClick={copyToClipboard}
                                 className="text-4xl font-mono font-bold tracking-wider cursor-pointer hover:scale-105 transition-transform select-all text-blue-400"
                             >
                                 {roomId}
                             </div>
-                        ) : (
-                            <div className="flex flex-col items-center justify-center h-16 gap-2">
-                                {!isConnected ? (
-                                    <span className="text-yellow-500 text-sm">Connecting to server...</span>
-                                ) : (
-                                    <div className="animate-pulse h-8 w-32 bg-white/10 rounded"></div>
-                                )}
+                        </div>
+
+                        <div className="flex gap-3">
+                            <button
+                                onClick={copyToClipboard}
+                                className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition-colors"
+                            >
+                                {copied ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
+                                {copied ? 'Copied' : 'Copy Code'}
+                            </button>
+
+                            <button
+                                onClick={copyLink}
+                                className="flex-1 flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg font-semibold transition-colors"
+                            >
+                                <Share2 className="w-5 h-5" />
+                                Share Link
+                            </button>
+                        </div>
+
+                        <div className="text-center">
+                            <div className="inline-flex items-center gap-2 text-yellow-400 bg-yellow-400/10 px-4 py-2 rounded-full text-sm">
+                                <span className="relative flex h-3 w-3">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-3 w-3 bg-yellow-500"></span>
+                                </span>
+                                Waiting for opponent...
                             </div>
-                        )}
-                    </div>
-
-                    <div className="flex gap-3">
-                        <button
-                            onClick={copyToClipboard}
-                            className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition-colors disabled:opacity-50"
-                            disabled={!roomId}
-                        >
-                            {copied ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
-                            {copied ? 'Copied' : 'Copy Code'}
-                        </button>
-
-                        <button
-                            onClick={copyLink}
-                            className="flex-1 flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg font-semibold transition-colors disabled:opacity-50"
-                            disabled={!roomId}
-                        >
-                            <Share2 className="w-5 h-5" />
-                            Share Link
-                        </button>
-                    </div>
-
-                    <div className="text-center">
-                        <div className="inline-flex items-center gap-2 text-yellow-400 bg-yellow-400/10 px-4 py-2 rounded-full text-sm">
-                            <span className="relative flex h-3 w-3">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-3 w-3 bg-yellow-500"></span>
-                            </span>
-                            Waiting for opponent...
                         </div>
                     </div>
-                </div>
+                )}
             </div>
         </div>
     );

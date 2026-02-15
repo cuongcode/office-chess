@@ -49,16 +49,24 @@ export const generateRoomId = (): string => {
     return result;
 };
 
-export const createRoom = (creator: Player): GameRoom => {
+export const createRoom = (creator: Player, colorPreference: 'white' | 'black' | 'random' = 'random'): { room: GameRoom; color: 'white' | 'black' } => {
     let roomId = generateRoomId();
     while (gameRooms.has(roomId)) {
         roomId = generateRoomId();
     }
 
+    // Determine the actual color based on preference
+    let assignedColor: 'white' | 'black';
+    if (colorPreference === 'random') {
+        assignedColor = Math.random() < 0.5 ? 'white' : 'black';
+    } else {
+        assignedColor = colorPreference;
+    }
+
     const newRoom: GameRoom = {
         roomId,
-        whitePlayer: creator, // Creator is always white by default
-        blackPlayer: null,
+        whitePlayer: assignedColor === 'white' ? creator : null,
+        blackPlayer: assignedColor === 'black' ? creator : null,
         spectators: [],
         gameState: {
             fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1', // Start position
@@ -71,7 +79,7 @@ export const createRoom = (creator: Player): GameRoom => {
     };
 
     gameRooms.set(roomId, newRoom);
-    return newRoom;
+    return { room: newRoom, color: assignedColor };
 };
 
 export const getRoom = (roomId: string): GameRoom | undefined => {

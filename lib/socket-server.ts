@@ -24,19 +24,19 @@ export const initSocketServer = (httpServer: NetServer) => {
     io.on('connection', (socket) => {
         console.log('User connected:', socket.id);
 
-        socket.on('create_game', (data: { userId: string; userName: string }) => {
+        socket.on('create_game', (data: { userId: string; userName: string; colorPreference?: 'white' | 'black' | 'random' }) => {
             const player: Player = {
                 id: data.userId,
                 name: data.userName,
                 socketId: socket.id
             };
 
-            const room = createRoom(player);
+            const { room, color } = createRoom(player, data.colorPreference || 'random');
             socket.join(room.roomId);
 
             socket.emit('game_created', {
                 roomId: room.roomId,
-                color: 'white',
+                color: color,
                 gameState: room.gameState
             });
         });

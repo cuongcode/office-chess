@@ -30,7 +30,7 @@ interface GameState {
 
     // Socket Actions
     connect: () => Promise<void>;
-    createGame: (userId: string, userName: string) => void;
+    createGame: (userId: string, userName: string, colorPreference?: 'white' | 'black' | 'random') => void;
     joinGame: (roomId: string, userId: string, userName: string) => void;
     leaveGame: () => void;
     resign: () => void;
@@ -285,11 +285,11 @@ export const useGameStore = create<GameState>((set, get) => ({
         set({ socket: newSocket });
     },
 
-    createGame: (userId, userName) => {
+    createGame: (userId, userName, colorPreference = 'random') => {
         const { socket } = get();
         if (socket) {
-            console.log('Emitting create_game', { userId, userName });
-            socket.emit('create_game', { userId, userName });
+            console.log('Emitting create_game', { userId, userName, colorPreference });
+            socket.emit('create_game', { userId, userName, colorPreference });
             localStorage.setItem('chess_user_id', userId);
             localStorage.setItem('chess_user_name', userName);
         } else {
