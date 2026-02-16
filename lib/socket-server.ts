@@ -159,8 +159,9 @@ export const initSocketServer = (httpServer: NetServer) => {
                     count: result.room.spectators.length
                 });
 
-                // If a player left (resigned), emit game over
-                if (result.resignedColor) {
+                // Only emit game_over if a player left during an active game
+                // Don't emit if game already ended (draw, checkmate, etc.)
+                if (result.resignedColor && result.room.gameState.status === 'resignation') {
                     const winner = result.resignedColor === 'white' ? 'black' : 'white';
                     io.to(data.roomId).emit('game_over', {
                         result: winner,
