@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 import DrawOfferDialog from './DrawOfferDialog';
 import GameOverModal from './GameOverModal';
 import ConfirmationModal from './ConfirmationModal';
+import { ChessClock } from './ChessClock';
 
 interface ChessBoardProps {
     onLeave: () => void;
@@ -32,7 +33,12 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
         status,
         leaveGame,
         resign,
-        offerDraw
+        offerDraw,
+        timeControl,
+        whiteTimeLeft,
+        blackTimeLeft,
+        activeTimerColor,
+        timerActive
     } = useGameStore();
 
     const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
@@ -281,6 +287,18 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
                 {/* Captured pieces could go here */}
             </div>
 
+            {/* Top Player Clock (if timed game) */}
+            {timeControl && timeControl.category !== 'unlimited' && (
+                <ChessClock
+                    timeLeft={boardOrientation === 'white' ? blackTimeLeft : whiteTimeLeft}
+                    playerName={topPlayer.name}
+                    isActive={activeTimerColor === (boardOrientation === 'white' ? 'black' : 'white')}
+                    increment={timeControl.increment}
+                    isPaused={!timerActive}
+                    orientation="top"
+                />
+            )}
+
             {/* Board */}
             <div className="w-full aspect-square shadow-2xl rounded-lg overflow-hidden border-4 border-zinc-800 bg-zinc-900 relative group">
                 <Chessboard
@@ -307,6 +325,18 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
                     </div>
                 )}
             </div>
+
+            {/* Bottom Player Clock (if timed game) */}
+            {timeControl && timeControl.category !== 'unlimited' && (
+                <ChessClock
+                    timeLeft={boardOrientation === 'white' ? whiteTimeLeft : blackTimeLeft}
+                    playerName={bottomPlayer.name}
+                    isActive={activeTimerColor === (boardOrientation === 'white' ? 'white' : 'black')}
+                    increment={timeControl.increment}
+                    isPaused={!timerActive}
+                    orientation="bottom"
+                />
+            )}
 
             {/* Bottom Player (You) */}
             <div className="flex items-center justify-between px-2">

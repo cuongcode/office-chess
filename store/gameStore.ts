@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { Chess } from 'chess.js';
 import { Socket } from 'socket.io-client';
 import { getSocket } from '@/lib/socket-client';
+import { TimeControlPreset } from '@/lib/timeControls';
 
 interface GameState {
     chess: Chess;
@@ -24,6 +25,15 @@ interface GameState {
     isOnline: boolean;
     joinError: string | null;
 
+    // Timer State
+    timeControl: TimeControlPreset | null;
+    whiteTimeLeft: number; // seconds remaining
+    blackTimeLeft: number; // seconds remaining
+    timerActive: boolean;
+    activeTimerColor: 'white' | 'black' | null;
+    timerIntervalId: NodeJS.Timeout | null;
+    lastTimerUpdate: number | null; // timestamp
+
     makeMove: (source: string, target: string, promotion?: string) => boolean;
     undoMove: () => void;
     resetGame: () => void;
@@ -31,7 +41,7 @@ interface GameState {
 
     // Socket Actions
     connect: () => Promise<void>;
-    createGame: (userId: string, userName: string, colorPreference?: 'white' | 'black' | 'random') => void;
+    createGame: (userId: string, userName: string, colorPreference?: 'white' | 'black' | 'random', timeControl?: TimeControlPreset | null) => void;
     joinGame: (roomId: string, userId: string, userName: string) => void;
     spectateGame: (roomId: string, userId: string, userName: string) => void;
     leaveGame: () => void;
@@ -39,6 +49,17 @@ interface GameState {
     offerDraw: () => void;
     rejoinGame: () => void;
     clearJoinError: () => void;
+
+    // Timer Actions
+    setTimeControl: (preset: TimeControlPreset | null) => void;
+    startTimer: (color: 'white' | 'black') => void;
+    pauseTimer: () => void;
+    updateTimerTick: () => void;
+    switchTimer: (color: 'white' | 'black') => void;
+    addIncrement: (color: 'white' | 'black') => void;
+    resetTimers: () => void;
+    handleTimeout: (color: 'white' | 'black') => void;
+    syncTimerFromServer: (data: { whiteTimeLeft: number; blackTimeLeft: number; activeColor: 'white' | 'black' | null }) => void;
 }
 
 export const useGameStore = create<GameState>((set, get) => ({
@@ -61,6 +82,15 @@ export const useGameStore = create<GameState>((set, get) => ({
     spectatorCount: 0,
     isOnline: false,
     joinError: null,
+
+    // Timer State
+    timeControl: null,
+    whiteTimeLeft: 0,
+    blackTimeLeft: 0,
+    timerActive: false,
+    activeTimerColor: null,
+    timerIntervalId: null,
+    lastTimerUpdate: null,
 
     makeMove: (source, target, promotion = 'q') => {
         const { chess, isOnline, socket, roomId } = get();
@@ -100,6 +130,18 @@ export const useGameStore = create<GameState>((set, get) => ({
                     winner,
                     lastMove: { from: source, to: target },
                 });
+
+                // Handle timer logic for timed games
+                const { playerColor, timeControl } = get();
+                if (timeControl && timeControl.category !== 'unlimited') {
+                    // Add increment to the player who just moved
+                    const movedColor = chess.turn() === 'w' ? 'black' : 'white'; // Opposite of current turn
+                    get().addIncrement(movedColor);
+
+                    // Switch timer to opponent
+                    const nextColor = chess.turn() === 'w' ? 'white' : 'black';
+                    get().switchTimer(nextColor);
+                }
 
                 // Emit socket event if online
                 if (isOnline && socket && roomId) {
@@ -221,10 +263,24 @@ export const useGameStore = create<GameState>((set, get) => ({
             }
         });
 
-        newSocket.on('game_created', ({ roomId, color }: { roomId: string, color: 'white' | 'black' }) => {
-            console.log('Game created:', roomId);
+        newSocket.on('game_created', ({ roomId, color, timeControl, whiteTimeLeft, blackTimeLeft }: {
+            roomId: string;
+            color: 'white' | 'black';
+            timeControl?: TimeControlPreset | null;
+            whiteTimeLeft?: number;
+            blackTimeLeft?: number;
+        }) => {
+            console.log('Game created:', roomId, 'timeControl:', timeControl);
             const savedName = localStorage.getItem('chess_user_name');
             localStorage.setItem('chess_room_id', roomId);
+
+            // Set time control if provided
+            if (timeControl) {
+                get().setTimeControl(timeControl);
+                // Store in localStorage for persistence
+                localStorage.setItem('chess_time_control', JSON.stringify(timeControl));
+            }
+
             set({
                 roomId,
                 playerColor: color,
@@ -239,11 +295,14 @@ export const useGameStore = create<GameState>((set, get) => ({
                 turn: 'w',
                 history: [],
                 lastMove: null,
-                winner: null
+                winner: null,
+                // Set timer state if provided
+                whiteTimeLeft: whiteTimeLeft !== undefined ? whiteTimeLeft : (timeControl && timeControl.category !== 'unlimited' ? timeControl.initialTime : 0),
+                blackTimeLeft: blackTimeLeft !== undefined ? blackTimeLeft : (timeControl && timeControl.category !== 'unlimited' ? timeControl.initialTime : 0)
             });
         });
 
-        newSocket.on('game_joined', ({ roomId, color, gameState, whitePlayer, blackPlayer, spectatorCount }: any) => {
+        newSocket.on('game_joined', ({ roomId, color, gameState, whitePlayer, blackPlayer, spectatorCount, timeControl, whiteTimeLeft, blackTimeLeft, activeTimerColor }: any) => {
             // Hydrate state from server
             const newChess = new Chess(gameState.fen);
             set({
@@ -261,7 +320,25 @@ export const useGameStore = create<GameState>((set, get) => ({
                 blackPlayerName: blackPlayer?.name || null,
                 lastMove: gameState.lastMove || null,
                 joinError: null, // Clear any previous errors on successful join
+                // Set timer state
+                timeControl: timeControl || null,
+                whiteTimeLeft: whiteTimeLeft !== undefined ? whiteTimeLeft : 0,
+                blackTimeLeft: blackTimeLeft !== undefined ? blackTimeLeft : 0,
+                activeTimerColor: activeTimerColor || null
             });
+
+            // Set time control if provided
+            if (timeControl) {
+                get().setTimeControl(timeControl);
+                // Store in localStorage for persistence
+                localStorage.setItem('chess_time_control', JSON.stringify(timeControl));
+
+                // Start timer if there's an active color and game is in progress
+                if (activeTimerColor && gameState.status === 'playing') {
+                    get().startTimer(activeTimerColor);
+                }
+            }
+
             // Ensure persistence if joined via rejoin logic or normal join
             localStorage.setItem('chess_room_id', roomId);
             // Store player role for proper rejoining
@@ -301,6 +378,11 @@ export const useGameStore = create<GameState>((set, get) => ({
         });
 
         newSocket.on('game_over', ({ result, reason, gameState }: any) => {
+            console.log(`Game over received: result=${result}, reason=${reason}`);
+
+            // Stop the timer when game ends
+            get().pauseTimer();
+
             // Map server reasons to client status
             let status: GameState['status'] = 'playing';
             if (reason === 'checkmate') {
@@ -309,6 +391,9 @@ export const useGameStore = create<GameState>((set, get) => ({
                 status = 'draw';
             } else if (reason === 'resignation') {
                 status = 'resignation';
+            } else if (reason === 'timeout') {
+                // Use checkmate status for timeout to show proper game over modal
+                status = 'checkmate';
             }
 
             set({
@@ -325,16 +410,36 @@ export const useGameStore = create<GameState>((set, get) => ({
             set({ spectatorCount: count });
         });
 
+        // Timer sync events
+        newSocket.on('timer_sync', (data: { whiteTimeLeft: number; blackTimeLeft: number; activeColor: 'white' | 'black' | null }) => {
+            get().syncTimerFromServer(data);
+        });
+
+        newSocket.on('timer_updated', (data: { whiteTimeLeft: number; blackTimeLeft: number; activeColor: 'white' | 'black' | null }) => {
+            get().syncTimerFromServer(data);
+        });
+
+        newSocket.on('timer_paused', () => {
+            get().pauseTimer();
+        });
+
+        newSocket.on('timer_resumed', (data: { color: 'white' | 'black' }) => {
+            get().startTimer(data.color);
+        });
+
         set({ socket: newSocket });
     },
 
-    createGame: (userId, userName, colorPreference = 'random') => {
+    createGame: (userId, userName, colorPreference = 'random', timeControl = null) => {
         const { socket } = get();
         if (socket) {
-            console.log('Emitting create_game', { userId, userName, colorPreference });
-            socket.emit('create_game', { userId, userName, colorPreference });
+            console.log('Emitting create_game', { userId, userName, colorPreference, timeControl });
+            socket.emit('create_game', { userId, userName, colorPreference, timeControl });
             localStorage.setItem('chess_user_id', userId);
             localStorage.setItem('chess_user_name', userName);
+
+            // Set time control locally
+            get().setTimeControl(timeControl);
         } else {
             console.warn('Cannot create game: socket not connected');
         }
@@ -367,6 +472,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         // Clear local storage to prevent auto-rejoin
         localStorage.removeItem('chess_room_id');
         localStorage.removeItem('chess_player_role');
+        localStorage.removeItem('chess_time_control');
 
         // Reset online state
         set({
@@ -415,5 +521,196 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     clearJoinError: () => {
         set({ joinError: null });
+    },
+
+    // Timer Actions
+    setTimeControl: (preset) => {
+        if (!preset || preset.category === 'unlimited') {
+            set({
+                timeControl: preset,
+                whiteTimeLeft: 0,
+                blackTimeLeft: 0,
+                timerActive: false,
+                activeTimerColor: null
+            });
+        } else {
+            set({
+                timeControl: preset,
+                whiteTimeLeft: preset.initialTime,
+                blackTimeLeft: preset.initialTime,
+                timerActive: false,
+                activeTimerColor: null
+            });
+        }
+    },
+
+    startTimer: (color) => {
+        const { timerIntervalId, timeControl } = get();
+
+        // Don't start timer if no time control or unlimited
+        if (!timeControl || timeControl.category === 'unlimited') return;
+
+        // Clear existing interval if any
+        if (timerIntervalId) {
+            clearInterval(timerIntervalId);
+        }
+
+        // Start new interval
+        const intervalId = setInterval(() => {
+            get().updateTimerTick();
+        }, 100); // Update every 100ms for smooth display
+
+        set({
+            timerActive: true,
+            activeTimerColor: color,
+            timerIntervalId: intervalId,
+            lastTimerUpdate: Date.now()
+        });
+    },
+
+    pauseTimer: () => {
+        const { timerIntervalId } = get();
+
+        if (timerIntervalId) {
+            clearInterval(timerIntervalId);
+        }
+
+        set({
+            timerActive: false,
+            timerIntervalId: null
+        });
+    },
+
+    updateTimerTick: () => {
+        const { activeTimerColor, whiteTimeLeft, blackTimeLeft, timerActive } = get();
+
+        if (!timerActive || !activeTimerColor) return;
+
+        const now = Date.now();
+        const { lastTimerUpdate } = get();
+        const elapsed = lastTimerUpdate ? (now - lastTimerUpdate) / 1000 : 0.1;
+
+        if (activeTimerColor === 'white') {
+            const newTime = Math.max(0, whiteTimeLeft - elapsed);
+            set({ whiteTimeLeft: newTime, lastTimerUpdate: now });
+
+            if (newTime <= 0) {
+                get().handleTimeout('white');
+            }
+        } else {
+            const newTime = Math.max(0, blackTimeLeft - elapsed);
+            set({ blackTimeLeft: newTime, lastTimerUpdate: now });
+
+            if (newTime <= 0) {
+                get().handleTimeout('black');
+            }
+        }
+    },
+
+    switchTimer: (color) => {
+        const { timeControl, timerIntervalId } = get();
+
+        // Don't switch if no time control or unlimited
+        if (!timeControl || timeControl.category === 'unlimited') return;
+
+        // Clear existing interval
+        if (timerIntervalId) {
+            clearInterval(timerIntervalId);
+        }
+
+        // Start timer for the new color
+        get().startTimer(color);
+    },
+
+    addIncrement: (color) => {
+        const { timeControl } = get();
+
+        if (!timeControl || timeControl.increment === 0) return;
+
+        if (color === 'white') {
+            set((state) => ({
+                whiteTimeLeft: state.whiteTimeLeft + timeControl.increment
+            }));
+        } else {
+            set((state) => ({
+                blackTimeLeft: state.blackTimeLeft + timeControl.increment
+            }));
+        }
+    },
+
+    resetTimers: () => {
+        const { timeControl, timerIntervalId } = get();
+
+        // Clear any active interval
+        if (timerIntervalId) {
+            clearInterval(timerIntervalId);
+        }
+
+        if (!timeControl || timeControl.category === 'unlimited') {
+            set({
+                whiteTimeLeft: 0,
+                blackTimeLeft: 0,
+                timerActive: false,
+                activeTimerColor: null,
+                timerIntervalId: null,
+                lastTimerUpdate: null
+            });
+        } else {
+            set({
+                whiteTimeLeft: timeControl.initialTime,
+                blackTimeLeft: timeControl.initialTime,
+                timerActive: false,
+                activeTimerColor: null,
+                timerIntervalId: null,
+                lastTimerUpdate: null
+            });
+        }
+    },
+
+    handleTimeout: (color) => {
+        const { socket, roomId, isOnline } = get();
+
+        console.log(`Timeout detected for ${color} player`);
+
+        // Pause the timer
+        get().pauseTimer();
+
+        // Set game over state
+        const winner = color === 'white' ? 'b' : 'w';
+        set({
+            status: 'checkmate', // Use checkmate status for timeout to avoid confusion with resignation
+            winner
+        });
+
+        // Emit timeout to server if online
+        if (isOnline && socket && roomId) {
+            console.log(`Emitting timeout event to server for room ${roomId}`);
+            socket.emit('timeout', { roomId, color });
+        }
+    },
+
+    syncTimerFromServer: (data) => {
+        const { whiteTimeLeft, blackTimeLeft, activeTimerColor } = get();
+
+        // Calculate difference between local and server time
+        const whiteDiff = Math.abs(whiteTimeLeft - data.whiteTimeLeft);
+        const blackDiff = Math.abs(blackTimeLeft - data.blackTimeLeft);
+
+        // If difference is significant (> 2 seconds), hard reset
+        if (whiteDiff > 2 || blackDiff > 2) {
+            set({
+                whiteTimeLeft: data.whiteTimeLeft,
+                blackTimeLeft: data.blackTimeLeft,
+                activeTimerColor: data.activeColor,
+                lastTimerUpdate: Date.now()
+            });
+        } else {
+            // Gradual adjustment for small differences
+            set({
+                whiteTimeLeft: data.whiteTimeLeft,
+                blackTimeLeft: data.blackTimeLeft,
+                activeTimerColor: data.activeColor
+            });
+        }
     }
 }));

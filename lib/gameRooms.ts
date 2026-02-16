@@ -1,3 +1,5 @@
+import { TimeControlPreset } from './timeControls';
+
 export interface Player {
     id: string;
     name: string;
@@ -21,6 +23,14 @@ export interface GameRoom {
     gameState: GameState;
     createdAt: Date;
     drawOffer?: 'white' | 'black'; // Color that offered the draw
+
+    // Timer fields
+    timeControl: TimeControlPreset | null;
+    whiteTimeLeft: number; // seconds remaining
+    blackTimeLeft: number; // seconds remaining
+    timerStartedAt: number | null; // timestamp when timer started
+    activeTimerColor: 'white' | 'black' | null;
+    lastTimerUpdate: number; // timestamp of last timer update
 }
 
 // In-memory storage for game rooms
@@ -49,7 +59,7 @@ export const generateRoomId = (): string => {
     return result;
 };
 
-export const createRoom = (creator: Player, colorPreference: 'white' | 'black' | 'random' = 'random'): { room: GameRoom; color: 'white' | 'black' } => {
+export const createRoom = (creator: Player, colorPreference: 'white' | 'black' | 'random' = 'random', timeControl: TimeControlPreset | null = null): { room: GameRoom; color: 'white' | 'black' } => {
     let roomId = generateRoomId();
     while (gameRooms.has(roomId)) {
         roomId = generateRoomId();
@@ -76,6 +86,14 @@ export const createRoom = (creator: Player, colorPreference: 'white' | 'black' |
             lastMove: null,
         },
         createdAt: new Date(),
+
+        // Initialize timer state
+        timeControl: timeControl,
+        whiteTimeLeft: timeControl && timeControl.category !== 'unlimited' ? timeControl.initialTime : 0,
+        blackTimeLeft: timeControl && timeControl.category !== 'unlimited' ? timeControl.initialTime : 0,
+        timerStartedAt: null,
+        activeTimerColor: null,
+        lastTimerUpdate: Date.now()
     };
 
     gameRooms.set(roomId, newRoom);

@@ -2,6 +2,8 @@ import { Copy, X, Share2, Check } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useGameStore } from '@/store/gameStore';
 import toast from 'react-hot-toast';
+import { TimeControlSelector } from './TimeControlSelector';
+import { TimeControlPreset, timeControlPresets } from '@/lib/timeControls';
 
 interface CreateGameModalProps {
     userId: string;
@@ -14,13 +16,16 @@ export default function CreateGameModal({ userId, userName, onClose }: CreateGam
     const [copied, setCopied] = useState(false);
     const [selectedColor, setSelectedColor] = useState<'white' | 'black' | 'random'>('random');
     const [gameCreated, setGameCreated] = useState(false);
+    const [selectedTimeControl, setSelectedTimeControl] = useState<TimeControlPreset | null>(
+        timeControlPresets.find(p => p.id === 'blitz-3-2') || null
+    );
 
     useEffect(() => {
         // Only create game if we don't have a room yet AND we are connected AND user hasn't created yet
         if (!roomId && isConnected && gameCreated) {
-            createGame(userId, userName, selectedColor);
+            createGame(userId, userName, selectedColor, selectedTimeControl);
         }
-    }, [createGame, roomId, userId, userName, isConnected, gameCreated, selectedColor]);
+    }, [createGame, roomId, userId, userName, isConnected, gameCreated, selectedColor, selectedTimeControl]);
 
     const copyToClipboard = () => {
         if (roomId) {
@@ -59,8 +64,8 @@ export default function CreateGameModal({ userId, userName, onClose }: CreateGam
                                 <button
                                     onClick={() => setSelectedColor('white')}
                                     className={`p-4 rounded-lg border-2 transition-all ${selectedColor === 'white'
-                                            ? 'border-blue-500 bg-blue-500/20'
-                                            : 'border-white/10 hover:border-white/30'
+                                        ? 'border-blue-500 bg-blue-500/20'
+                                        : 'border-white/10 hover:border-white/30'
                                         }`}
                                 >
                                     <div className="w-12 h-12 rounded-full bg-white mx-auto mb-2"></div>
@@ -69,8 +74,8 @@ export default function CreateGameModal({ userId, userName, onClose }: CreateGam
                                 <button
                                     onClick={() => setSelectedColor('black')}
                                     className={`p-4 rounded-lg border-2 transition-all ${selectedColor === 'black'
-                                            ? 'border-blue-500 bg-blue-500/20'
-                                            : 'border-white/10 hover:border-white/30'
+                                        ? 'border-blue-500 bg-blue-500/20'
+                                        : 'border-white/10 hover:border-white/30'
                                         }`}
                                 >
                                     <div className="w-12 h-12 rounded-full bg-gray-800 border-2 border-white/20 mx-auto mb-2"></div>
@@ -79,14 +84,22 @@ export default function CreateGameModal({ userId, userName, onClose }: CreateGam
                                 <button
                                     onClick={() => setSelectedColor('random')}
                                     className={`p-4 rounded-lg border-2 transition-all ${selectedColor === 'random'
-                                            ? 'border-blue-500 bg-blue-500/20'
-                                            : 'border-white/10 hover:border-white/30'
+                                        ? 'border-blue-500 bg-blue-500/20'
+                                        : 'border-white/10 hover:border-white/30'
                                         }`}
                                 >
                                     <div className="w-12 h-12 rounded-full bg-gradient-to-br from-white to-gray-800 mx-auto mb-2"></div>
                                     <p className="text-sm font-semibold">Random</p>
                                 </button>
                             </div>
+                        </div>
+
+                        {/* Time Control Selector */}
+                        <div>
+                            <TimeControlSelector
+                                selectedPreset={selectedTimeControl}
+                                onSelect={setSelectedTimeControl}
+                            />
                         </div>
 
                         <button

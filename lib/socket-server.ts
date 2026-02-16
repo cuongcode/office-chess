@@ -13,6 +13,7 @@ import {
     GameRoom
 } from './gameRooms';
 import { updatePlayerStats } from './rating';
+import { TimeControlPreset } from './timeControls';
 
 export const initSocketServer = (httpServer: NetServer) => {
     const io = new SocketIOServer(httpServer, {
@@ -24,24 +25,134 @@ export const initSocketServer = (httpServer: NetServer) => {
         }
     });
 
+    // Store timer intervals for each room
+    const roomTimerIntervals = new Map<string, NodeJS.Timeout>();
+
+    // Helper function to start timer sync for a room
+    const startTimerSync = (roomId: string) => {
+        // Clear existing interval if any
+        const existingInterval = roomTimerIntervals.get(roomId);
+        if (existingInterval) {
+            clearInterval(existingInterval);
+        }
+
+        // Start new interval to broadcast timer state every second
+        const interval = setInterval(() => {
+            const room = getRoom(roomId);
+            if (!room || !room.timeControl || room.timeControl.category === 'unlimited') {
+                return;
+            }
+
+            // Calculate current time based on elapsed time
+            if (room.activeTimerColor && room.timerStartedAt) {
+                const now = Date.now();
+                const elapsed = (now - room.lastTimerUpdate) / 1000;
+
+                if (room.activeTimerColor === 'white') {
+                    room.whiteTimeLeft = Math.max(0, room.whiteTimeLeft - elapsed);
+
+                    // Check for timeout
+                    if (room.whiteTimeLeft <= 0) {
+                        handleTimerTimeout(roomId, 'white');
+                        return;
+                    }
+                } else {
+                    room.blackTimeLeft = Math.max(0, room.blackTimeLeft - elapsed);
+
+                    // Check for timeout
+                    if (room.blackTimeLeft <= 0) {
+                        handleTimerTimeout(roomId, 'black');
+                        return;
+                    }
+                }
+
+                room.lastTimerUpdate = now;
+            }
+
+            // Broadcast timer state to all in room
+            io.to(roomId).emit('timer_sync', {
+                whiteTimeLeft: room.whiteTimeLeft,
+                blackTimeLeft: room.blackTimeLeft,
+                activeColor: room.activeTimerColor
+            });
+        }, 1000); // Sync every second
+
+        roomTimerIntervals.set(roomId, interval);
+    };
+
+    // Helper function to stop timer sync for a room
+    const stopTimerSync = (roomId: string) => {
+        const interval = roomTimerIntervals.get(roomId);
+        if (interval) {
+            clearInterval(interval);
+            roomTimerIntervals.delete(roomId);
+        }
+    };
+
+    // Helper function to handle timer timeout
+    const handleTimerTimeout = (roomId: string, color: 'white' | 'black') => {
+        console.log(`[Server] Timeout detected for ${color} in room ${roomId}`);
+
+        const room = getRoom(roomId);
+        if (!room) {
+            console.error(`[Server] Room ${roomId} not found for timeout handling`);
+            return;
+        }
+
+        // Stop timer
+        stopTimerSync(roomId);
+        room.activeTimerColor = null;
+
+        // Set game over state
+        const winner = color === 'white' ? 'black' : 'white';
+        room.gameState.status = 'resignation'; // Using resignation for timeout
+        room.gameState.winner = winner;
+
+        // Update player stats
+        const winnerPlayer = winner === 'white' ? room.whitePlayer : room.blackPlayer;
+        const loserPlayer = winner === 'white' ? room.blackPlayer : room.whitePlayer;
+
+        if (winnerPlayer && loserPlayer) {
+            updatePlayerStats(winnerPlayer.id, 'win').catch(console.error);
+            updatePlayerStats(loserPlayer.id, 'loss').catch(console.error);
+        }
+
+        console.log(`[Server] Emitting game_over for timeout in room ${roomId}, winner: ${winner}`);
+
+        // Emit game over
+        io.to(roomId).emit('game_over', {
+            result: winner,
+            reason: 'timeout',
+            gameState: room.gameState
+        });
+    };
+
     io.on('connection', (socket) => {
         console.log('User connected:', socket.id);
 
-        socket.on('create_game', (data: { userId: string; userName: string; colorPreference?: 'white' | 'black' | 'random' }) => {
+        socket.on('create_game', (data: { userId: string; userName: string; colorPreference?: 'white' | 'black' | 'random'; timeControl?: TimeControlPreset | null }) => {
             const player: Player = {
                 id: data.userId,
                 name: data.userName,
                 socketId: socket.id
             };
 
-            const { room, color } = createRoom(player, data.colorPreference || 'random');
+            const { room, color } = createRoom(player, data.colorPreference || 'random', data.timeControl || null);
             socket.join(room.roomId);
 
             socket.emit('game_created', {
                 roomId: room.roomId,
                 color: color,
-                gameState: room.gameState
+                gameState: room.gameState,
+                timeControl: room.timeControl,
+                whiteTimeLeft: room.whiteTimeLeft,
+                blackTimeLeft: room.blackTimeLeft
             });
+
+            // Start timer sync if time control is set
+            if (room.timeControl && room.timeControl.category !== 'unlimited') {
+                startTimerSync(room.roomId);
+            }
         });
 
         socket.on('join_game', (data: { roomId: string; userId: string; userName: string }) => {
@@ -77,7 +188,11 @@ export const initSocketServer = (httpServer: NetServer) => {
                 gameState: joinedRoom.gameState,
                 whitePlayer: joinedRoom.whitePlayer,
                 blackPlayer: joinedRoom.blackPlayer,
-                spectatorCount: joinedRoom.spectators.length
+                spectatorCount: joinedRoom.spectators.length,
+                timeControl: joinedRoom.timeControl,
+                whiteTimeLeft: joinedRoom.whiteTimeLeft,
+                blackTimeLeft: joinedRoom.blackTimeLeft,
+                activeTimerColor: joinedRoom.activeTimerColor
             });
 
             // Notify everyone in the room
@@ -95,6 +210,20 @@ export const initSocketServer = (httpServer: NetServer) => {
                     whitePlayer: joinedRoom.whitePlayer,
                     blackPlayer: joinedRoom.blackPlayer
                 });
+
+                // Start timer if time control is set and timer hasn't started yet
+                if (joinedRoom.timeControl && joinedRoom.timeControl.category !== 'unlimited' && !joinedRoom.timerStartedAt) {
+                    joinedRoom.timerStartedAt = Date.now();
+                    joinedRoom.lastTimerUpdate = Date.now();
+                    joinedRoom.activeTimerColor = 'white'; // White starts
+
+                    // Broadcast timer start to all players
+                    io.to(joinedRoom.roomId).emit('timer_updated', {
+                        whiteTimeLeft: joinedRoom.whiteTimeLeft,
+                        blackTimeLeft: joinedRoom.blackTimeLeft,
+                        activeColor: joinedRoom.activeTimerColor
+                    });
+                }
             }
         });
 
@@ -122,7 +251,11 @@ export const initSocketServer = (httpServer: NetServer) => {
                 gameState: room.gameState,
                 whitePlayer: room.whitePlayer,
                 blackPlayer: room.blackPlayer,
-                spectatorCount: room.spectators.length
+                spectatorCount: room.spectators.length,
+                timeControl: room.timeControl,
+                whiteTimeLeft: room.whiteTimeLeft,
+                blackTimeLeft: room.blackTimeLeft,
+                activeTimerColor: room.activeTimerColor
             });
 
             // Notify everyone in the room about new spectator
@@ -139,6 +272,38 @@ export const initSocketServer = (httpServer: NetServer) => {
             const updatedRoom = updateGameState(data.roomId, data.gameState);
 
             if (updatedRoom) {
+                // Handle timer logic for timed games
+                if (updatedRoom.timeControl && updatedRoom.timeControl.category !== 'unlimited') {
+                    // Determine who just moved (opposite of current turn)
+                    const movedColor = data.gameState.turn === 'w' ? 'black' : 'white';
+
+                    // Add increment to player who just moved
+                    if (updatedRoom.timeControl.increment > 0) {
+                        if (movedColor === 'white') {
+                            updatedRoom.whiteTimeLeft += updatedRoom.timeControl.increment;
+                        } else {
+                            updatedRoom.blackTimeLeft += updatedRoom.timeControl.increment;
+                        }
+                    }
+
+                    // Switch active timer to opponent
+                    const nextColor = data.gameState.turn === 'w' ? 'white' : 'black';
+                    updatedRoom.activeTimerColor = nextColor;
+                    updatedRoom.lastTimerUpdate = Date.now();
+
+                    // If this is the first move, start the timer
+                    if (!updatedRoom.timerStartedAt) {
+                        updatedRoom.timerStartedAt = Date.now();
+                    }
+
+                    // Emit timer update
+                    io.to(data.roomId).emit('timer_updated', {
+                        whiteTimeLeft: updatedRoom.whiteTimeLeft,
+                        blackTimeLeft: updatedRoom.blackTimeLeft,
+                        activeColor: updatedRoom.activeTimerColor
+                    });
+                }
+
                 socket.to(data.roomId).emit('move_made', {
                     move: data.move,
                     gameState: updatedRoom.gameState
@@ -260,6 +425,11 @@ export const initSocketServer = (httpServer: NetServer) => {
                     gameState: room.gameState
                 });
             }
+        });
+
+        // Handle timeout event from client
+        socket.on('timeout', (data: { roomId: string; color: 'white' | 'black' }) => {
+            handleTimerTimeout(data.roomId, data.color);
         });
 
         socket.on('disconnect', () => {
