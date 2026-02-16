@@ -18,6 +18,14 @@ export default function Header() {
                                 Chess App
                             </Link>
                         </div>
+                        <div className="hidden lg:ml-8 lg:flex lg:space-x-4">
+                            <Link
+                                href="/leaderboard"
+                                className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
+                            >
+                                🏆 Leaderboard
+                            </Link>
+                        </div>
                     </div>
                     <div className="flex items-center">
                         {status === "loading" ? (

@@ -5,6 +5,7 @@ import GameModeSelector from "@/components/GameModeSelector";
 import CreateGameModal from "@/components/CreateGameModal";
 import JoinGameModal from "@/components/JoinGameModal";
 import ActiveGamesList from "@/components/ActiveGamesList";
+import LeaderboardWidget from "@/components/LeaderboardWidget";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -86,12 +87,19 @@ export default function Home() {
             </p>
           </div>
 
-          <GameModeSelector
-            onSelectLocal={handleLocalGame}
-            onSelectCreateOnline={() => setShowCreateModal(true)}
-            onSelectJoinOnline={() => setShowJoinModal(true)}
-            onSelectActiveGames={() => setShowActiveGames(true)}
-          />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full max-w-6xl">
+            <div className="lg:col-span-2">
+              <GameModeSelector
+                onSelectLocal={handleLocalGame}
+                onSelectCreateOnline={() => setShowCreateModal(true)}
+                onSelectJoinOnline={() => setShowJoinModal(true)}
+                onSelectActiveGames={() => setShowActiveGames(true)}
+              />
+            </div>
+            <div className="lg:col-span-1">
+              <LeaderboardWidget />
+            </div>
+          </div>
         </>
       )}
 
