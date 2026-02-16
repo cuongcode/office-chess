@@ -13,6 +13,10 @@ interface GameState {
     winner: 'w' | 'b' | null;
     boardOrientation: 'white' | 'black';
     lastMove: { from: string; to: string } | null;
+    capturedPieces: {
+        white: string[]; // Pieces captured BY white (black's lost pieces)
+        black: string[]; // Pieces captured BY black (white's lost pieces)
+    };
 
     // Online State
     socket: Socket | null;
@@ -78,6 +82,10 @@ export const useGameStore = create<GameState>((set, get) => ({
     winner: null,
     boardOrientation: 'white',
     lastMove: null,
+    capturedPieces: {
+        white: [],
+        black: []
+    },
 
     // Online State
     socket: null,
@@ -104,7 +112,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     blackReady: false,
 
     makeMove: (source, target, promotion = 'q') => {
-        const { chess, isOnline, socket, roomId } = get();
+        const { chess, isOnline, socket, roomId, capturedPieces } = get();
         try {
             // If online and it's not our turn or we are spectators, prevent move
             if (isOnline) {
@@ -121,6 +129,14 @@ export const useGameStore = create<GameState>((set, get) => ({
             if (move) {
                 let status: GameState['status'] = 'playing';
                 let winner: GameState['winner'] = null;
+
+                // Track captured pieces
+                const newCapturedPieces = { ...capturedPieces };
+                if (move.captured) {
+                    // Determine who captured (opposite of current turn since move was made)
+                    const capturingColor = move.color === 'w' ? 'white' : 'black';
+                    newCapturedPieces[capturingColor] = [...newCapturedPieces[capturingColor], move.captured];
+                }
 
                 if (chess.isCheckmate()) {
                     status = 'checkmate';
@@ -140,6 +156,7 @@ export const useGameStore = create<GameState>((set, get) => ({
                     status,
                     winner,
                     lastMove: { from: source, to: target },
+                    capturedPieces: newCapturedPieces,
                 });
 
                 // Handle timer logic for timed games
@@ -164,7 +181,8 @@ export const useGameStore = create<GameState>((set, get) => ({
                             moveHistory: chess.history(),
                             turn: chess.turn(),
                             status: status,
-                            lastMove: { from: source, to: target }
+                            lastMove: { from: source, to: target },
+                            capturedPieces: newCapturedPieces
                         }
                     });
                 }
@@ -189,6 +207,7 @@ export const useGameStore = create<GameState>((set, get) => ({
             status: 'playing', // Simple reset to playing or check re-eval
             winner: null,
             lastMove: null,
+            capturedPieces: { white: [], black: [] }, // Reset captured pieces on undo
         });
         // Re-evaluate check status after undo
         if (chess.isCheck()) {
@@ -209,6 +228,7 @@ export const useGameStore = create<GameState>((set, get) => ({
             status: 'playing',
             winner: null,
             lastMove: null,
+            capturedPieces: { white: [], black: [] },
         });
     },
 
@@ -307,6 +327,7 @@ export const useGameStore = create<GameState>((set, get) => ({
                 history: [],
                 lastMove: null,
                 winner: null,
+                capturedPieces: { white: [], black: [] },
                 // Set timer state if provided
                 whiteTimeLeft: whiteTimeLeft !== undefined ? whiteTimeLeft : (timeControl && timeControl.category !== 'unlimited' ? timeControl.initialTime : 0),
                 blackTimeLeft: blackTimeLeft !== undefined ? blackTimeLeft : (timeControl && timeControl.category !== 'unlimited' ? timeControl.initialTime : 0)
@@ -330,6 +351,7 @@ export const useGameStore = create<GameState>((set, get) => ({
                 whitePlayerName: whitePlayer?.name || null,
                 blackPlayerName: blackPlayer?.name || null,
                 lastMove: gameState.lastMove || null,
+                capturedPieces: gameState.capturedPieces || { white: [], black: [] },
                 joinError: null, // Clear any previous errors on successful join
                 // Set timer state
                 timeControl: timeControl || null,
@@ -387,7 +409,8 @@ export const useGameStore = create<GameState>((set, get) => ({
                 turn: gameState.turn,
                 history: gameState.moveHistory || newChess.history(),
                 status: gameState.status as any,
-                lastMove: { from: move.from, to: move.to }
+                lastMove: { from: move.from, to: move.to },
+                capturedPieces: gameState.capturedPieces || { white: [], black: [] }
             });
         });
 

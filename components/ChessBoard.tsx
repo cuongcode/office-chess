@@ -10,6 +10,7 @@ import DrawOfferDialog from './DrawOfferDialog';
 import GameOverModal from './GameOverModal';
 import ConfirmationModal from './ConfirmationModal';
 import { ChessClock } from './ChessClock';
+import CapturedPieces from './CapturedPieces';
 
 interface ChessBoardProps {
     onLeave: () => void;
@@ -41,7 +42,8 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
         timerActive,
         whiteReady,
         blackReady,
-        setPlayerReady
+        setPlayerReady,
+        capturedPieces
     } = useGameStore();
 
     const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
@@ -287,7 +289,11 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
                         </div>
                     </div>
                 </div>
-                {/* Captured pieces could go here */}
+                <CapturedPieces
+                    capturedPieces={boardOrientation === 'white' ? capturedPieces.black : capturedPieces.white}
+                    playerColor={boardOrientation === 'white' ? 'black' : 'white'}
+                    opponentCapturedPieces={boardOrientation === 'white' ? capturedPieces.white : capturedPieces.black}
+                />
             </div>
 
             {/* Top Player Clock (if timed game) */}
@@ -358,6 +364,12 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
                         </div>
                     </div>
                 </div>
+
+                <CapturedPieces
+                    capturedPieces={boardOrientation === 'white' ? capturedPieces.white : capturedPieces.black}
+                    playerColor={boardOrientation === 'white' ? 'white' : 'black'}
+                    opponentCapturedPieces={boardOrientation === 'white' ? capturedPieces.black : capturedPieces.white}
+                />
 
                 {isOnline && playerColor !== 'spectator' && (
                     <div className="flex gap-2">

@@ -13,6 +13,10 @@ export interface GameState {
     status: 'playing' | 'checkmate' | 'draw' | 'stalemate' | 'resignation' | 'check';
     winner?: 'white' | 'black' | 'draw';
     lastMove: { from: string; to: string } | null;
+    capturedPieces: {
+        white: string[]; // Pieces captured BY white (black's lost pieces)
+        black: string[]; // Pieces captured BY black (white's lost pieces)
+    };
 }
 
 export interface GameRoom {
@@ -88,6 +92,10 @@ export const createRoom = (creator: Player, colorPreference: 'white' | 'black' |
             turn: 'w',
             status: 'playing',
             lastMove: null,
+            capturedPieces: {
+                white: [],
+                black: []
+            },
         },
         createdAt: new Date(),
 
