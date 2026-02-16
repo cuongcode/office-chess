@@ -185,12 +185,10 @@ export const initSocketServer = (httpServer: NetServer) => {
                     count: result.room.spectators.length
                 });
 
-                // Only emit game_over if a player left during an active game
-                // Don't emit if game already ended (draw, checkmate, etc.)
-                if (result.resignedColor && result.room.gameState.status === 'resignation') {
+                // Only emit game_over if this leave JUST caused the game to end (resignation by leaving)
+                // Don't emit if game already ended before this leave (draw, checkmate, or prior resignation)
+                if (result.gameJustEnded && result.resignedColor) {
                     const winner = result.resignedColor === 'white' ? 'black' : 'white';
-
-                    // Update player stats
                     const winnerPlayer = winner === 'white' ? result.room.whitePlayer : result.room.blackPlayer;
                     const loserPlayer = winner === 'white' ? result.room.blackPlayer : result.room.whitePlayer;
 
@@ -199,6 +197,7 @@ export const initSocketServer = (httpServer: NetServer) => {
                         updatePlayerStats(loserPlayer.id, 'loss').catch(console.error);
                     }
 
+                    // Emit game_over to notify the remaining player
                     io.to(data.roomId).emit('game_over', {
                         result: winner,
                         reason: 'resignation',

@@ -171,11 +171,16 @@ export const joinRoomAsSpectator = (roomId: string, player: Player): { room: Gam
     return { room, role: 'spectator' };
 };
 
-export const leaveRoom = (roomId: string, socketId: string): { room: GameRoom | null; resignedColor?: 'white' | 'black' } => {
+export const leaveRoom = (roomId: string, socketId: string): {
+    room: GameRoom | null;
+    resignedColor?: 'white' | 'black';
+    gameJustEnded?: boolean; // True if this leave caused the game to end
+} => {
     const room = gameRooms.get(roomId);
     if (!room) return { room: null };
 
     let resignedColor: 'white' | 'black' | undefined;
+    const wasPlaying = room.gameState.status === 'playing';
 
     // If this is an explicit "leave game" action:
     if (room.whitePlayer?.socketId === socketId) {
@@ -190,19 +195,21 @@ export const leaveRoom = (roomId: string, socketId: string): { room: GameRoom | 
     }
 
     // If a player resigned by leaving, update game state
+    let gameJustEnded = false;
     if (resignedColor && room.gameState.status === 'playing') {
         const winner = resignedColor === 'white' ? 'black' : 'white';
         room.gameState.status = 'resignation';
         room.gameState.winner = winner;
+        gameJustEnded = true; // Game just ended due to this leave
     }
 
     // If room is empty, delete it
     if (!room.whitePlayer && !room.blackPlayer && room.spectators.length === 0) {
         gameRooms.delete(roomId);
-        return { room: null, resignedColor };
+        return { room: null, resignedColor, gameJustEnded };
     }
 
-    return { room, resignedColor };
+    return { room, resignedColor, gameJustEnded };
 };
 
 // Handle socket disconnect (not explicit leave)
