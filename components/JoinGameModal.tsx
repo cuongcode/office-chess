@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { X, ArrowRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { X, ArrowRight, AlertCircle } from 'lucide-react';
 import { useGameStore } from '@/store/gameStore';
 
 interface JoinGameModalProps {
@@ -10,21 +10,52 @@ interface JoinGameModalProps {
 
 export default function JoinGameModal({ userId, userName, onClose }: JoinGameModalProps) {
     const [roomIdInput, setRoomIdInput] = useState('');
-    const { joinGame } = useGameStore();
+    const [isJoining, setIsJoining] = useState(false);
+    const { joinGame, joinError, clearJoinError, isOnline } = useGameStore();
+
+    // Close modal on successful join
+    useEffect(() => {
+        if (isOnline && isJoining) {
+            onClose();
+        }
+    }, [isOnline, isJoining, onClose]);
+
+    // Clear loading state when error occurs
+    useEffect(() => {
+        if (joinError) {
+            setIsJoining(false);
+        }
+    }, [joinError]);
 
     const handleJoin = (e: React.FormEvent) => {
         e.preventDefault();
         if (roomIdInput.trim()) {
+            setIsJoining(true);
+            clearJoinError();
             joinGame(roomIdInput.trim().toUpperCase(), userId, userName);
-            onClose(); // Ideally wait for success, but store handles error events mostly
         }
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setRoomIdInput(e.target.value.toUpperCase());
+        // Clear error when user starts typing
+        if (joinError) {
+            clearJoinError();
+            setIsJoining(false);
+        }
+    };
+
+    const handleClose = () => {
+        clearJoinError();
+        setIsJoining(false);
+        onClose();
     };
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
             <div className="bg-gray-900 border border-white/10 rounded-2xl p-8 max-w-md w-full relative shadow-xl">
                 <button
-                    onClick={onClose}
+                    onClick={handleClose}
                     className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
                 >
                     <X className="w-6 h-6" />
@@ -41,21 +72,39 @@ export default function JoinGameModal({ userId, userName, onClose }: JoinGameMod
                             type="text"
                             id="roomId"
                             value={roomIdInput}
-                            onChange={(e) => setRoomIdInput(e.target.value.toUpperCase())}
+                            onChange={handleInputChange}
                             placeholder="Ex: A1B2C3"
-                            className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-center text-xl tracking-wider uppercase"
+                            className={`w-full bg-black/30 border ${joinError ? 'border-red-500' : 'border-white/10'
+                                } rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 ${joinError ? 'focus:ring-red-500' : 'focus:ring-blue-500'
+                                } font-mono text-center text-xl tracking-wider uppercase`}
                             autoFocus
                             maxLength={6}
+                            disabled={isJoining}
                         />
+                        {joinError && (
+                            <div className="mt-2 flex items-start gap-2 text-red-400 text-sm">
+                                <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                                <span>{joinError}</span>
+                            </div>
+                        )}
                     </div>
 
                     <button
                         type="submit"
-                        disabled={!roomIdInput.trim()}
+                        disabled={!roomIdInput.trim() || isJoining}
                         className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        Join Game
-                        <ArrowRight className="w-5 h-5" />
+                        {isJoining ? (
+                            <>
+                                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                                Joining...
+                            </>
+                        ) : (
+                            <>
+                                Join Game
+                                <ArrowRight className="w-5 h-5" />
+                            </>
+                        )}
                     </button>
                 </form>
             </div>

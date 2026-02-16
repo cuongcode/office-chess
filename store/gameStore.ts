@@ -22,6 +22,7 @@ interface GameState {
     isConnected: boolean;
     spectatorCount: number;
     isOnline: boolean;
+    joinError: string | null;
 
     makeMove: (source: string, target: string, promotion?: string) => boolean;
     undoMove: () => void;
@@ -37,6 +38,7 @@ interface GameState {
     resign: () => void;
     offerDraw: () => void;
     rejoinGame: () => void;
+    clearJoinError: () => void;
 }
 
 export const useGameStore = create<GameState>((set, get) => ({
@@ -58,6 +60,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     isConnected: false,
     spectatorCount: 0,
     isOnline: false,
+    joinError: null,
 
     makeMove: (source, target, promotion = 'q') => {
         const { chess, isOnline, socket, roomId } = get();
@@ -190,8 +193,21 @@ export const useGameStore = create<GameState>((set, get) => ({
 
         newSocket.on('game_error', (error: any) => {
             console.error('Game error:', error);
+
+            // Set user-friendly error message
+            let errorMessage = 'An error occurred';
+            if (error.message === 'Room not found') {
+                errorMessage = 'Game not found. Please check the code and try again.';
+            } else if (error.message === 'Room is full') {
+                errorMessage = 'This game is full. You can spectate instead.';
+            } else {
+                errorMessage = error.message || 'Failed to join game';
+            }
+
+            set({ joinError: errorMessage });
+
             // Clear room ID on any join error to prevent stuck states
-            if (error.message === 'Room not found' || error.message.includes('Cannot join as player')) {
+            if (error.message === 'Room not found' || error.message === 'Room is full') {
                 localStorage.removeItem('chess_room_id');
                 // Reset to menu state
                 set({
@@ -244,6 +260,7 @@ export const useGameStore = create<GameState>((set, get) => ({
                 whitePlayerName: whitePlayer?.name || null,
                 blackPlayerName: blackPlayer?.name || null,
                 lastMove: gameState.lastMove || null,
+                joinError: null, // Clear any previous errors on successful join
             });
             // Ensure persistence if joined via rejoin logic or normal join
             localStorage.setItem('chess_room_id', roomId);
@@ -394,5 +411,9 @@ export const useGameStore = create<GameState>((set, get) => ({
                 }
             }
         }
+    },
+
+    clearJoinError: () => {
+        set({ joinError: null });
     }
 }));

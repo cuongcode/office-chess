@@ -50,40 +50,49 @@ export const initSocketServer = (httpServer: NetServer) => {
                 socketId: socket.id
             };
 
-            const result = joinRoomAsPlayer(data.roomId, player);
-
-            if (!result) {
-                socket.emit('game_error', { message: 'Cannot join as player - room is full or not found' });
+            // First check if room exists
+            const room = getRoom(data.roomId);
+            if (!room) {
+                socket.emit('game_error', { message: 'Room not found' });
                 return;
             }
 
-            const { room, role } = result;
-            socket.join(room.roomId);
+            // Try to join as player
+            const result = joinRoomAsPlayer(data.roomId, player);
+
+            if (!result) {
+                // Room exists but is full
+                socket.emit('game_error', { message: 'Room is full' });
+                return;
+            }
+
+            const { room: joinedRoom, role } = result;
+            socket.join(joinedRoom.roomId);
 
             // Notify the joiner
             socket.emit('game_joined', {
-                roomId: room.roomId,
+                roomId: joinedRoom.roomId,
                 color: role,
-                gameState: room.gameState,
-                whitePlayer: room.whitePlayer,
-                blackPlayer: room.blackPlayer,
-                spectatorCount: room.spectators.length
+                gameState: joinedRoom.gameState,
+                whitePlayer: joinedRoom.whitePlayer,
+                blackPlayer: joinedRoom.blackPlayer,
+                spectatorCount: joinedRoom.spectators.length
             });
 
             // Notify everyone in the room
-            io.to(room.roomId).emit('player_joined', {
+            io.to(joinedRoom.roomId).emit('player_joined', {
                 role,
                 player,
-                whitePlayer: room.whitePlayer,
-                blackPlayer: room.blackPlayer,
-                spectatorCount: room.spectators.length
+                whitePlayer: joinedRoom.whitePlayer,
+                blackPlayer: joinedRoom.blackPlayer,
+                spectatorCount: joinedRoom.spectators.length
             });
 
             // If both players are present, start game (or just notify readiness)
-            if (room.whitePlayer && room.blackPlayer && room.gameState.status === 'playing') {
-                io.to(room.roomId).emit('game_ready', {
-                    whitePlayer: room.whitePlayer,
-                    blackPlayer: room.blackPlayer
+            if (joinedRoom.whitePlayer && joinedRoom.blackPlayer && joinedRoom.gameState.status === 'playing') {
+                io.to(joinedRoom.roomId).emit('game_ready', {
+                    whitePlayer: joinedRoom.whitePlayer,
+                    blackPlayer: joinedRoom.blackPlayer
                 });
             }
         });
