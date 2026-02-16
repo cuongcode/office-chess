@@ -192,7 +192,9 @@ export const initSocketServer = (httpServer: NetServer) => {
                 timeControl: joinedRoom.timeControl,
                 whiteTimeLeft: joinedRoom.whiteTimeLeft,
                 blackTimeLeft: joinedRoom.blackTimeLeft,
-                activeTimerColor: joinedRoom.activeTimerColor
+                activeTimerColor: joinedRoom.activeTimerColor,
+                whiteReady: joinedRoom.whiteReady,
+                blackReady: joinedRoom.blackReady
             });
 
             // Notify everyone in the room
@@ -204,26 +206,15 @@ export const initSocketServer = (httpServer: NetServer) => {
                 spectatorCount: joinedRoom.spectators.length
             });
 
-            // If both players are present, start game (or just notify readiness)
+            // If both players are present, notify game is ready
             if (joinedRoom.whitePlayer && joinedRoom.blackPlayer && joinedRoom.gameState.status === 'playing') {
                 io.to(joinedRoom.roomId).emit('game_ready', {
                     whitePlayer: joinedRoom.whitePlayer,
                     blackPlayer: joinedRoom.blackPlayer
                 });
 
-                // Start timer if time control is set and timer hasn't started yet
-                if (joinedRoom.timeControl && joinedRoom.timeControl.category !== 'unlimited' && !joinedRoom.timerStartedAt) {
-                    joinedRoom.timerStartedAt = Date.now();
-                    joinedRoom.lastTimerUpdate = Date.now();
-                    joinedRoom.activeTimerColor = 'white'; // White starts
-
-                    // Broadcast timer start to all players
-                    io.to(joinedRoom.roomId).emit('timer_updated', {
-                        whiteTimeLeft: joinedRoom.whiteTimeLeft,
-                        blackTimeLeft: joinedRoom.blackTimeLeft,
-                        activeColor: joinedRoom.activeTimerColor
-                    });
-                }
+                // Note: Timer will start when both players click "Ready"
+                // This is handled by the player_ready event
             }
         });
 
@@ -255,7 +246,9 @@ export const initSocketServer = (httpServer: NetServer) => {
                 timeControl: room.timeControl,
                 whiteTimeLeft: room.whiteTimeLeft,
                 blackTimeLeft: room.blackTimeLeft,
-                activeTimerColor: room.activeTimerColor
+                activeTimerColor: room.activeTimerColor,
+                whiteReady: room.whiteReady,
+                blackReady: room.blackReady
             });
 
             // Notify everyone in the room about new spectator
@@ -430,6 +423,43 @@ export const initSocketServer = (httpServer: NetServer) => {
         // Handle timeout event from client
         socket.on('timeout', (data: { roomId: string; color: 'white' | 'black' }) => {
             handleTimerTimeout(data.roomId, data.color);
+        });
+
+        // Handle player ready event
+        socket.on('player_ready', (data: { roomId: string; color: 'white' | 'black' }) => {
+            const room = getRoom(data.roomId);
+            if (!room) return;
+
+            console.log(`[Server] Player ${data.color} is ready in room ${data.roomId}`);
+
+            // Update ready state
+            if (data.color === 'white') {
+                room.whiteReady = true;
+            } else {
+                room.blackReady = true;
+            }
+
+            // Broadcast ready status to all players
+            io.to(data.roomId).emit('ready_status_changed', {
+                whiteReady: room.whiteReady,
+                blackReady: room.blackReady
+            });
+
+            // If both players are ready and timer hasn't started, start it
+            if (room.whiteReady && room.blackReady && !room.timerStartedAt && room.timeControl && room.timeControl.category !== 'unlimited') {
+                console.log(`[Server] Both players ready, starting timer in room ${data.roomId}`);
+
+                room.timerStartedAt = Date.now();
+                room.lastTimerUpdate = Date.now();
+                room.activeTimerColor = 'white'; // White starts
+
+                // Broadcast timer start to all players
+                io.to(data.roomId).emit('timer_updated', {
+                    whiteTimeLeft: room.whiteTimeLeft,
+                    blackTimeLeft: room.blackTimeLeft,
+                    activeColor: room.activeTimerColor
+                });
+            }
         });
 
         socket.on('disconnect', () => {

@@ -31,6 +31,10 @@ export interface GameRoom {
     timerStartedAt: number | null; // timestamp when timer started
     activeTimerColor: 'white' | 'black' | null;
     lastTimerUpdate: number; // timestamp of last timer update
+
+    // Ready state
+    whiteReady: boolean;
+    blackReady: boolean;
 }
 
 // In-memory storage for game rooms
@@ -93,7 +97,11 @@ export const createRoom = (creator: Player, colorPreference: 'white' | 'black' |
         blackTimeLeft: timeControl && timeControl.category !== 'unlimited' ? timeControl.initialTime : 0,
         timerStartedAt: null,
         activeTimerColor: null,
-        lastTimerUpdate: Date.now()
+        lastTimerUpdate: Date.now(),
+
+        // Initialize ready state
+        whiteReady: false,
+        blackReady: false
     };
 
     gameRooms.set(roomId, newRoom);

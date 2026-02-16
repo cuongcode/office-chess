@@ -38,7 +38,10 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
         whiteTimeLeft,
         blackTimeLeft,
         activeTimerColor,
-        timerActive
+        timerActive,
+        whiteReady,
+        blackReady,
+        setPlayerReady
     } = useGameStore();
 
     const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
@@ -375,6 +378,60 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
                     </div>
                 )}
             </div>
+
+            {/* Ready Button Section */}
+            {isOnline && playerColor !== 'spectator' && timeControl && timeControl.category !== 'unlimited' && whitePlayerName && blackPlayerName && !timerActive && (
+                <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4">
+                    <div className="flex items-center justify-between gap-4">
+                        <div className="flex-1">
+                            <h3 className="text-sm font-semibold text-zinc-200 mb-2">Ready Status</h3>
+                            <div className="flex gap-4 text-xs">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-zinc-400">White:</span>
+                                    {whiteReady ? (
+                                        <span className="text-green-400 flex items-center gap-1">
+                                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                            </svg>
+                                            Ready
+                                        </span>
+                                    ) : (
+                                        <span className="text-zinc-500">Not Ready</span>
+                                    )}
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-zinc-400">Black:</span>
+                                    {blackReady ? (
+                                        <span className="text-green-400 flex items-center gap-1">
+                                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                            </svg>
+                                            Ready
+                                        </span>
+                                    ) : (
+                                        <span className="text-zinc-500">Not Ready</span>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        {((playerColor === 'white' && !whiteReady) || (playerColor === 'black' && !blackReady)) && (
+                            <button
+                                onClick={setPlayerReady}
+                                className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors shadow-lg hover:shadow-xl"
+                            >
+                                I'm Ready
+                            </button>
+                        )}
+
+                        {((playerColor === 'white' && whiteReady) || (playerColor === 'black' && blackReady)) && (
+                            <div className="text-sm text-zinc-400 italic">
+                                Waiting for opponent...
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
 
             {/* Controls */}
             {isOnline && (

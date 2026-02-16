@@ -34,6 +34,10 @@ interface GameState {
     timerIntervalId: NodeJS.Timeout | null;
     lastTimerUpdate: number | null; // timestamp
 
+    // Ready State
+    whiteReady: boolean;
+    blackReady: boolean;
+
     makeMove: (source: string, target: string, promotion?: string) => boolean;
     undoMove: () => void;
     resetGame: () => void;
@@ -60,6 +64,9 @@ interface GameState {
     resetTimers: () => void;
     handleTimeout: (color: 'white' | 'black') => void;
     syncTimerFromServer: (data: { whiteTimeLeft: number; blackTimeLeft: number; activeColor: 'white' | 'black' | null }) => void;
+
+    // Ready Actions
+    setPlayerReady: () => void;
 }
 
 export const useGameStore = create<GameState>((set, get) => ({
@@ -91,6 +98,10 @@ export const useGameStore = create<GameState>((set, get) => ({
     activeTimerColor: null,
     timerIntervalId: null,
     lastTimerUpdate: null,
+
+    // Ready State
+    whiteReady: false,
+    blackReady: false,
 
     makeMove: (source, target, promotion = 'q') => {
         const { chess, isOnline, socket, roomId } = get();
@@ -302,7 +313,7 @@ export const useGameStore = create<GameState>((set, get) => ({
             });
         });
 
-        newSocket.on('game_joined', ({ roomId, color, gameState, whitePlayer, blackPlayer, spectatorCount, timeControl, whiteTimeLeft, blackTimeLeft, activeTimerColor }: any) => {
+        newSocket.on('game_joined', ({ roomId, color, gameState, whitePlayer, blackPlayer, spectatorCount, timeControl, whiteTimeLeft, blackTimeLeft, activeTimerColor, whiteReady, blackReady }: any) => {
             // Hydrate state from server
             const newChess = new Chess(gameState.fen);
             set({
@@ -324,7 +335,10 @@ export const useGameStore = create<GameState>((set, get) => ({
                 timeControl: timeControl || null,
                 whiteTimeLeft: whiteTimeLeft !== undefined ? whiteTimeLeft : 0,
                 blackTimeLeft: blackTimeLeft !== undefined ? blackTimeLeft : 0,
-                activeTimerColor: activeTimerColor || null
+                activeTimerColor: activeTimerColor || null,
+                // Set ready state
+                whiteReady: whiteReady || false,
+                blackReady: blackReady || false
             });
 
             // Set time control if provided
@@ -425,6 +439,22 @@ export const useGameStore = create<GameState>((set, get) => ({
 
         newSocket.on('timer_resumed', (data: { color: 'white' | 'black' }) => {
             get().startTimer(data.color);
+        });
+
+        // Ready state events
+        newSocket.on('ready_status_changed', (data: { whiteReady: boolean; blackReady: boolean }) => {
+            console.log('Ready status changed:', data);
+            set({
+                whiteReady: data.whiteReady,
+                blackReady: data.blackReady
+            });
+
+            // Start timer if both players are ready and timer hasn't started
+            const { timeControl, timerActive } = get();
+            if (data.whiteReady && data.blackReady && !timerActive && timeControl && timeControl.category !== 'unlimited') {
+                console.log('Both players ready, starting timer');
+                get().startTimer('white');
+            }
         });
 
         set({ socket: newSocket });
@@ -712,5 +742,19 @@ export const useGameStore = create<GameState>((set, get) => ({
                 activeTimerColor: data.activeColor
             });
         }
+    },
+
+    setPlayerReady: () => {
+        const { socket, roomId, playerColor, isOnline } = get();
+
+        if (!isOnline || !socket || !roomId || playerColor === 'spectator') {
+            console.warn('Cannot set ready: not in a valid game state');
+            return;
+        }
+
+        console.log(`Setting ${playerColor} player ready`);
+
+        // Emit ready event to server
+        socket.emit('player_ready', { roomId, color: playerColor });
     }
 }));
