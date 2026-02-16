@@ -52,16 +52,17 @@ export default function Header() {
                                             <p className="font-medium truncate">{session.user?.name || "User"}</p>
                                             <p className="text-xs text-gray-500 truncate">{session.user?.email}</p>
                                         </div>
-                                        {/* Placeholder for Profile link */}
-                                        <a
-                                            href="#"
+                                        {/* Profile link */}
+                                        <Link
+                                            href={`/profile/${(session.user as any)?.id}`}
                                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                             role="menuitem"
                                             tabIndex={-1}
                                             id="user-menu-item-0"
+                                            onClick={() => setIsMenuOpen(false)}
                                         >
                                             Your Profile
-                                        </a>
+                                        </Link>
                                         <button
                                             onClick={() => signOut()}
                                             className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

@@ -2,6 +2,7 @@ import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { prisma } from './prisma';
 import bcrypt from 'bcryptjs';
+import { initializeStatsForUser } from './rating';
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -38,6 +39,9 @@ export const authOptions: NextAuthOptions = {
                 if (!isPasswordValid) {
                     throw new Error('Invalid credentials');
                 }
+
+                // Initialize player stats if not already done
+                await initializeStatsForUser(user.id).catch(console.error);
 
                 return {
                     id: user.id,

@@ -12,6 +12,7 @@ import {
     Player,
     GameRoom
 } from './gameRooms';
+import { updatePlayerStats } from './rating';
 
 export const initSocketServer = (httpServer: NetServer) => {
     const io = new SocketIOServer(httpServer, {
@@ -142,6 +143,31 @@ export const initSocketServer = (httpServer: NetServer) => {
                     move: data.move,
                     gameState: updatedRoom.gameState
                 });
+
+                // Check if game ended with checkmate or stalemate
+                if (data.gameState.status === 'checkmate' && updatedRoom.whitePlayer && updatedRoom.blackPlayer) {
+                    const winner = data.gameState.turn === 'w' ? 'b' : 'w'; // Winner is opposite of current turn
+                    const winnerPlayer = winner === 'w' ? updatedRoom.whitePlayer : updatedRoom.blackPlayer;
+                    const loserPlayer = winner === 'w' ? updatedRoom.blackPlayer : updatedRoom.whitePlayer;
+
+                    updatePlayerStats(winnerPlayer.id, 'win').catch(console.error);
+                    updatePlayerStats(loserPlayer.id, 'loss').catch(console.error);
+
+                    io.to(data.roomId).emit('game_over', {
+                        result: winner === 'w' ? 'white' : 'black',
+                        reason: 'checkmate',
+                        gameState: updatedRoom.gameState
+                    });
+                } else if ((data.gameState.status === 'stalemate' || data.gameState.status === 'draw') && updatedRoom.whitePlayer && updatedRoom.blackPlayer) {
+                    updatePlayerStats(updatedRoom.whitePlayer.id, 'draw').catch(console.error);
+                    updatePlayerStats(updatedRoom.blackPlayer.id, 'draw').catch(console.error);
+
+                    io.to(data.roomId).emit('game_over', {
+                        result: 'draw',
+                        reason: data.gameState.status === 'stalemate' ? 'stalemate' : 'draw',
+                        gameState: updatedRoom.gameState
+                    });
+                }
             }
         });
 
@@ -163,6 +189,16 @@ export const initSocketServer = (httpServer: NetServer) => {
                 // Don't emit if game already ended (draw, checkmate, etc.)
                 if (result.resignedColor && result.room.gameState.status === 'resignation') {
                     const winner = result.resignedColor === 'white' ? 'black' : 'white';
+
+                    // Update player stats
+                    const winnerPlayer = winner === 'white' ? result.room.whitePlayer : result.room.blackPlayer;
+                    const loserPlayer = winner === 'white' ? result.room.blackPlayer : result.room.whitePlayer;
+
+                    if (winnerPlayer && loserPlayer) {
+                        updatePlayerStats(winnerPlayer.id, 'win').catch(console.error);
+                        updatePlayerStats(loserPlayer.id, 'loss').catch(console.error);
+                    }
+
                     io.to(data.roomId).emit('game_over', {
                         result: winner,
                         reason: 'resignation',
@@ -185,6 +221,13 @@ export const initSocketServer = (httpServer: NetServer) => {
                 if (room) {
                     room.gameState.status = 'draw';
                     room.gameState.winner = 'draw';
+
+                    // Update player stats for both players
+                    if (room.whitePlayer && room.blackPlayer) {
+                        updatePlayerStats(room.whitePlayer.id, 'draw').catch(console.error);
+                        updatePlayerStats(room.blackPlayer.id, 'draw').catch(console.error);
+                    }
+
                     io.to(data.roomId).emit('game_over', {
                         result: 'draw',
                         reason: 'agreement',
@@ -202,6 +245,16 @@ export const initSocketServer = (httpServer: NetServer) => {
                 const winner = data.color === 'white' ? 'black' : 'white';
                 room.gameState.status = 'resignation';
                 room.gameState.winner = winner;
+
+                // Update player stats
+                const winnerPlayer = winner === 'white' ? room.whitePlayer : room.blackPlayer;
+                const loserPlayer = winner === 'white' ? room.blackPlayer : room.whitePlayer;
+
+                if (winnerPlayer && loserPlayer) {
+                    updatePlayerStats(winnerPlayer.id, 'win').catch(console.error);
+                    updatePlayerStats(loserPlayer.id, 'loss').catch(console.error);
+                }
+
                 io.to(data.roomId).emit('game_over', {
                     result: winner,
                     reason: 'resignation',
