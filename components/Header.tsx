@@ -34,9 +34,17 @@ export default function Header() {
                                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                                     >
                                         <span className="sr-only">Open user menu</span>
-                                        <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold">
-                                            {session.user?.name ? session.user.name.charAt(0).toUpperCase() : session.user?.email?.charAt(0).toUpperCase()}
-                                        </div>
+                                        {(session.user as any)?.avatar ? (
+                                            <img
+                                                src={(session.user as any).avatar}
+                                                alt={session.user?.name || 'User'}
+                                                className="h-8 w-8 rounded-full object-cover"
+                                            />
+                                        ) : (
+                                            <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold">
+                                                {session.user?.name ? session.user.name.charAt(0).toUpperCase() : session.user?.email?.charAt(0).toUpperCase()}
+                                            </div>
+                                        )}
                                     </button>
                                 </div>
                                 {/* Dropdown menu */}

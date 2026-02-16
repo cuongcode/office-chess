@@ -102,7 +102,7 @@ export default function Home() {
       {/* Modals */}
       {showCreateModal && (
         <CreateGameModal
-          userId={session.user?.email || 'guest'} // Use email as ID for now or a proper ID if available
+          userId={(session.user as any)?.id || session.user?.email || 'guest'}
           userName={session.user?.name || 'Guest'}
           onClose={() => setShowCreateModal(false)}
         />
@@ -110,7 +110,7 @@ export default function Home() {
 
       {showJoinModal && (
         <JoinGameModal
-          userId={session.user?.email || 'guest'}
+          userId={(session.user as any)?.id || session.user?.email || 'guest'}
           userName={session.user?.name || 'Guest'}
           onClose={() => setShowJoinModal(false)}
         />
@@ -118,7 +118,7 @@ export default function Home() {
 
       {showActiveGames && (
         <ActiveGamesList
-          userId={session.user?.email || 'guest'}
+          userId={(session.user as any)?.id || session.user?.email || 'guest'}
           userName={session.user?.name || 'Guest'}
           onClose={() => setShowActiveGames(false)}
         />
