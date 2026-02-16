@@ -53,20 +53,20 @@ export default function CapturedPieces({ capturedPieces, playerColor, opponentCa
                     capturedPieces.map((piece, index) => (
                         <span
                             key={index}
-                            className="text-zinc-400 text-sm"
+                            className="text-muted-foreground text-sm"
                             title={`Captured ${piece.toLowerCase()}`}
                         >
                             {symbols[piece.toLowerCase()]}
                         </span>
                     ))
                 ) : (
-                    <span className="text-zinc-600 text-xs italic">None</span>
+                    <span className="text-muted-foreground/70 text-xs italic">None</span>
                 )}
             </div>
 
             {/* Point difference - only show if positive (player is ahead) */}
             {pointDifference > 0 && (
-                <div className="text-xs font-bold px-1.5 py-0.5 rounded bg-green-500/20 text-green-400">
+                <div className="text-xs font-bold px-1.5 py-0.5 rounded bg-success/20 text-success">
                     +{pointDifference}
                 </div>
             )}

@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useGameStore } from "@/store/gameStore";
 import { Toaster } from "react-hot-toast";
+import PlayerSearchBar from "@/components/PlayerSearchBar";
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -72,35 +73,52 @@ export default function Home() {
     setView('game');
   };
 
+  const handleCreateOnline = () => {
+    setShowCreateModal(true);
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] p-8 gap-8 font-[family-name:var(--font-geist-sans)] relative">
+    <main className="min-h-screen bg-background text-foreground flex flex-col">
       <Toaster position="top-right" />
 
       {view === 'menu' && (
-        <>
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-black mb-2 bg-gradient-to-r from-blue-400 to-emerald-400 text-transparent bg-clip-text">
-              Office Chess
-            </h1>
-            <p className="text-gray-400 text-lg">
-              Welcome, {session.user?.name || "Player"}
-            </p>
-          </div>
+        <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-8">
+          <div className="w-full max-w-4xl space-y-8 flex flex-col items-center">
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full max-w-6xl">
-            <div className="lg:col-span-2">
-              <GameModeSelector
-                onSelectLocal={handleLocalGame}
-                onSelectCreateOnline={() => setShowCreateModal(true)}
-                onSelectJoinOnline={() => setShowJoinModal(true)}
-                onSelectActiveGames={() => setShowActiveGames(true)}
-              />
+            <div className="text-center space-y-4 mb-8">
+              <h1 className="text-5xl sm:text-7xl font-bold tracking-tight bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent drop-shadow-sm">
+                Office Chess
+              </h1>
+              <p className="text-xl text-muted-foreground font-light max-w-lg mx-auto">
+                Challenge your colleagues, climb the ranks.
+              </p>
+              {session?.user && (
+                <p className="text-lg font-medium text-foreground">
+                  Welcome back, <span className="text-blue-500">{session.user.name || 'Player'}</span>!
+                </p>
+              )}
             </div>
-            <div className="lg:col-span-1">
+
+            <div className="w-full max-w-xl mb-8">
+              <PlayerSearchBar onPlayerSelect={(id) => router.push(`/profile/${id}`)} />
+            </div>
+
+            <GameModeSelector
+              onSelectLocal={handleLocalGame}
+              onSelectCreateOnline={handleCreateOnline}
+              onSelectJoinOnline={() => setShowJoinModal(true)}
+              onSelectActiveGames={() => setShowActiveGames(true)}
+            />
+
+            <div className="w-full max-w-4xl mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
               <LeaderboardWidget />
+              {/* Placeholder for future widgets */}
+              <div className="bg-card rounded-lg shadow p-6 border border-border flex items-center justify-center text-muted-foreground h-full min-h-[200px]">
+                <p>Recent Activity (Coming Soon)</p>
+              </div>
             </div>
           </div>
-        </>
+        </div>
       )}
 
       {view === 'game' && (
@@ -131,6 +149,6 @@ export default function Home() {
           onClose={() => setShowActiveGames(false)}
         />
       )}
-    </div>
+    </main>
   );
 }

@@ -63,30 +63,30 @@ export default function LeaderboardTable({ players, currentUserId, loading }: Le
 
     if (loading) {
         return (
-            <div className="bg-white rounded-lg shadow overflow-hidden">
+            <div className="bg-card rounded-lg shadow overflow-hidden border border-border">
                 <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
+                    <table className="min-w-full divide-y divide-border">
+                        <thead className="bg-muted/50">
                             <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rank</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Player</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rating</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Games</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Win Rate</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Record</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Active</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Rank</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Player</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Rating</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Games</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Win Rate</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Record</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Last Active</th>
                             </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
+                        <tbody className="bg-card divide-y divide-border">
                             {[1, 2, 3, 4, 5].map((i) => (
                                 <tr key={i} className="animate-pulse">
-                                    <td className="px-6 py-4"><div className="h-6 w-16 bg-gray-200 rounded"></div></td>
-                                    <td className="px-6 py-4"><div className="h-6 w-32 bg-gray-200 rounded"></div></td>
-                                    <td className="px-6 py-4"><div className="h-6 w-12 bg-gray-200 rounded"></div></td>
-                                    <td className="px-6 py-4"><div className="h-6 w-12 bg-gray-200 rounded"></div></td>
-                                    <td className="px-6 py-4"><div className="h-6 w-24 bg-gray-200 rounded"></div></td>
-                                    <td className="px-6 py-4"><div className="h-6 w-20 bg-gray-200 rounded"></div></td>
-                                    <td className="px-6 py-4"><div className="h-6 w-16 bg-gray-200 rounded"></div></td>
+                                    <td className="px-6 py-4"><div className="h-6 w-16 bg-muted rounded"></div></td>
+                                    <td className="px-6 py-4"><div className="h-6 w-32 bg-muted rounded"></div></td>
+                                    <td className="px-6 py-4"><div className="h-6 w-12 bg-muted rounded"></div></td>
+                                    <td className="px-6 py-4"><div className="h-6 w-12 bg-muted rounded"></div></td>
+                                    <td className="px-6 py-4"><div className="h-6 w-24 bg-muted rounded"></div></td>
+                                    <td className="px-6 py-4"><div className="h-6 w-20 bg-muted rounded"></div></td>
+                                    <td className="px-6 py-4"><div className="h-6 w-16 bg-muted rounded"></div></td>
                                 </tr>
                             ))}
                         </tbody>
@@ -98,10 +98,10 @@ export default function LeaderboardTable({ players, currentUserId, loading }: Le
 
     if (players.length === 0) {
         return (
-            <div className="bg-white rounded-lg shadow p-12 text-center">
+            <div className="bg-card rounded-lg shadow p-12 text-center border border-border">
                 <div className="text-6xl mb-4">🏆</div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No players found</h3>
-                <p className="text-sm text-gray-500">Try switching to a different time filter</p>
+                <h3 className="text-lg font-medium text-card-foreground mb-2">No players found</h3>
+                <p className="text-sm text-muted-foreground">Try switching to a different time filter</p>
             </div>
         );
     }
@@ -109,21 +109,21 @@ export default function LeaderboardTable({ players, currentUserId, loading }: Le
     return (
         <>
             {/* Desktop Table */}
-            <div className="hidden md:block bg-white rounded-lg shadow overflow-hidden">
+            <div className="hidden md:block bg-card rounded-lg shadow overflow-hidden border border-border">
                 <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
+                    <table className="min-w-full divide-y divide-border">
+                        <thead className="bg-muted/50">
                             <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rank</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Player</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rating</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Games</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Win Rate</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Record</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Active</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Rank</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Player</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Rating</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Games</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Win Rate</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Record</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Last Active</th>
                             </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
+                        <tbody className="bg-card divide-y divide-border">
                             {players.map((player) => {
                                 const isCurrentUser = currentUserId === player.id;
                                 return (
@@ -131,8 +131,8 @@ export default function LeaderboardTable({ players, currentUserId, loading }: Le
                                         key={player.id}
                                         onClick={() => router.push(`/profile/${player.id}`)}
                                         className={`cursor-pointer transition-colors ${isCurrentUser
-                                                ? 'bg-blue-50 hover:bg-blue-100'
-                                                : 'hover:bg-gray-50'
+                                            ? 'bg-blue-500/10 hover:bg-blue-500/20'
+                                            : 'hover:bg-accent'
                                             }`}
                                     >
                                         <td className="px-6 py-4 whitespace-nowrap">
@@ -147,15 +147,15 @@ export default function LeaderboardTable({ players, currentUserId, loading }: Le
                                                         className="w-10 h-10 rounded-full object-cover"
                                                     />
                                                 ) : (
-                                                    <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-semibold">
+                                                    <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-muted-foreground font-semibold">
                                                         {(player.username || player.email).charAt(0).toUpperCase()}
                                                     </div>
                                                 )}
                                                 <div>
-                                                    <p className="text-sm font-medium text-gray-900">
+                                                    <p className="text-sm font-medium text-card-foreground">
                                                         {player.username || player.email}
                                                         {isCurrentUser && (
-                                                            <span className="ml-2 text-xs text-blue-600 font-semibold">(You)</span>
+                                                            <span className="ml-2 text-xs text-blue-500 font-semibold">(You)</span>
                                                         )}
                                                     </p>
                                                 </div>
@@ -166,30 +166,30 @@ export default function LeaderboardTable({ players, currentUserId, loading }: Le
                                                 {player.rating}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-card-foreground">
                                             {player.totalGames}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center gap-2">
-                                                <div className="flex-1 bg-gray-200 rounded-full h-2 w-24">
+                                                <div className="flex-1 bg-muted rounded-full h-2 w-24">
                                                     <div
                                                         className={`h-2 rounded-full ${getWinRateColor(player.winRate)}`}
                                                         style={{ width: `${Math.min(player.winRate, 100)}%` }}
                                                     ></div>
                                                 </div>
-                                                <span className="text-sm font-medium text-gray-900 w-12">
+                                                <span className="text-sm font-medium text-card-foreground w-12">
                                                     {player.winRate.toFixed(0)}%
                                                 </span>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                                            <span className="text-green-600 font-medium">{player.wins}</span>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
+                                            <span className="text-green-500 font-medium">{player.wins}</span>
                                             {' - '}
-                                            <span className="text-red-600 font-medium">{player.losses}</span>
+                                            <span className="text-red-500 font-medium">{player.losses}</span>
                                             {' - '}
-                                            <span className="text-gray-600">{player.draws}</span>
+                                            <span className="text-muted-foreground">{player.draws}</span>
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
                                             {formatRelativeTime(player.lastGameAt)}
                                         </td>
                                     </tr>
@@ -208,7 +208,7 @@ export default function LeaderboardTable({ players, currentUserId, loading }: Le
                         <div
                             key={player.id}
                             onClick={() => router.push(`/profile/${player.id}`)}
-                            className={`bg-white rounded-lg shadow p-4 cursor-pointer transition-colors ${isCurrentUser ? 'ring-2 ring-blue-500' : ''
+                            className={`bg-card rounded-lg shadow p-4 cursor-pointer transition-colors border border-border ${isCurrentUser ? 'ring-2 ring-blue-500' : ''
                                 }`}
                         >
                             <div className="flex items-start gap-3 mb-3">
@@ -220,15 +220,15 @@ export default function LeaderboardTable({ players, currentUserId, loading }: Le
                                         className="w-12 h-12 rounded-full object-cover"
                                     />
                                 ) : (
-                                    <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-semibold">
+                                    <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center text-muted-foreground font-semibold">
                                         {(player.username || player.email).charAt(0).toUpperCase()}
                                     </div>
                                 )}
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-medium text-gray-900 truncate">
+                                    <p className="text-sm font-medium text-card-foreground truncate">
                                         {player.username || player.email}
                                         {isCurrentUser && (
-                                            <span className="ml-2 text-xs text-blue-600 font-semibold">(You)</span>
+                                            <span className="ml-2 text-xs text-blue-500 font-semibold">(You)</span>
                                         )}
                                     </p>
                                     <p className={`text-lg ${getRatingColor(player.rating)}`}>
@@ -239,24 +239,24 @@ export default function LeaderboardTable({ players, currentUserId, loading }: Le
 
                             <div className="grid grid-cols-2 gap-2 text-sm">
                                 <div>
-                                    <span className="text-gray-500">Games:</span>
-                                    <span className="ml-1 font-medium">{player.totalGames}</span>
+                                    <span className="text-muted-foreground">Games:</span>
+                                    <span className="ml-1 font-medium text-card-foreground">{player.totalGames}</span>
                                 </div>
                                 <div>
-                                    <span className="text-gray-500">Win Rate:</span>
-                                    <span className="ml-1 font-medium">{player.winRate.toFixed(0)}%</span>
+                                    <span className="text-muted-foreground">Win Rate:</span>
+                                    <span className="ml-1 font-medium text-card-foreground">{player.winRate.toFixed(0)}%</span>
                                 </div>
                                 <div className="col-span-2">
-                                    <span className="text-gray-500">Record:</span>
+                                    <span className="text-muted-foreground">Record:</span>
                                     <span className="ml-1">
-                                        <span className="text-green-600 font-medium">{player.wins}</span>
+                                        <span className="text-green-500 font-medium">{player.wins}</span>
                                         {' - '}
-                                        <span className="text-red-600 font-medium">{player.losses}</span>
+                                        <span className="text-red-500 font-medium">{player.losses}</span>
                                         {' - '}
-                                        <span className="text-gray-600">{player.draws}</span>
+                                        <span className="text-muted-foreground">{player.draws}</span>
                                     </span>
                                 </div>
-                                <div className="col-span-2 text-gray-500">
+                                <div className="col-span-2 text-muted-foreground">
                                     Last active: {formatRelativeTime(player.lastGameAt)}
                                 </div>
                             </div>

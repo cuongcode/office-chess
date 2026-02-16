@@ -43,25 +43,25 @@ export default function GameOverModal({ onReturnHome }: GameOverModalProps) {
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-fade-in">
-            <div className="bg-gradient-to-br from-gray-900 to-gray-800 border border-white/20 rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl transform scale-100">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in">
+            <div className="bg-card border border-border rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl transform scale-100 text-card-foreground">
                 <div className="flex justify-center mb-6">
                     {status === 'checkmate' || status === 'resignation' ? (
-                        <Trophy className={`w-16 h-16 ${(isWinner || playerColor === 'spectator' || !isOnline) && winner ? 'text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.5)]' : 'text-gray-400'}`} />
+                        <Trophy className={`w-16 h-16 ${(isWinner || playerColor === 'spectator' || !isOnline) && winner ? 'text-yellow-500 drop-shadow-md' : 'text-muted-foreground'}`} />
                     ) : (
                         <div className="text-4xl">🤝</div>
                     )}
                 </div>
 
-                <h2 className="text-3xl font-black text-white mb-2 tracking-tight">{getTitle()}</h2>
-                <p className="text-gray-400 mb-8 font-medium uppercase tracking-widest text-sm">
+                <h2 className="text-3xl font-black text-card-foreground mb-2 tracking-tight">{getTitle()}</h2>
+                <p className="text-muted-foreground mb-8 font-medium uppercase tracking-widest text-sm">
                     {status === 'checkmate' ? 'Checkmate' : status}
                 </p>
 
                 <div className="flex flex-col gap-3">
                     <button
                         onClick={handleReturn}
-                        className="w-full flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white py-3 rounded-xl font-semibold transition-all hover:scale-105"
+                        className="w-full flex items-center justify-center gap-2 bg-muted hover:bg-muted/80 text-foreground py-3 rounded-xl font-semibold transition-all hover:scale-105"
                     >
                         <Home className="w-5 h-5" />
                         Return to Lobby

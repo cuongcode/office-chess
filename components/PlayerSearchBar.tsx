@@ -82,14 +82,14 @@ export default function PlayerSearchBar({ onPlayerSelect }: PlayerSearchBarProps
                     onChange={(e) => handleInputChange(e.target.value)}
                     onFocus={() => results.length > 0 && setShowDropdown(true)}
                     placeholder="Search players by username..."
-                    className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 pl-10 border border-input bg-background rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent text-foreground placeholder:text-muted-foreground"
                 />
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
                     🔍
                 </div>
                 {loading && (
                     <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                        <div className="animate-spin h-4 w-4 border-2 border-blue-500 border-t-transparent rounded-full"></div>
+                        <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full"></div>
                     </div>
                 )}
             </div>
@@ -103,12 +103,12 @@ export default function PlayerSearchBar({ onPlayerSelect }: PlayerSearchBarProps
                         onClick={() => setShowDropdown(false)}
                     ></div>
 
-                    <div className="absolute z-20 mt-2 w-full bg-white rounded-lg shadow-lg border border-gray-200 max-h-80 overflow-y-auto">
+                    <div className="absolute z-20 mt-2 w-full bg-card rounded-lg shadow-lg border border-border max-h-80 overflow-y-auto">
                         {results.map((player) => (
                             <button
                                 key={player.id}
                                 onClick={() => handlePlayerClick(player.id)}
-                                className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 transition-colors text-left"
+                                className="w-full flex items-center gap-3 p-3 hover:bg-accent transition-colors text-left"
                             >
                                 {player.avatar ? (
                                     <img
@@ -117,16 +117,16 @@ export default function PlayerSearchBar({ onPlayerSelect }: PlayerSearchBarProps
                                         className="w-10 h-10 rounded-full object-cover"
                                     />
                                 ) : (
-                                    <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-semibold">
+                                    <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-muted-foreground font-semibold">
                                         {(player.username || player.email).charAt(0).toUpperCase()}
                                     </div>
                                 )}
 
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-medium text-gray-900 truncate">
+                                    <p className="text-sm font-medium text-card-foreground truncate">
                                         {player.username || player.email}
                                     </p>
-                                    <p className="text-xs text-gray-500">
+                                    <p className="text-xs text-muted-foreground">
                                         Rank #{player.rank} • Rating: {player.rating}
                                     </p>
                                 </div>
@@ -143,8 +143,8 @@ export default function PlayerSearchBar({ onPlayerSelect }: PlayerSearchBarProps
                         className="fixed inset-0 z-10"
                         onClick={() => setShowDropdown(false)}
                     ></div>
-                    <div className="absolute z-20 mt-2 w-full bg-white rounded-lg shadow-lg border border-gray-200 p-4">
-                        <p className="text-sm text-gray-500 text-center">No players found</p>
+                    <div className="absolute z-20 mt-2 w-full bg-card rounded-lg shadow-lg border border-border p-4">
+                        <p className="text-sm text-muted-foreground text-center">No players found</p>
                     </div>
                 </>
             )}

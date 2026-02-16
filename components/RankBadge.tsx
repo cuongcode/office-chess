@@ -64,9 +64,9 @@ export default function RankBadge({ rank, size = 'md' }: RankBadgeProps) {
         );
     }
 
-    // Others: plain number with gray
+    // Others: plain number with theme colors
     return (
-        <div className={`inline-flex items-center ${sizeClasses[size]} rounded-full bg-gray-200 text-gray-700 font-medium`}>
+        <div className={`inline-flex items-center ${sizeClasses[size]} rounded-full bg-muted text-muted-foreground font-medium`}>
             <span>#{rank}</span>
         </div>
     );

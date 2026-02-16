@@ -53,10 +53,10 @@ export default function JoinGameModal({ userId, userName, onClose }: JoinGameMod
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-            <div className="bg-gray-900 border border-white/10 rounded-2xl p-8 max-w-md w-full relative shadow-xl">
+            <div className="bg-card border border-border rounded-2xl p-8 max-w-md w-full relative shadow-xl text-card-foreground">
                 <button
                     onClick={handleClose}
-                    className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+                    className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
                 >
                     <X className="w-6 h-6" />
                 </button>
@@ -65,7 +65,7 @@ export default function JoinGameModal({ userId, userName, onClose }: JoinGameMod
 
                 <form onSubmit={handleJoin} className="space-y-6">
                     <div>
-                        <label htmlFor="roomId" className="block text-sm font-medium text-gray-400 mb-2">
+                        <label htmlFor="roomId" className="block text-sm font-medium text-muted-foreground mb-2">
                             Room Code
                         </label>
                         <input
@@ -74,15 +74,15 @@ export default function JoinGameModal({ userId, userName, onClose }: JoinGameMod
                             value={roomIdInput}
                             onChange={handleInputChange}
                             placeholder="Ex: A1B2C3"
-                            className={`w-full bg-black/30 border ${joinError ? 'border-red-500' : 'border-white/10'
-                                } rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 ${joinError ? 'focus:ring-red-500' : 'focus:ring-blue-500'
+                            className={`w-full bg-background border ${joinError ? 'border-destructive' : 'border-input'
+                                } rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 ${joinError ? 'focus:ring-destructive' : 'focus:ring-blue-500'
                                 } font-mono text-center text-xl tracking-wider uppercase`}
                             autoFocus
                             maxLength={6}
                             disabled={isJoining}
                         />
                         {joinError && (
-                            <div className="mt-2 flex items-start gap-2 text-red-400 text-sm">
+                            <div className="mt-2 flex items-start gap-2 text-destructive text-sm">
                                 <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
                                 <span>{joinError}</span>
                             </div>
@@ -92,7 +92,7 @@ export default function JoinGameModal({ userId, userName, onClose }: JoinGameMod
                     <button
                         type="submit"
                         disabled={!roomIdInput.trim() || isJoining}
-                        className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
                     >
                         {isJoining ? (
                             <>

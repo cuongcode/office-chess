@@ -52,32 +52,32 @@ export default function ConfirmationModal({
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-fade-in">
-            <div className="bg-gradient-to-br from-gray-900 to-gray-800 border border-white/20 rounded-2xl p-6 max-w-md w-full shadow-2xl transform scale-100">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in">
+            <div className="bg-card border border-border rounded-2xl p-6 max-w-md w-full shadow-2xl transform scale-100 text-card-foreground">
                 {/* Header */}
                 <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
-                        <div className={`p-2 rounded-full bg-gray-800/50 ${getIconColor()}`}>
+                        <div className={`p-2 rounded-full bg-muted ${getIconColor()}`}>
                             <AlertTriangle className="w-6 h-6" />
                         </div>
-                        <h2 className="text-xl font-bold text-white">{title}</h2>
+                        <h2 className="text-xl font-bold text-card-foreground">{title}</h2>
                     </div>
                     <button
                         onClick={onCancel}
-                        className="text-gray-400 hover:text-white transition-colors p-1 hover:bg-gray-800 rounded"
+                        className="text-muted-foreground hover:text-foreground transition-colors p-1 hover:bg-muted rounded"
                     >
                         <X className="w-5 h-5" />
                     </button>
                 </div>
 
                 {/* Message */}
-                <p className="text-gray-300 mb-6 leading-relaxed">{message}</p>
+                <p className="text-muted-foreground mb-6 leading-relaxed">{message}</p>
 
                 {/* Actions */}
                 <div className="flex gap-3">
                     <button
                         onClick={onCancel}
-                        className="flex-1 px-4 py-2.5 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-medium transition-colors"
+                        className="flex-1 px-4 py-2.5 bg-muted hover:bg-muted/80 text-foreground rounded-lg font-medium transition-colors"
                     >
                         {cancelText}
                     </button>

@@ -45,15 +45,15 @@ export default function LeaderboardWidget() {
 
     if (loading) {
         return (
-            <div className="bg-white rounded-lg shadow p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Players</h3>
+            <div className="bg-card rounded-lg shadow p-6 border border-border">
+                <h3 className="text-lg font-semibold text-card-foreground mb-4">Top Players</h3>
                 <div className="space-y-3">
                     {[1, 2, 3, 4, 5].map((i) => (
                         <div key={i} className="animate-pulse flex items-center gap-3">
-                            <div className="w-12 h-8 bg-gray-200 rounded-full"></div>
-                            <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
-                            <div className="flex-1 h-4 bg-gray-200 rounded"></div>
-                            <div className="w-12 h-4 bg-gray-200 rounded"></div>
+                            <div className="w-12 h-8 bg-muted rounded-full"></div>
+                            <div className="w-8 h-8 bg-muted rounded-full"></div>
+                            <div className="flex-1 h-4 bg-muted rounded"></div>
+                            <div className="w-12 h-4 bg-muted rounded"></div>
                         </div>
                     ))}
                 </div>
@@ -63,29 +63,29 @@ export default function LeaderboardWidget() {
 
     if (error) {
         return (
-            <div className="bg-white rounded-lg shadow p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Players</h3>
-                <p className="text-sm text-red-600">{error}</p>
+            <div className="bg-card rounded-lg shadow p-6 border border-border">
+                <h3 className="text-lg font-semibold text-card-foreground mb-4">Top Players</h3>
+                <p className="text-sm text-destructive">{error}</p>
             </div>
         );
     }
 
     return (
-        <div className="bg-white rounded-lg shadow p-6">
+        <div className="bg-card rounded-lg shadow p-6 border border-border">
             <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">Top Players</h3>
-                <span className="text-xs text-gray-500">🏆</span>
+                <h3 className="text-lg font-semibold text-card-foreground">Top Players</h3>
+                <span className="text-xs text-muted-foreground">🏆</span>
             </div>
 
             {players.length === 0 ? (
-                <p className="text-sm text-gray-500">No players yet</p>
+                <p className="text-sm text-muted-foreground">No players yet</p>
             ) : (
                 <div className="space-y-3">
                     {players.map((player) => (
                         <Link
                             key={player.id}
                             href={`/profile/${player.id}`}
-                            className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors"
+                            className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent transition-colors"
                         >
                             <RankBadge rank={player.rank} size="sm" />
 
@@ -96,18 +96,18 @@ export default function LeaderboardWidget() {
                                     className="w-8 h-8 rounded-full object-cover"
                                 />
                             ) : (
-                                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 text-sm font-semibold">
+                                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground text-sm font-semibold">
                                     {(player.username || player.email).charAt(0).toUpperCase()}
                                 </div>
                             )}
 
                             <div className="flex-1 min-w-0">
-                                <p className="text-sm font-medium text-gray-900 truncate">
+                                <p className="text-sm font-medium text-card-foreground truncate">
                                     {player.username || player.email}
                                 </p>
                             </div>
 
-                            <div className="text-sm font-semibold text-gray-900">
+                            <div className="text-sm font-semibold text-card-foreground">
                                 {player.rating}
                             </div>
                         </Link>

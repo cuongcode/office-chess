@@ -242,32 +242,32 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
             />
 
             {/* Header Info */}
-            <div className="flex items-center justify-between bg-zinc-900 p-3 rounded-lg border border-zinc-800">
+            <div className="flex items-center justify-between bg-card p-3 rounded-lg border border-border shadow-sm">
                 <div className="flex items-center gap-4">
                     {isOnline && (
                         <div
                             onClick={copyRoomId}
-                            className="flex items-center gap-2 px-3 py-1 bg-zinc-800 rounded cursor-pointer hover:bg-zinc-700 transition-colors"
+                            className="flex items-center gap-2 px-3 py-1 bg-muted rounded cursor-pointer hover:bg-accent transition-colors"
                             title="Copy Room Code"
                         >
-                            <span className="text-zinc-400 text-xs uppercase tracking-wider">Room</span>
-                            <span className="font-mono font-bold text-blue-400">{roomId}</span>
-                            <Copy className="w-3 h-3 text-zinc-500" />
+                            <span className="text-muted-foreground text-xs uppercase tracking-wider">Room</span>
+                            <span className="font-mono font-bold text-blue-500">{roomId}</span>
+                            <Copy className="w-3 h-3 text-muted-foreground" />
                         </div>
                     )}
-                    <div className="flex items-center gap-2 text-zinc-400 text-sm">
+                    <div className="flex items-center gap-2 text-muted-foreground text-sm">
                         <Users className="w-4 h-4" />
                         <span>{spectatorCount}</span>
                     </div>
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <div className={`px-3 py-1 rounded-full text-sm font-medium ${status === 'check' ? 'bg-red-500/20 text-red-400 animate-pulse' : 'bg-zinc-800 text-zinc-300'
+                    <div className={`px-3 py-1 rounded-full text-sm font-medium ${status === 'check' ? 'bg-destructive/20 text-destructive animate-pulse' : 'bg-muted text-muted-foreground'
                         }`}>
                         {getStatusText()}
                     </div>
                     {isOnline && (
-                        <div className={`w-3 h-3 rounded-full ${isConnected ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]' : 'bg-red-500'}`} title={isConnected ? 'Connected' : 'Disconnected'} />
+                        <div className={`w-3 h-3 rounded-full ${isConnected ? 'bg-success shadow-[0_0_8px_rgba(34,197,94,0.5)]' : 'bg-destructive'}`} title={isConnected ? 'Connected' : 'Disconnected'} />
                     )}
                 </div>
             </div>
@@ -275,16 +275,16 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
             {/* Top Player (Opponent) */}
             <div className="flex items-center justify-between px-2">
                 <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center border border-zinc-700">
-                        <span className="text-zinc-400 text-xs font-bold">
+                    <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center border border-border">
+                        <span className="text-muted-foreground text-xs font-bold">
                             {boardOrientation === 'white' ? 'B' : 'W'}
                         </span>
                     </div>
                     <div>
-                        <div className="font-bold text-zinc-200">
+                        <div className="font-bold text-foreground">
                             {isOnline ? topPlayer.name : 'Black'}
                         </div>
-                        <div className="text-xs text-zinc-500">
+                        <div className="text-xs text-muted-foreground">
                             {isOnline && topPlayer.colorLabel}
                         </div>
                     </div>
@@ -309,7 +309,7 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
             )}
 
             {/* Board */}
-            <div className="w-full aspect-square shadow-2xl rounded-lg overflow-hidden border-4 border-zinc-800 bg-zinc-900 relative group">
+            <div className="w-full aspect-square shadow-2xl rounded-lg overflow-hidden border-4 border-card bg-card relative group">
                 <Chessboard
                     options={{
                         id: "MainBoard",
@@ -317,8 +317,8 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
                         boardOrientation: boardOrientation,
                         onPieceDrop: onDrop,
                         onSquareClick: onSquareClick,
-                        darkSquareStyle: { backgroundColor: '#71717a' },
-                        lightSquareStyle: { backgroundColor: '#f4f4f5' },
+                        darkSquareStyle: { backgroundColor: 'var(--board-dark)' },
+                        lightSquareStyle: { backgroundColor: 'var(--board-light)' },
                         squareStyles: customSquareStyles,
                         animationDurationInMs: 200,
                         allowDragging: !isOnline || (playerColor !== 'spectator' && ((playerColor === 'white' && turn === 'w') || (playerColor === 'black' && turn === 'b')))
@@ -327,10 +327,10 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
 
                 {/* Connection Overlay */}
                 {isOnline && !isConnected && (
-                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex flex-col items-center justify-center z-10">
-                        <WifiOff className="w-12 h-12 text-red-500 mb-4" />
-                        <h3 className="text-xl font-bold text-white">Disconnected</h3>
-                        <p className="text-zinc-400">Trying to reconnect...</p>
+                    <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center z-10 transition-all">
+                        <WifiOff className="w-12 h-12 text-destructive mb-4" />
+                        <h3 className="text-xl font-bold text-foreground">Disconnected</h3>
+                        <p className="text-muted-foreground">Trying to reconnect...</p>
                     </div>
                 )}
             </div>
@@ -350,16 +350,16 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
             {/* Bottom Player (You) */}
             <div className="flex items-center justify-between px-2">
                 <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-blue-600/20 flex items-center justify-center border border-blue-500/30">
-                        <span className="text-blue-400 text-xs font-bold">
+                    <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
+                        <span className="text-blue-500 text-xs font-bold">
                             {boardOrientation === 'white' ? 'W' : 'B'}
                         </span>
                     </div>
                     <div>
-                        <div className="font-bold text-white">
+                        <div className="font-bold text-foreground">
                             {isOnline ? (bottomPlayer.isMe ? `${bottomPlayer.name} (You)` : bottomPlayer.name) : 'White'}
                         </div>
-                        <div className="text-xs text-zinc-500">
+                        <div className="text-xs text-muted-foreground">
                             {isOnline && bottomPlayer.colorLabel}
                         </div>
                     </div>
@@ -375,14 +375,14 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
                     <div className="flex gap-2">
                         <button
                             onClick={offerDraw}
-                            className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded transition-colors"
+                            className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded transition-colors"
                             title="Offer Draw"
                         >
                             <MessageSquare className="w-5 h-5" />
                         </button>
                         <button
                             onClick={handleResign}
-                            className="p-2 text-zinc-400 hover:text-red-400 hover:bg-zinc-800 rounded transition-colors"
+                            className="p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded transition-colors"
                             title="Resign"
                         >
                             <Flag className="w-5 h-5" />
@@ -393,35 +393,35 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
 
             {/* Ready Button Section */}
             {isOnline && playerColor !== 'spectator' && timeControl && timeControl.category !== 'unlimited' && whitePlayerName && blackPlayerName && !timerActive && (
-                <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4">
+                <div className="bg-card border border-border rounded-lg p-4 shadow-sm">
                     <div className="flex items-center justify-between gap-4">
                         <div className="flex-1">
-                            <h3 className="text-sm font-semibold text-zinc-200 mb-2">Ready Status</h3>
+                            <h3 className="text-sm font-semibold text-foreground mb-2">Ready Status</h3>
                             <div className="flex gap-4 text-xs">
                                 <div className="flex items-center gap-2">
-                                    <span className="text-zinc-400">White:</span>
+                                    <span className="text-muted-foreground">White:</span>
                                     {whiteReady ? (
-                                        <span className="text-green-400 flex items-center gap-1">
+                                        <span className="text-success flex items-center gap-1">
                                             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                             </svg>
                                             Ready
                                         </span>
                                     ) : (
-                                        <span className="text-zinc-500">Not Ready</span>
+                                        <span className="text-muted-foreground">Not Ready</span>
                                     )}
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <span className="text-zinc-400">Black:</span>
+                                    <span className="text-muted-foreground">Black:</span>
                                     {blackReady ? (
-                                        <span className="text-green-400 flex items-center gap-1">
+                                        <span className="text-success flex items-center gap-1">
                                             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                             </svg>
                                             Ready
                                         </span>
                                     ) : (
-                                        <span className="text-zinc-500">Not Ready</span>
+                                        <span className="text-muted-foreground">Not Ready</span>
                                     )}
                                 </div>
                             </div>
@@ -430,14 +430,14 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
                         {((playerColor === 'white' && !whiteReady) || (playerColor === 'black' && !blackReady)) && (
                             <button
                                 onClick={setPlayerReady}
-                                className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors shadow-lg hover:shadow-xl"
+                                className="px-6 py-2 bg-success hover:bg-success/90 text-success-foreground font-semibold rounded-lg transition-colors shadow-lg hover:shadow-xl"
                             >
                                 I'm Ready
                             </button>
                         )}
 
                         {((playerColor === 'white' && whiteReady) || (playerColor === 'black' && blackReady)) && (
-                            <div className="text-sm text-zinc-400 italic">
+                            <div className="text-sm text-muted-foreground italic">
                                 Waiting for opponent...
                             </div>
                         )}
@@ -450,7 +450,7 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
                 <div className="flex justify-center mt-2">
                     <button
                         onClick={handleLeave}
-                        className="flex items-center gap-2 px-4 py-2 bg-zinc-800 hover:bg-red-900/30 text-zinc-400 hover:text-red-400 rounded-lg transition-colors text-sm font-medium"
+                        className="flex items-center gap-2 px-4 py-2 bg-muted hover:bg-destructive/10 text-muted-foreground hover:text-destructive rounded-lg transition-colors text-sm font-medium"
                     >
                         <LogOut className="w-4 h-4" />
                         Leave Game
@@ -460,7 +460,6 @@ export default function ChessBoard({ onLeave }: ChessBoardProps) {
         </div>
     );
 }
-
 function playerIdToColorMap(color: string) {
     return color === 'white' ? 'White' : 'Black';
 }

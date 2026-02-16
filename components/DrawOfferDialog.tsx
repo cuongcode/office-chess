@@ -41,22 +41,22 @@ export default function DrawOfferDialog() {
 
     return (
         <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 animate-slide-down">
-            <div className="bg-gray-800 border-2 border-yellow-500 rounded-xl shadow-2xl p-4 flex items-center gap-6">
+            <div className="bg-card border-2 border-yellow-500 rounded-xl shadow-2xl p-4 flex items-center gap-6">
                 <div>
-                    <h3 className="font-bold text-white text-lg">Draw Offered</h3>
-                    <p className="text-gray-300 text-sm">Your opponent offers a draw.</p>
+                    <h3 className="font-bold text-card-foreground text-lg">Draw Offered</h3>
+                    <p className="text-muted-foreground text-sm">Your opponent offers a draw.</p>
                 </div>
                 <div className="flex gap-2">
                     <button
                         onClick={() => handleRespond(true)}
-                        className="p-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
+                        className="p-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors shadow-sm"
                         title="Accept Draw"
                     >
                         <Check className="w-5 h-5" />
                     </button>
                     <button
                         onClick={() => handleRespond(false)}
-                        className="p-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+                        className="p-2 bg-destructive hover:bg-destructive/90 text-destructive-foreground rounded-lg transition-colors shadow-sm"
                         title="Decline Draw"
                     >
                         <X className="w-5 h-5" />
