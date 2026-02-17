@@ -61,35 +61,31 @@ export const ChessClock: React.FC<ChessClockProps> = ({
     return (
         <div
             className={`
-                relative px-6 py-4 rounded-lg transition-all duration-300
+                relative px-4 py-2 rounded-lg transition-all duration-300
                 ${getBackgroundColor()}
                 ${getBorderStyle()}
                 ${isActive ? 'shadow-xl' : 'shadow-md'}
             `}
         >
             {/* Player Name */}
-            <div className="flex items-center justify-between mb-2">
-                <span className={`text-sm font-medium ${isActive || isTimeout ? 'text-white/90' : 'text-muted-foreground'}`}>
-                    {playerName || 'Waiting...'}
-                </span>
-
-                {/* Increment Badge */}
-                {increment > 0 && (
+            {/* <div className="flex items-center justify-between mb-2"> */}
+            {/* Increment Badge */}
+            {/* {increment > 0 && (
                     <span className={`text-xs px-2 py-1 rounded ${isActive ? 'bg-black/20 text-white/90' : 'bg-muted text-muted-foreground'}`}>
                         +{increment}s
                     </span>
-                )}
-            </div>
+                )} */}
+            {/* </div> */}
 
             {/* Time Display */}
             <div className="flex items-center justify-center">
-                <span className={`text-5xl font-mono font-bold ${getTextColor()} tabular-nums`}>
+                <span className={`text-xl font-mono font-bold ${getTextColor()} tabular-nums`}>
                     {isTimeout ? '00:00' : formattedTime}
                 </span>
             </div>
 
             {/* Status Indicators */}
-            <div className="mt-2 flex items-center justify-center gap-2">
+            {/* <div className="mt-2 flex items-center justify-center gap-2">
                 {isPaused && (
                     <span className={`text-xs flex items-center gap-1 ${isActive ? 'text-white/80' : 'text-muted-foreground'}`}>
                         <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
@@ -111,7 +107,7 @@ export const ChessClock: React.FC<ChessClockProps> = ({
                         Active
                     </span>
                 )}
-            </div>
+            </div> */}
 
             {/* Warning Indicator */}
             {warningLevel === 'critical' && !isTimeout && (

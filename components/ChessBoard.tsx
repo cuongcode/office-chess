@@ -4,13 +4,14 @@ import { useGameStore } from '@/store/gameStore';
 import { Chessboard } from 'react-chessboard';
 import { useState, useEffect } from 'react';
 import { Chess, Square } from 'chess.js';
-import { Copy, Users, Flag, MessageSquare, LogOut, Wifi, WifiOff } from 'lucide-react';
+import { Flag, MessageSquare, LogOut, Wifi, WifiOff } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { DrawOfferDialog } from "./DrawOfferDialog";
 import { GameOverModal } from "./GameOverModal";
 import { ConfirmationModal } from "./ConfirmationModal";
 import { ChessClock } from './ChessClock';
 import { CapturedPieces } from "./CapturedPieces";
+import { HeaderInfo } from "./HeaderInfo";
 
 interface ChessBoardProps {
     onLeave: () => void;
@@ -227,7 +228,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
     const bottomPlayer = getBottomPlayerInfo();
 
     return (
-        <div className="flex flex-col gap-4 w-full max-w-[600px]">
+        <div className="flex flex-col gap-4 w-full max-w-[600px] items-center">
             <DrawOfferDialog />
             <GameOverModal onReturnHome={onLeave} />
             <ConfirmationModal
@@ -242,71 +243,54 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
             />
 
             {/* Header Info */}
-            <div className="flex items-center justify-between bg-card p-3 rounded-lg border border-border shadow-sm">
-                <div className="flex items-center gap-4">
-                    {isOnline && (
-                        <div
-                            onClick={copyRoomId}
-                            className="flex items-center gap-2 px-3 py-1 bg-muted rounded cursor-pointer hover:bg-accent transition-colors"
-                            title="Copy Room Code"
-                        >
-                            <span className="text-muted-foreground text-xs uppercase tracking-wider">Room</span>
-                            <span className="font-mono font-bold text-blue-500">{roomId}</span>
-                            <Copy className="w-3 h-3 text-muted-foreground" />
-                        </div>
-                    )}
-                    <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                        <Users className="w-4 h-4" />
-                        <span>{spectatorCount}</span>
-                    </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                    <div className={`px-3 py-1 rounded-full text-sm font-medium ${status === 'check' ? 'bg-destructive/20 text-destructive animate-pulse' : 'bg-muted text-muted-foreground'
-                        }`}>
-                        {getStatusText()}
-                    </div>
-                    {isOnline && (
-                        <div className={`w-3 h-3 rounded-full ${isConnected ? 'bg-success shadow-[0_0_8px_rgba(34,197,94,0.5)]' : 'bg-destructive'}`} title={isConnected ? 'Connected' : 'Disconnected'} />
-                    )}
-                </div>
-            </div>
+            <HeaderInfo
+                roomId={roomId}
+                spectatorCount={spectatorCount}
+                status={status}
+                statusText={getStatusText()}
+                isOnline={isOnline}
+                isConnected={isConnected}
+                onCopyRoomId={copyRoomId}
+            />
 
             {/* Top Player (Opponent) */}
             <div className="flex items-center justify-between px-2">
-                <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center border border-border">
-                        <span className="text-muted-foreground text-xs font-bold">
-                            {boardOrientation === 'white' ? 'B' : 'W'}
-                        </span>
-                    </div>
-                    <div>
-                        <div className="font-bold text-foreground">
-                            {isOnline ? topPlayer.name : 'Black'}
+                <div className='flex items-center gap-4'>
+                    <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center border border-border">
+                            <span className="text-muted-foreground text-xs font-bold">
+                                {boardOrientation === 'white' ? 'B' : 'W'}
+                            </span>
                         </div>
-                        <div className="text-xs text-muted-foreground">
-                            {isOnline && topPlayer.colorLabel}
+                        <div>
+                            <div className="font-bold text-foreground">
+                                {isOnline ? topPlayer.name : 'Black'}
+                            </div>
+                            <div className="text-xs text-muted-foreground">
+                                {isOnline && topPlayer.colorLabel}
+                            </div>
                         </div>
                     </div>
+                    <CapturedPieces
+                        capturedPieces={boardOrientation === 'white' ? capturedPieces.black : capturedPieces.white}
+                        playerColor={boardOrientation === 'white' ? 'black' : 'white'}
+                        opponentCapturedPieces={boardOrientation === 'white' ? capturedPieces.white : capturedPieces.black}
+                    />
                 </div>
-                <CapturedPieces
-                    capturedPieces={boardOrientation === 'white' ? capturedPieces.black : capturedPieces.white}
-                    playerColor={boardOrientation === 'white' ? 'black' : 'white'}
-                    opponentCapturedPieces={boardOrientation === 'white' ? capturedPieces.white : capturedPieces.black}
-                />
+                {/* Top Player Clock (if timed game) */}
+                {timeControl && timeControl.category !== 'unlimited' && (
+                    <ChessClock
+                        timeLeft={boardOrientation === 'white' ? blackTimeLeft : whiteTimeLeft}
+                        playerName={topPlayer.name}
+                        isActive={activeTimerColor === (boardOrientation === 'white' ? 'black' : 'white')}
+                        increment={timeControl.increment}
+                        isPaused={!timerActive}
+                        orientation="top"
+                    />
+                )}
             </div>
 
-            {/* Top Player Clock (if timed game) */}
-            {timeControl && timeControl.category !== 'unlimited' && (
-                <ChessClock
-                    timeLeft={boardOrientation === 'white' ? blackTimeLeft : whiteTimeLeft}
-                    playerName={topPlayer.name}
-                    isActive={activeTimerColor === (boardOrientation === 'white' ? 'black' : 'white')}
-                    increment={timeControl.increment}
-                    isPaused={!timerActive}
-                    orientation="top"
-                />
-            )}
+
 
             {/* Board */}
             <div className="w-full aspect-square shadow-2xl rounded-lg overflow-hidden border-4 border-card bg-card relative group">
@@ -335,61 +319,62 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                 )}
             </div>
 
-            {/* Bottom Player Clock (if timed game) */}
-            {timeControl && timeControl.category !== 'unlimited' && (
-                <ChessClock
-                    timeLeft={boardOrientation === 'white' ? whiteTimeLeft : blackTimeLeft}
-                    playerName={bottomPlayer.name}
-                    isActive={activeTimerColor === (boardOrientation === 'white' ? 'white' : 'black')}
-                    increment={timeControl.increment}
-                    isPaused={!timerActive}
-                    orientation="bottom"
-                />
-            )}
+
 
             {/* Bottom Player (You) */}
             <div className="flex items-center justify-between px-2">
-                <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
-                        <span className="text-blue-500 text-xs font-bold">
-                            {boardOrientation === 'white' ? 'W' : 'B'}
-                        </span>
-                    </div>
-                    <div>
-                        <div className="font-bold text-foreground">
-                            {isOnline ? (bottomPlayer.isMe ? `${bottomPlayer.name} (You)` : bottomPlayer.name) : 'White'}
+                <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
+                            <span className="text-blue-500 text-xs font-bold">
+                                {boardOrientation === 'white' ? 'W' : 'B'}
+                            </span>
                         </div>
-                        <div className="text-xs text-muted-foreground">
-                            {isOnline && bottomPlayer.colorLabel}
+                        <div>
+                            <div className="font-bold text-foreground">
+                                {isOnline ? (bottomPlayer.isMe ? `${bottomPlayer.name} (You)` : bottomPlayer.name) : 'White'}
+                            </div>
+                            <div className="text-xs text-muted-foreground">
+                                {isOnline && bottomPlayer.colorLabel}
+                            </div>
                         </div>
                     </div>
+                    <CapturedPieces
+                        capturedPieces={boardOrientation === 'white' ? capturedPieces.white : capturedPieces.black}
+                        playerColor={boardOrientation === 'white' ? 'white' : 'black'}
+                        opponentCapturedPieces={boardOrientation === 'white' ? capturedPieces.black : capturedPieces.white}
+                    />
                 </div>
-
-                <CapturedPieces
-                    capturedPieces={boardOrientation === 'white' ? capturedPieces.white : capturedPieces.black}
-                    playerColor={boardOrientation === 'white' ? 'white' : 'black'}
-                    opponentCapturedPieces={boardOrientation === 'white' ? capturedPieces.black : capturedPieces.white}
-                />
-
-                {isOnline && playerColor !== 'spectator' && (
-                    <div className="flex gap-2">
-                        <button
-                            onClick={offerDraw}
-                            className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded transition-colors"
-                            title="Offer Draw"
-                        >
-                            <MessageSquare className="w-5 h-5" />
-                        </button>
-                        <button
-                            onClick={handleResign}
-                            className="p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded transition-colors"
-                            title="Resign"
-                        >
-                            <Flag className="w-5 h-5" />
-                        </button>
-                    </div>
+                {/* Bottom Player Clock (if timed game) */}
+                {timeControl && timeControl.category !== 'unlimited' && (
+                    <ChessClock
+                        timeLeft={boardOrientation === 'white' ? whiteTimeLeft : blackTimeLeft}
+                        playerName={bottomPlayer.name}
+                        isActive={activeTimerColor === (boardOrientation === 'white' ? 'white' : 'black')}
+                        increment={timeControl.increment}
+                        isPaused={!timerActive}
+                        orientation="bottom"
+                    />
                 )}
             </div>
+            {isOnline && playerColor !== 'spectator' && (
+                <div className="flex gap-2">
+                    <button
+                        onClick={offerDraw}
+                        className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded transition-colors"
+                        title="Offer Draw"
+                    >
+                        <MessageSquare className="w-5 h-5" />
+                    </button>
+                    <button
+                        onClick={handleResign}
+                        className="p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded transition-colors"
+                        title="Resign"
+                    >
+                        <Flag className="w-5 h-5" />
+                    </button>
+                </div>
+            )}
 
             {/* Ready Button Section */}
             {isOnline && playerColor !== 'spectator' && timeControl && timeControl.category !== 'unlimited' && whitePlayerName && blackPlayerName && !timerActive && (
@@ -459,7 +444,4 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
             )}
         </div>
     );
-}
-function playerIdToColorMap(color: string) {
-    return color === 'white' ? 'White' : 'Black';
 }
