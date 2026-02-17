@@ -1,17 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/Providers";
 import Header from "@/components/Header";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const outfit = Outfit({
   subsets: ["latin"],
+  variable: "--font-outfit",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -25,10 +27,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
+      <body className="antialiased">
         <Providers>
           <Header />
           <main>
