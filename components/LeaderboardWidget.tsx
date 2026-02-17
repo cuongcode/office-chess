@@ -72,22 +72,23 @@ export function LeaderboardWidget() {
 
     return (
         <div className="bg-card rounded-lg shadow p-6 border border-border">
-            <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-card-foreground">Top Players</h3>
-                <span className="text-xs text-muted-foreground">🏆</span>
+            <div className="flex items-center mb-4">
+                <Link href="/leaderboard">
+                    <h3 className="text-lg font-semibold text-card-foreground">Top Players</h3>
+                </Link>
             </div>
 
             {players.length === 0 ? (
                 <p className="text-sm text-muted-foreground">No players yet</p>
             ) : (
-                <div className="space-y-3">
+                <div >
                     {players.map((player) => (
                         <Link
                             key={player.id}
                             href={`/profile/${player.id}`}
                             className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent transition-colors"
                         >
-                            <RankBadge rank={player.rank} size="sm" />
+                            {/* <RankBadge rank={player.rank} size="sm" /> */}
 
                             {player.avatar ? (
                                 <img
@@ -114,13 +115,6 @@ export function LeaderboardWidget() {
                     ))}
                 </div>
             )}
-
-            <Link
-                href="/leaderboard"
-                className="mt-4 block text-center text-sm font-medium text-blue-600 hover:text-blue-700"
-            >
-                View Full Leaderboard →
-            </Link>
         </div>
     );
 }
