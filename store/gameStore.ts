@@ -330,7 +330,9 @@ export const useGameStore = create<GameState>((set, get) => ({
                 capturedPieces: { white: [], black: [] },
                 // Set timer state if provided
                 whiteTimeLeft: whiteTimeLeft !== undefined ? whiteTimeLeft : (timeControl && timeControl.category !== 'unlimited' ? timeControl.initialTime : 0),
-                blackTimeLeft: blackTimeLeft !== undefined ? blackTimeLeft : (timeControl && timeControl.category !== 'unlimited' ? timeControl.initialTime : 0)
+                blackTimeLeft: blackTimeLeft !== undefined ? blackTimeLeft : (timeControl && timeControl.category !== 'unlimited' ? timeControl.initialTime : 0),
+                whiteReady: false,
+                blackReady: false
             });
         });
 
@@ -389,10 +391,11 @@ export const useGameStore = create<GameState>((set, get) => ({
                 // Logic for opponent joining is handled by explicit whitePlayerName/blackPlayerName updates below
             }
 
-            if (role === 'white') {
-                set({ whitePlayerName: player.name });
-            } else if (role === 'black') {
-                set({ blackPlayerName: player.name });
+            if (whitePlayer) {
+                set({ whitePlayerName: whitePlayer.name });
+            }
+            if (blackPlayer) {
+                set({ blackPlayerName: blackPlayer.name });
             }
 
             set({ spectatorCount });

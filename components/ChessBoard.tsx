@@ -229,7 +229,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
     const bottomPlayer = getBottomPlayerInfo();
 
     return (
-        <div className="flex flex-col gap-4 w-full max-w-[600px] items-center">
+        <div className="flex flex-col gap-4 w-full max-w-[600px]">
             <DrawOfferDialog />
             <GameOverModal onReturnHome={onLeave} />
             <ConfirmationModal
@@ -255,7 +255,6 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
             />
 
             {/* Top Player (Opponent) */}
-            {/* Top Player (Opponent) */}
             <PlayerInfo
                 name={isOnline ? topPlayer.name : 'Black'}
                 subLabel={isOnline && topPlayer.colorLabel ? topPlayer.colorLabel : ''}
@@ -270,9 +269,9 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                 isPaused={!timerActive}
                 increment={timeControl ? timeControl.increment : 0}
                 clockOrientation="top"
+                isReady={boardOrientation === 'white' ? blackReady : whiteReady}
+                showReadyStatus={!!(isOnline && timeControl && timeControl.category !== 'unlimited')}
             />
-
-
 
             {/* Board */}
             <div className="w-full aspect-square shadow-2xl rounded-lg overflow-hidden border-4 border-card bg-card relative group">
@@ -291,6 +290,20 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                     }}
                 />
 
+                {/* Ready Button Overlay */}
+                {isOnline && playerColor !== 'spectator' && timeControl && timeControl.category !== 'unlimited' && whitePlayerName && blackPlayerName && !timerActive && (
+                    ((playerColor === 'white' && !whiteReady) || (playerColor === 'black' && !blackReady)) && (
+                        <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex items-center justify-center z-20">
+                            <button
+                                onClick={setPlayerReady}
+                                className="px-8 py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xl rounded-xl shadow-2xl hover:scale-105 transition-all animate-in fade-in zoom-in duration-300"
+                            >
+                                I'm Ready!
+                            </button>
+                        </div>
+                    )
+                )}
+
                 {/* Connection Overlay */}
                 {isOnline && !isConnected && (
                     <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center z-10 transition-all">
@@ -301,9 +314,6 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                 )}
             </div>
 
-
-
-            {/* Bottom Player (You) */}
             {/* Bottom Player (You) */}
             <PlayerInfo
                 name={isOnline ? (bottomPlayer.isMe ? `${bottomPlayer.name} (You)` : bottomPlayer.name) : 'White'}
@@ -319,7 +329,10 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                 isPaused={!timerActive}
                 increment={timeControl ? timeControl.increment : 0}
                 clockOrientation="bottom"
+                isReady={boardOrientation === 'white' ? whiteReady : blackReady}
+                showReadyStatus={!!(isOnline && timeControl && timeControl.category !== 'unlimited')}
             />
+
             {isOnline && playerColor !== 'spectator' && (
                 <div className="flex gap-2">
                     <button
@@ -339,59 +352,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                 </div>
             )}
 
-            {/* Ready Button Section */}
-            {isOnline && playerColor !== 'spectator' && timeControl && timeControl.category !== 'unlimited' && whitePlayerName && blackPlayerName && !timerActive && (
-                <div className="bg-card border border-border rounded-lg p-4 shadow-sm">
-                    <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1">
-                            <h3 className="text-sm font-semibold text-foreground mb-2">Ready Status</h3>
-                            <div className="flex gap-4 text-xs">
-                                <div className="flex items-center gap-2">
-                                    <span className="text-muted-foreground">White:</span>
-                                    {whiteReady ? (
-                                        <span className="text-success flex items-center gap-1">
-                                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                                            </svg>
-                                            Ready
-                                        </span>
-                                    ) : (
-                                        <span className="text-muted-foreground">Not Ready</span>
-                                    )}
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <span className="text-muted-foreground">Black:</span>
-                                    {blackReady ? (
-                                        <span className="text-success flex items-center gap-1">
-                                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                                            </svg>
-                                            Ready
-                                        </span>
-                                    ) : (
-                                        <span className="text-muted-foreground">Not Ready</span>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
 
-                        {((playerColor === 'white' && !whiteReady) || (playerColor === 'black' && !blackReady)) && (
-                            <button
-                                onClick={setPlayerReady}
-                                className="px-6 py-2 bg-success hover:bg-success/90 text-success-foreground font-semibold rounded-lg transition-colors shadow-lg hover:shadow-xl"
-                            >
-                                I'm Ready
-                            </button>
-                        )}
-
-                        {((playerColor === 'white' && whiteReady) || (playerColor === 'black' && blackReady)) && (
-                            <div className="text-sm text-muted-foreground italic">
-                                Waiting for opponent...
-                            </div>
-                        )}
-                    </div>
-                </div>
-            )}
 
             {/* Controls */}
             {isOnline && (
