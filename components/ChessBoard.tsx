@@ -12,6 +12,7 @@ import { ConfirmationModal } from "./ConfirmationModal";
 import { ChessClock } from './ChessClock';
 import { CapturedPieces } from "./CapturedPieces";
 import { HeaderInfo } from "./HeaderInfo";
+import { PlayerInfo } from "./PlayerInfo";
 
 interface ChessBoardProps {
     onLeave: () => void;
@@ -254,41 +255,22 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
             />
 
             {/* Top Player (Opponent) */}
-            <div className="flex items-center justify-between px-2">
-                <div className='flex items-center gap-4'>
-                    <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center border border-border">
-                            <span className="text-muted-foreground text-xs font-bold">
-                                {boardOrientation === 'white' ? 'B' : 'W'}
-                            </span>
-                        </div>
-                        <div>
-                            <div className="font-bold text-foreground">
-                                {isOnline ? topPlayer.name : 'Black'}
-                            </div>
-                            <div className="text-xs text-muted-foreground">
-                                {isOnline && topPlayer.colorLabel}
-                            </div>
-                        </div>
-                    </div>
-                    <CapturedPieces
-                        capturedPieces={boardOrientation === 'white' ? capturedPieces.black : capturedPieces.white}
-                        playerColor={boardOrientation === 'white' ? 'black' : 'white'}
-                        opponentCapturedPieces={boardOrientation === 'white' ? capturedPieces.white : capturedPieces.black}
-                    />
-                </div>
-                {/* Top Player Clock (if timed game) */}
-                {timeControl && timeControl.category !== 'unlimited' && (
-                    <ChessClock
-                        timeLeft={boardOrientation === 'white' ? blackTimeLeft : whiteTimeLeft}
-                        playerName={topPlayer.name}
-                        isActive={activeTimerColor === (boardOrientation === 'white' ? 'black' : 'white')}
-                        increment={timeControl.increment}
-                        isPaused={!timerActive}
-                        orientation="top"
-                    />
-                )}
-            </div>
+            {/* Top Player (Opponent) */}
+            <PlayerInfo
+                name={isOnline ? topPlayer.name : 'Black'}
+                subLabel={isOnline && topPlayer.colorLabel ? topPlayer.colorLabel : ''}
+                avatarLabel={boardOrientation === 'white' ? 'B' : 'W'}
+                isMe={topPlayer.isMe}
+                capturedPieces={boardOrientation === 'white' ? capturedPieces.black : capturedPieces.white}
+                playerColor={boardOrientation === 'white' ? 'black' : 'white'}
+                opponentCapturedPieces={boardOrientation === 'white' ? capturedPieces.white : capturedPieces.black}
+                showClock={!!(timeControl && timeControl.category !== 'unlimited')}
+                timeLeft={boardOrientation === 'white' ? blackTimeLeft : whiteTimeLeft}
+                isActive={activeTimerColor === (boardOrientation === 'white' ? 'black' : 'white')}
+                isPaused={!timerActive}
+                increment={timeControl ? timeControl.increment : 0}
+                clockOrientation="top"
+            />
 
 
 
@@ -322,41 +304,22 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
 
 
             {/* Bottom Player (You) */}
-            <div className="flex items-center justify-between px-2">
-                <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
-                            <span className="text-blue-500 text-xs font-bold">
-                                {boardOrientation === 'white' ? 'W' : 'B'}
-                            </span>
-                        </div>
-                        <div>
-                            <div className="font-bold text-foreground">
-                                {isOnline ? (bottomPlayer.isMe ? `${bottomPlayer.name} (You)` : bottomPlayer.name) : 'White'}
-                            </div>
-                            <div className="text-xs text-muted-foreground">
-                                {isOnline && bottomPlayer.colorLabel}
-                            </div>
-                        </div>
-                    </div>
-                    <CapturedPieces
-                        capturedPieces={boardOrientation === 'white' ? capturedPieces.white : capturedPieces.black}
-                        playerColor={boardOrientation === 'white' ? 'white' : 'black'}
-                        opponentCapturedPieces={boardOrientation === 'white' ? capturedPieces.black : capturedPieces.white}
-                    />
-                </div>
-                {/* Bottom Player Clock (if timed game) */}
-                {timeControl && timeControl.category !== 'unlimited' && (
-                    <ChessClock
-                        timeLeft={boardOrientation === 'white' ? whiteTimeLeft : blackTimeLeft}
-                        playerName={bottomPlayer.name}
-                        isActive={activeTimerColor === (boardOrientation === 'white' ? 'white' : 'black')}
-                        increment={timeControl.increment}
-                        isPaused={!timerActive}
-                        orientation="bottom"
-                    />
-                )}
-            </div>
+            {/* Bottom Player (You) */}
+            <PlayerInfo
+                name={isOnline ? (bottomPlayer.isMe ? `${bottomPlayer.name} (You)` : bottomPlayer.name) : 'White'}
+                subLabel={isOnline && bottomPlayer.colorLabel ? bottomPlayer.colorLabel : ''}
+                avatarLabel={boardOrientation === 'white' ? 'W' : 'B'}
+                isMe={bottomPlayer.isMe}
+                capturedPieces={boardOrientation === 'white' ? capturedPieces.white : capturedPieces.black}
+                playerColor={boardOrientation === 'white' ? 'white' : 'black'}
+                opponentCapturedPieces={boardOrientation === 'white' ? capturedPieces.black : capturedPieces.white}
+                showClock={!!(timeControl && timeControl.category !== 'unlimited')}
+                timeLeft={boardOrientation === 'white' ? whiteTimeLeft : blackTimeLeft}
+                isActive={activeTimerColor === (boardOrientation === 'white' ? 'white' : 'black')}
+                isPaused={!timerActive}
+                increment={timeControl ? timeControl.increment : 0}
+                clockOrientation="bottom"
+            />
             {isOnline && playerColor !== 'spectator' && (
                 <div className="flex gap-2">
                     <button
