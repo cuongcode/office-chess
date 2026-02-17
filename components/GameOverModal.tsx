@@ -5,7 +5,7 @@ interface GameOverModalProps {
     onReturnHome: () => void;
 }
 
-export default function GameOverModal({ onReturnHome }: GameOverModalProps) {
+export function GameOverModal({ onReturnHome }: GameOverModalProps) {
     const { status, winner, playerColor, isOnline, leaveGame } = useGameStore();
 
     if (status === 'playing' || status === 'check') return null;

@@ -3,7 +3,7 @@
 import { useGameStore } from '@/store/gameStore';
 import { useRef, useEffect } from 'react';
 
-export default function MoveHistory() {
+export function MoveHistory() {
     const { history } = useGameStore();
     const listRef = useRef<HTMLDivElement>(null);
 

@@ -3,7 +3,7 @@ import { useGameStore } from '@/store/gameStore';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
-export default function DrawOfferDialog() {
+export function DrawOfferDialog() {
     const { socket, roomId } = useGameStore();
     const [show, setShow] = useState(false);
     const [opponentColor, setOpponentColor] = useState<string>('');

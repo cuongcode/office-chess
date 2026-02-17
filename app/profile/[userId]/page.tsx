@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { User, Calendar, Trophy, TrendingUp, Flame, Copy, Edit } from 'lucide-react';
 import toast from 'react-hot-toast';
-import Button from '@/components/ui/Button';
+import { Button } from "@/components/ui/Button";
 
 interface ProfileData {
     id: string;

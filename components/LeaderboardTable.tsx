@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from 'next/navigation';
-import RankBadge from './RankBadge';
+import { RankBadge } from "./RankBadge";
 
 interface Player {
     id: string;
@@ -24,7 +24,7 @@ interface LeaderboardTableProps {
     loading?: boolean;
 }
 
-export default function LeaderboardTable({ players, currentUserId, loading }: LeaderboardTableProps) {
+export function LeaderboardTable({ players, currentUserId, loading }: LeaderboardTableProps) {
     const router = useRouter();
 
     // Get rating color based on value

@@ -7,7 +7,7 @@ import {
     getTimeControlDisplay,
     TimeControlCategory
 } from '@/lib/timeControls';
-import Button from '@/components/ui/Button';
+import { Button } from "@/components/ui/Button";
 
 interface TimeControlSelectorProps {
     selectedPreset: TimeControlPreset | null;

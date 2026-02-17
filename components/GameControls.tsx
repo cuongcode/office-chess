@@ -3,7 +3,7 @@
 import { useGameStore } from '@/store/gameStore';
 import { RotateCcw, Copy, RotateCw } from 'lucide-react'; // Using icons for better UI
 
-export default function GameControls() {
+export function GameControls() {
     const { resetGame, undoMove, flipBoard } = useGameStore();
 
     return (

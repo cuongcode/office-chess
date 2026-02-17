@@ -1,17 +1,17 @@
 "use client";
 
-import ChessBoard from "@/components/ChessBoard";
-import GameModeSelector from "@/components/GameModeSelector";
-import CreateGameModal from "@/components/CreateGameModal";
-import JoinGameModal from "@/components/JoinGameModal";
-import ActiveGamesList from "@/components/ActiveGamesList";
-import LeaderboardWidget from "@/components/LeaderboardWidget";
+import { ChessBoard } from "@/components/ChessBoard";
+import { GameModeSelector } from "@/components/GameModeSelector";
+import { CreateGameModal } from "@/components/CreateGameModal";
+import { JoinGameModal } from "@/components/JoinGameModal";
+import { ActiveGamesList } from "@/components/ActiveGamesList";
+import { LeaderboardWidget } from "@/components/LeaderboardWidget";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useGameStore } from "@/store/gameStore";
 import { Toaster } from "react-hot-toast";
-import PlayerSearchBar from "@/components/PlayerSearchBar";
+import { PlayerSearchBar } from "@/components/PlayerSearchBar";
 
 export default function Home() {
   const { data: session, status } = useSession();

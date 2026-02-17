@@ -3,7 +3,7 @@ interface RankBadgeProps {
     size?: 'sm' | 'md' | 'lg';
 }
 
-export default function RankBadge({ rank, size = 'md' }: RankBadgeProps) {
+export function RankBadge({ rank, size = 'md' }: RankBadgeProps) {
     const sizeClasses = {
         sm: 'text-sm px-2 py-0.5',
         md: 'text-base px-3 py-1',

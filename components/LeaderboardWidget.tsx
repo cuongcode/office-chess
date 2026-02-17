@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import RankBadge from './RankBadge';
+import { RankBadge } from "./RankBadge";
 
 interface Player {
     id: string;
@@ -13,7 +13,7 @@ interface Player {
     rank: number;
 }
 
-export default function LeaderboardWidget() {
+export function LeaderboardWidget() {
     const [players, setPlayers] = useState<Player[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);

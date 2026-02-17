@@ -35,7 +35,7 @@ const WHITE_PIECE_SYMBOLS: Record<string, string> = {
     'k': '♔'  // White king
 };
 
-export default function CapturedPieces({ capturedPieces, playerColor, opponentCapturedPieces }: CapturedPiecesProps) {
+export function CapturedPieces({ capturedPieces, playerColor, opponentCapturedPieces }: CapturedPiecesProps) {
     // Calculate points
     const myPoints = capturedPieces.reduce((sum, piece) => sum + (PIECE_VALUES[piece.toLowerCase()] || 0), 0);
     const opponentPoints = opponentCapturedPieces.reduce((sum, piece) => sum + (PIECE_VALUES[piece.toLowerCase()] || 0), 0);

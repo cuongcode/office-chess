@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { User, Upload, X, Check, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
-import Button from '@/components/ui/Button';
+import { Button } from "@/components/ui/Button";
 
 export default function EditProfilePage() {
     const { data: session, status } = useSession();

@@ -2,7 +2,7 @@
 
 import { useGameStore } from '@/store/gameStore';
 
-export default function GameStatus() {
+export function GameStatus() {
     const { status, turn, winner } = useGameStore();
 
     let message = '';

@@ -4,7 +4,7 @@ import { useGameStore } from '@/store/gameStore';
 import toast from 'react-hot-toast';
 import { TimeControlSelector } from './TimeControlSelector';
 import { TimeControlPreset, timeControlPresets } from '@/lib/timeControls';
-import Button from '@/components/ui/Button';
+import { Button } from "@/components/ui/Button";
 
 interface CreateGameModalProps {
     userId: string;
@@ -12,7 +12,7 @@ interface CreateGameModalProps {
     onClose: () => void;
 }
 
-export default function CreateGameModal({ userId, userName, onClose }: CreateGameModalProps) {
+export function CreateGameModal({ userId, userName, onClose }: CreateGameModalProps) {
     const { createGame, roomId, isOnline, isConnected } = useGameStore();
     const [copied, setCopied] = useState(false);
     const [selectedColor, setSelectedColor] = useState<'white' | 'black' | 'random'>('random');

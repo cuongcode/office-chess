@@ -17,7 +17,7 @@ interface ProfileCardProps {
     };
 }
 
-export default function ProfileCard({ userId, playerData }: ProfileCardProps) {
+export function ProfileCard({ userId, playerData }: ProfileCardProps) {
     const [profile, setProfile] = useState(playerData);
     const [loading, setLoading] = useState(!playerData && !!userId);
 

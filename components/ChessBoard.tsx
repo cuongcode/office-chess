@@ -6,17 +6,17 @@ import { useState, useEffect } from 'react';
 import { Chess, Square } from 'chess.js';
 import { Copy, Users, Flag, MessageSquare, LogOut, Wifi, WifiOff } from 'lucide-react';
 import toast from 'react-hot-toast';
-import DrawOfferDialog from './DrawOfferDialog';
-import GameOverModal from './GameOverModal';
-import ConfirmationModal from './ConfirmationModal';
+import { DrawOfferDialog } from "./DrawOfferDialog";
+import { GameOverModal } from "./GameOverModal";
+import { ConfirmationModal } from "./ConfirmationModal";
 import { ChessClock } from './ChessClock';
-import CapturedPieces from './CapturedPieces';
+import { CapturedPieces } from "./CapturedPieces";
 
 interface ChessBoardProps {
     onLeave: () => void;
 }
 
-export default function ChessBoard({ onLeave }: ChessBoardProps) {
+export function ChessBoard({ onLeave }: ChessBoardProps) {
     const {
         fen,
         makeMove,

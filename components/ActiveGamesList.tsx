@@ -16,7 +16,7 @@ interface ActiveGamesListProps {
     onClose: () => void;
 }
 
-export default function ActiveGamesList({ userId, userName, onClose }: ActiveGamesListProps) {
+export function ActiveGamesList({ userId, userName, onClose }: ActiveGamesListProps) {
     const [games, setGames] = useState<ActiveGame[]>([]);
     const [loading, setLoading] = useState(true);
     const { spectateGame } = useGameStore();

@@ -8,7 +8,7 @@ interface GameModeSelectorProps {
     onSelectActiveGames: () => void;
 }
 
-export default function GameModeSelector({
+export function GameModeSelector({
     onSelectLocal,
     onSelectCreateOnline,
     onSelectJoinOnline,

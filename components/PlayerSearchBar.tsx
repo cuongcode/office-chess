@@ -16,7 +16,7 @@ interface PlayerSearchBarProps {
     onPlayerSelect?: (playerId: string) => void;
 }
 
-export default function PlayerSearchBar({ onPlayerSelect }: PlayerSearchBarProps) {
+export function PlayerSearchBar({ onPlayerSelect }: PlayerSearchBarProps) {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState<Player[]>([]);
     const [loading, setLoading] = useState(false);

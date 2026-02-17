@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { X, ArrowRight, AlertCircle } from 'lucide-react';
 import { useGameStore } from '@/store/gameStore';
-import Button from '@/components/ui/Button';
+import { Button } from "@/components/ui/Button";
 
 interface JoinGameModalProps {
     userId: string;
@@ -9,7 +9,7 @@ interface JoinGameModalProps {
     onClose: () => void;
 }
 
-export default function JoinGameModal({ userId, userName, onClose }: JoinGameModalProps) {
+export function JoinGameModal({ userId, userName, onClose }: JoinGameModalProps) {
     const [roomIdInput, setRoomIdInput] = useState('');
     const [isJoining, setIsJoining] = useState(false);
     const { joinGame, joinError, clearJoinError, isOnline } = useGameStore();
