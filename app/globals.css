@@ -40,121 +40,138 @@
 }
 
 :root {
-  /* Light Theme */
-  --app-background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
-  --background: #f5f7fa;
-  --foreground: #0f172a;
-  /* slate-900 */
+  /* Light Theme Palette */
+  --bg-gradient-start: #f5f7fa;
+  --bg-gradient-end: #e8ecf1;
 
-  --card: #ffffff;
-  --card-foreground: #0f172a;
+  --surface-primary: #ffffff;
+  --surface-border: #ecf0f1;
+  --surface-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
 
-  --primary: #0f172a;
-  /* slate-900 */
-  --primary-foreground: #f8fafc;
-  /* slate-50 */
+  --board-light-square: #f8f9fa;
+  --board-dark-square: #cbd5e1;
+  --board-border: #ecf0f1;
+  --board-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
 
-  --secondary: #f1f5f9;
-  /* slate-100 */
-  --secondary-foreground: #0f172a;
-  /* slate-900 */
+  --text-primary: #2c3e50;
+  --text-secondary: #7f8c8d;
+  --text-muted: #95a5a6;
 
-  --muted: #f1f5f9;
-  /* slate-100 */
-  --muted-foreground: #64748b;
-  /* slate-500 */
+  --interactive-primary: #3498db;
+  --interactive-primary-hover: #2980b9;
+  --interactive-secondary: #f8f9fa;
+  --interactive-secondary-hover: #ecf0f1;
+  --interactive-selected: #ffd93d;
+  --interactive-legal-move: rgba(52, 152, 219, 0.3);
 
-  --accent: #f1f5f9;
-  /* slate-100 */
-  --accent-foreground: #0f172a;
-  /* slate-900 */
+  /* Semantic Mapping */
+  --app-background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+  --background: var(--bg-gradient-start);
+  /* Fallback/Base */
+  --foreground: var(--text-primary);
+
+  --card: var(--surface-primary);
+  --card-foreground: var(--text-primary);
+  --popover: var(--surface-primary);
+  --popover-foreground: var(--text-primary);
+
+  --primary: var(--interactive-primary);
+  --primary-foreground: #ffffff;
+
+  --secondary: var(--interactive-secondary);
+  --secondary-foreground: var(--text-primary);
+
+  --muted: var(--surface-border);
+  --muted-foreground: var(--text-muted);
+
+  --accent: var(--interactive-secondary);
+  --accent-foreground: var(--interactive-primary);
 
   --destructive: #ef4444;
-  /* red-500 */
-  --destructive-foreground: #f8fafc;
-  /* slate-50 */
+  --destructive-foreground: #ffffff;
 
-  --border: #e2e8f0;
-  /* slate-200 */
-  --input: #e2e8f0;
-  /* slate-200 */
-  --ring: #0f172a;
-  /* slate-900 */
+  --border: var(--surface-border);
+  --input: var(--surface-border);
+  --ring: var(--interactive-primary);
 
   --radius: 0.5rem;
-  /* Board Colors - Light Theme */
-  --board-light: #f4f4f5;
-  --board-dark: #71717a;
+
+  /* Board Colors - Mapped */
+  --board-light: var(--board-light-square);
+  --board-dark: var(--board-dark-square);
 
   --success: #22c55e;
-  /* green-500 */
   --success-foreground: #f0fdf4;
-  /* green-50 */
 
   --warning: #f59e0b;
-  /* amber-500 */
   --warning-foreground: #fffbeb;
-  /* amber-50 */
 }
 
 .dark {
-  /* Dark Theme */
-  --app-background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  --background: #0f172a;
-  --foreground: #f8fafc;
-  /* slate-50 */
+  /* Dark Theme Palette */
+  --bg-gradient-start: #0f172a;
+  --bg-gradient-end: #1e293b;
 
-  --card: #1e293b;
-  --card-foreground: #f8fafc;
+  --surface-primary: #1e293b;
+  --surface-border: #334155;
+  --surface-border-hover: #475569;
+  --surface-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
 
-  --primary: #f8fafc;
-  /* slate-50 */
-  --primary-foreground: #0f172a;
-  /* slate-900 */
+  --board-light-square: #cbd5e1;
+  --board-dark-square: #475569;
+  --board-border: #475569;
+  --board-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
 
-  --secondary: #1e293b;
-  /* slate-800 */
-  --secondary-foreground: #f8fafc;
-  /* slate-50 */
+  --text-primary: #f1f5f9;
+  --text-secondary: #e2e8f0;
+  --text-muted: #94a3b8;
+  --text-label: #64748b;
 
-  --muted: #1e293b;
-  /* slate-800 */
-  --muted-foreground: #94a3b8;
-  /* slate-400 */
+  --interactive-primary: #3b82f6;
+  --interactive-primary-hover: #2563eb;
+  --interactive-secondary: #334155;
+  --interactive-secondary-hover: #475569;
+  --interactive-selected: #fbbf24;
+  --interactive-legal-move: rgba(59, 130, 246, 0.4);
 
-  --accent: #1e293b;
-  /* slate-800 */
-  --accent-foreground: #f8fafc;
-  /* slate-50 */
+  /* Semantic Mapping */
+  --app-background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+  --background: var(--bg-gradient-start);
+  --foreground: var(--text-primary);
+
+  --card: var(--surface-primary);
+  --card-foreground: var(--text-primary);
+  --popover: var(--surface-primary);
+  --popover-foreground: var(--text-primary);
+
+  --primary: var(--interactive-primary);
+  --primary-foreground: #ffffff;
+
+  --secondary: var(--interactive-secondary);
+  --secondary-foreground: var(--text-primary);
+
+  --muted: var(--surface-border);
+  --muted-foreground: var(--text-muted);
+
+  --accent: var(--interactive-secondary);
+  --accent-foreground: var(--interactive-primary);
 
   --destructive: #7f1d1d;
-  /* red-900 */
-  --destructive-foreground: #f8fafc;
-  /* slate-50 */
+  --destructive-foreground: #ffffff;
 
-  --border: #334155;
-  /* slate-700 */
-  --input: #334155;
-  /* slate-700 */
-  --ring: #cbd5e1;
-  /* slate-300 */
+  --border: var(--surface-border);
+  --input: var(--surface-border);
+  --ring: var(--interactive-primary);
 
-  /* Board Colors - Dark Theme */
-  /* Using standard colors but adaptable */
-  --board-light: #475569;
-  /* slate-600 */
-  --board-dark: #1e293b;
-  /* slate-800 */
+  /* Board Colors - Mapped */
+  --board-light: var(--board-light-square);
+  --board-dark: var(--board-dark-square);
 
   --success: #22c55e;
-  /* green-500 */
   --success-foreground: #f0fdf4;
-  /* green-50 */
 
   --warning: #f59e0b;
-  /* amber-500 */
   --warning-foreground: #fffbeb;
-  /* amber-50 */
 }
 
 /* Custom animations for chess clock */
