@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { User, Calendar, Trophy, TrendingUp, Flame, Copy, Edit } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Button from '@/components/ui/Button';
 
 interface ProfileData {
     id: string;
@@ -145,13 +146,14 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                                         Edit Profile
                                     </Link>
                                 )}
-                                <button
+                                <Button
+                                    variant="secondary"
                                     onClick={handleShareProfile}
-                                    className="px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition flex items-center gap-2"
+                                    className="px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition flex items-center gap-2 !border-0"
                                 >
                                     <Copy className="w-4 h-4" />
                                     Share Profile
-                                </button>
+                                </Button>
                             </div>
                         </div>
                     </div>

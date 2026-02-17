@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import Button from "@/components/ui/Button";
 
 export default function RegisterPage() {
     const router = useRouter();
@@ -138,13 +139,13 @@ export default function RegisterPage() {
                     </div>
 
                     <div>
-                        <button
+                        <Button
                             type="submit"
                             disabled={loading}
-                            className="group relative flex w-full justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-blue-400"
+                            className="w-full"
                         >
                             {loading ? "Registering..." : "Register"}
-                        </button>
+                        </Button>
                     </div>
                 </form>
             </div>

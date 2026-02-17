@@ -7,6 +7,7 @@ import {
     getTimeControlDisplay,
     TimeControlCategory
 } from '@/lib/timeControls';
+import Button from '@/components/ui/Button';
 
 interface TimeControlSelectorProps {
     selectedPreset: TimeControlPreset | null;
@@ -36,16 +37,17 @@ export const TimeControlSelector: React.FC<TimeControlSelectorProps> = ({
 
             <div className="grid grid-cols-3 gap-2">
                 {categories.map((category) => (
-                    <button
+                    <Button
                         key={category}
+                        variant={selectedCategory === category ? 'primary' : 'secondary'}
                         onClick={() => setSelectedCategory(category)}
-                        className={`p-2 rounded-lg text-sm font-medium transition-colors ${selectedCategory === category
-                            ? 'bg-primary text-primary-foreground'
-                            : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                        className={`text-sm font-medium transition-colors ${selectedCategory === category
+                            ? '' // primary variant handles bg color
+                            : 'bg-muted text-muted-foreground hover:bg-muted/80 border-transparent'
                             }`}
                     >
                         {category.charAt(0).toUpperCase() + category.slice(1)}
-                    </button>
+                    </Button>
                 ))}
             </div>
 

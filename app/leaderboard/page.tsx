@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import LeaderboardTable from '@/components/LeaderboardTable';
 import PlayerSearchBar from '@/components/PlayerSearchBar';
 import RankBadge from '@/components/RankBadge';
+import Button from '@/components/ui/Button';
 
 type TimeFilter = 'all-time' | 'monthly' | 'weekly';
 
@@ -171,33 +172,36 @@ export default function LeaderboardPage() {
                 <div className="mb-6">
                     <div className="border-b border-gray-200">
                         <nav className="-mb-px flex space-x-8">
-                            <button
+                            <Button
+                                variant="secondary"
                                 onClick={() => handleFilterChange('all-time')}
-                                className={`${filter === 'all-time'
-                                        ? 'border-blue-500 text-blue-600'
-                                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                                    } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors`}
+                            // className={`${filter === 'all-time'
+                            //     ? 'border-blue-500 text-blue-600'
+                            //     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                            //     } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors !rounded-none !bg-transparent hover:!bg-transparent focus:!ring-0`}
                             >
                                 All Time
-                            </button>
-                            <button
+                            </Button>
+                            <Button
+                                variant="secondary"
                                 onClick={() => handleFilterChange('monthly')}
-                                className={`${filter === 'monthly'
-                                        ? 'border-blue-500 text-blue-600'
-                                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                                    } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors`}
+                            // className={`${filter === 'monthly'
+                            //     ? 'border-blue-500 text-blue-600'
+                            //     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                            //     } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors !rounded-none !bg-transparent hover:!bg-transparent focus:!ring-0`}
                             >
                                 This Month
-                            </button>
-                            <button
+                            </Button>
+                            <Button
+                                variant="secondary"
                                 onClick={() => handleFilterChange('weekly')}
-                                className={`${filter === 'weekly'
-                                        ? 'border-blue-500 text-blue-600'
-                                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                                    } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors`}
+                            // className={`${filter === 'weekly'
+                            //     ? 'border-blue-500 text-blue-600'
+                            //     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                            //     } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors !rounded-none !bg-transparent hover:!bg-transparent focus:!ring-0`}
                             >
                                 This Week
-                            </button>
+                            </Button>
                         </nav>
                     </div>
                 </div>
@@ -268,30 +272,30 @@ export default function LeaderboardPage() {
                             <span className="font-medium">{totalPlayers.toLocaleString()}</span> players
                         </div>
                         <div className="flex items-center gap-2">
-                            <button
+                            <Button
                                 onClick={() => setPage(page - 1)}
                                 disabled={page === 1}
-                                className={`px-4 py-2 rounded-lg font-medium transition-colors ${page === 1
-                                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                        : 'bg-blue-600 text-white hover:bg-blue-700'
-                                    }`}
+                            // className={`px-4 py-2 rounded-lg font-medium transition-colors ${page === 1
+                            //     ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                            //     : 'bg-blue-600 text-white hover:bg-blue-700'
+                            //     }`}
                             >
                                 Previous
-                            </button>
+                            </Button>
                             <div className="text-sm text-gray-700">
                                 Page <span className="font-medium">{page}</span> of{' '}
                                 <span className="font-medium">{totalPages}</span>
                             </div>
-                            <button
+                            <Button
                                 onClick={() => setPage(page + 1)}
                                 disabled={page === totalPages}
-                                className={`px-4 py-2 rounded-lg font-medium transition-colors ${page === totalPages
-                                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                        : 'bg-blue-600 text-white hover:bg-blue-700'
-                                    }`}
+                            // className={`px-4 py-2 rounded-lg font-medium transition-colors ${page === totalPages
+                            //     ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                            //     : 'bg-blue-600 text-white hover:bg-blue-700'
+                            //     }`}
                             >
                                 Next
-                            </button>
+                            </Button>
                         </div>
                     </div>
                 )}

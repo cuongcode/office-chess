@@ -103,7 +103,7 @@ export default function Header() {
                                 </Link>
                                 <Link
                                     href="/auth/register"
-                                    className="bg-primary border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-primary-foreground hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring"
+                                    className="btn-primary inline-flex justify-center text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring"
                                 >
                                     Sign up
                                 </Link>

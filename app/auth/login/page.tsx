@@ -5,6 +5,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import Button from "@/components/ui/Button";
 
 export default function LoginPage() {
     const router = useRouter();
@@ -130,13 +131,13 @@ export default function LoginPage() {
                     </div>
 
                     <div>
-                        <button
+                        <Button
                             type="submit"
                             disabled={loading}
-                            className="group relative flex w-full justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-blue-400"
+                            className="w-full"
                         >
                             {loading ? "Signing in..." : "Sign in"}
-                        </button>
+                        </Button>
                     </div>
                 </form>
             </div>

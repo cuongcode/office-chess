@@ -4,6 +4,7 @@ import { useGameStore } from '@/store/gameStore';
 import toast from 'react-hot-toast';
 import { TimeControlSelector } from './TimeControlSelector';
 import { TimeControlPreset, timeControlPresets } from '@/lib/timeControls';
+import Button from '@/components/ui/Button';
 
 interface CreateGameModalProps {
     userId: string;
@@ -102,13 +103,13 @@ export default function CreateGameModal({ userId, userName, onClose }: CreateGam
                             />
                         </div>
 
-                        <button
+                        <Button
                             onClick={() => setGameCreated(true)}
                             disabled={!isConnected}
-                            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+                            className="w-full"
                         >
                             {!isConnected ? 'Connecting...' : 'Create Game'}
-                        </button>
+                        </Button>
                     </div>
                 ) : (
                     <div className="space-y-6">
@@ -123,21 +124,21 @@ export default function CreateGameModal({ userId, userName, onClose }: CreateGam
                         </div>
 
                         <div className="flex gap-3">
-                            <button
+                            <Button
                                 onClick={copyToClipboard}
-                                className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition-colors shadow-sm"
+                                className="flex-1 flex items-center justify-center gap-2"
                             >
                                 {copied ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
                                 {copied ? 'Copied' : 'Copy Code'}
-                            </button>
+                            </Button>
 
-                            <button
+                            <Button
                                 onClick={copyLink}
-                                className="flex-1 flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg font-semibold transition-colors shadow-sm"
+                                className="flex-1 flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 !border-0 text-white"
                             >
                                 <Share2 className="w-5 h-5" />
                                 Share Link
-                            </button>
+                            </Button>
                         </div>
 
                         <div className="text-center">

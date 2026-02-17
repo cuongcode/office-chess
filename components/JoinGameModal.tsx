@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { X, ArrowRight, AlertCircle } from 'lucide-react';
 import { useGameStore } from '@/store/gameStore';
+import Button from '@/components/ui/Button';
 
 interface JoinGameModalProps {
     userId: string;
@@ -89,10 +90,10 @@ export default function JoinGameModal({ userId, userName, onClose }: JoinGameMod
                         )}
                     </div>
 
-                    <button
+                    <Button
                         type="submit"
                         disabled={!roomIdInput.trim() || isJoining}
-                        className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+                        className="w-full flex items-center justify-center gap-2"
                     >
                         {isJoining ? (
                             <>
@@ -105,7 +106,7 @@ export default function JoinGameModal({ userId, userName, onClose }: JoinGameMod
                                 <ArrowRight className="w-5 h-5" />
                             </>
                         )}
-                    </button>
+                    </Button>
                 </form>
             </div>
         </div>

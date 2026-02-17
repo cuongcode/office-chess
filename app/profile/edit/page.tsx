@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { User, Upload, X, Check, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Button from '@/components/ui/Button';
 
 export default function EditProfilePage() {
     const { data: session, status } = useSession();
@@ -342,7 +343,7 @@ export default function EditProfilePage() {
 
                         {/* Buttons */}
                         <div className="flex gap-4 pt-4">
-                            <button
+                            <Button
                                 type="submit"
                                 disabled={loading || (formData.username !== originalUsername && !usernameAvailable)}
                                 className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
@@ -355,14 +356,15 @@ export default function EditProfilePage() {
                                 ) : (
                                     'Save Changes'
                                 )}
-                            </button>
-                            <button
+                            </Button>
+                            <Button
                                 type="button"
+                                variant="secondary"
                                 onClick={() => router.back()}
-                                className="px-6 py-3 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition"
+                                className="px-6 py-3 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition !border-0"
                             >
                                 Cancel
-                            </button>
+                            </Button>
                         </div>
                     </form>
                 </div>
