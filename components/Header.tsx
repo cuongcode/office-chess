@@ -16,7 +16,7 @@ export function Header() {
                     <div className="flex px-2 lg:px-0">
                         <div className="flex flex-shrink-0 items-center">
                             <Link href="/" className="text-xl font-bold text-foreground">
-                                Chess App
+                                Office Chess
                             </Link>
                         </div>
                         <div className="hidden lg:ml-8 lg:flex lg:space-x-4">
