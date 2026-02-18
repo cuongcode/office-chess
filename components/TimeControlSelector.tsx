@@ -32,7 +32,7 @@ export const TimeControlSelector: React.FC<TimeControlSelectorProps> = ({
     });
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-4 min-h-[300px]">
             <p className="text-muted-foreground text-center">Select Time Control</p>
 
             <div className="grid grid-cols-3 gap-2">
@@ -65,14 +65,14 @@ export const TimeControlSelector: React.FC<TimeControlSelectorProps> = ({
                             {getTimeControlDisplay(preset)}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                            {preset.increment > 0 ? `${preset.increment}s increment` : 'No increment'}
+                            {preset.increment > 0 ? `+ ${preset.increment}s per move` : 'No increment'}
                         </div>
                     </button>
                 ))}
             </div>
 
             {/* Selected Preset Info */}
-            {selectedPreset && (
+            {/* {selectedPreset && (
                 <div className="mt-4 p-3 bg-muted/50 rounded-lg border border-border">
                     <div className="flex items-center justify-between">
                         <div>
@@ -89,7 +89,7 @@ export const TimeControlSelector: React.FC<TimeControlSelectorProps> = ({
                         )}
                     </div>
                 </div>
-            )}
+            )} */}
         </div>
     );
 };

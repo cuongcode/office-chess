@@ -89,7 +89,10 @@ export function CreateGameModal({ userId, userName, onClose }: CreateGameModalPr
                                         : 'border-border hover:border-muted-foreground'
                                         }`}
                                 >
-                                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-white to-gray-800 border border-border mx-auto mb-2 shadow-sm"></div>
+                                    <div className="flex items-center justify-center">
+                                        <div className="w-6 h-12 rounded-l-full bg-white border border-border mb-2 shadow-sm"></div>
+                                        <div className="w-6 h-12 rounded-r-full bg-gray-800 border border-border mb-2 shadow-sm"></div>
+                                    </div>
                                     <p className="text-sm font-semibold">Random</p>
                                 </button>
                             </div>
