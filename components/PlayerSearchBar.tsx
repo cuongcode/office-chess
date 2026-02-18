@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { Search } from 'lucide-react';
 
 interface Player {
     id: string;
@@ -85,7 +86,7 @@ export function PlayerSearchBar({ onPlayerSelect }: PlayerSearchBarProps) {
                     className="w-full px-4 py-2 pl-10 border border-input bg-background rounded-xl focus:ring-2 focus:ring-ring focus:border-transparent text-foreground placeholder:text-muted-foreground"
                 />
                 <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                    🔍
+                    <Search className="h-4 w-4" />
                 </div>
                 {loading && (
                     <div className="absolute right-3 top-1/2 -translate-y-1/2">
