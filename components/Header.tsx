@@ -47,31 +47,26 @@ export function Header() {
         <header className="fixed top-0 w-full z-50 bg-card text-card-foreground shadow border-b border-border">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 justify-between items-center">
-                    <div className="flex px-2 lg:px-0">
-                        <div className="flex flex-shrink-0 items-center">
-                            <Link href="/" className="text-xl font-bold text-foreground">
-                                Office Chess
-                            </Link>
-                        </div>
-                    </div>
-
-                    <div className="hidden md:block flex-1 max-w-md mx-4">
-                        {roomId ? (
-                            <HeaderInfo
-                                roomId={roomId}
-                                spectatorCount={spectatorCount}
-                                status={gameStatus}
-                                statusText={getStatusText()}
-                                isOnline={isOnline}
-                                isConnected={isConnected}
-                                onCopyRoomId={copyRoomId}
-                            />
-                        ) : (
-                            <PlayerSearchBar onPlayerSelect={(id) => router.push(`/profile/${id}`)} />
-                        )}
-                    </div>
+                    <Link href="/" className="text-xl font-bold text-foreground">
+                        Office Chess
+                    </Link>
 
                     <div className="flex items-center gap-4">
+                        <div className="hidden md:block flex-1 max-w-md mx-4">
+                            {roomId ? (
+                                <HeaderInfo
+                                    roomId={roomId}
+                                    spectatorCount={spectatorCount}
+                                    status={gameStatus}
+                                    statusText={getStatusText()}
+                                    isOnline={isOnline}
+                                    isConnected={isConnected}
+                                    onCopyRoomId={copyRoomId}
+                                />
+                            ) : (
+                                <PlayerSearchBar onPlayerSelect={(id) => router.push(`/profile/${id}`)} />
+                            )}
+                        </div>
                         <ThemeToggle />
                         {status === "loading" ? (
                             <div className="text-sm text-muted-foreground">Loading...</div>

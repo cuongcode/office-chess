@@ -82,8 +82,8 @@ export function PlayerSearchBar({ onPlayerSelect }: PlayerSearchBarProps) {
                     value={query}
                     onChange={(e) => handleInputChange(e.target.value)}
                     onFocus={() => results.length > 0 && setShowDropdown(true)}
-                    placeholder="Search players by username..."
-                    className="w-full px-4 py-2 pl-10 border border-input bg-background rounded-xl focus:ring-2 focus:ring-ring focus:border-transparent text-foreground placeholder:text-muted-foreground"
+                    placeholder="Search other players"
+                    className="w-full px-4 py-2 pl-10 border border-input bg-card rounded-xl focus:ring-2 focus:ring-ring focus:border-transparent text-foreground placeholder:text-muted-foreground placeholder:text-sm"
                 />
                 <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
                     <Search className="h-4 w-4" />

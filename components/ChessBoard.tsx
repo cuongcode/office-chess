@@ -4,7 +4,7 @@ import { useGameStore } from '@/store/gameStore';
 import { Chessboard } from 'react-chessboard';
 import { useState, useEffect } from 'react';
 import { Chess, Square } from 'chess.js';
-import { Flag, MessageSquare, LogOut, Wifi, WifiOff } from 'lucide-react';
+import { Flag, MessageSquare, LogOut, Wifi, WifiOff, Handshake } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { DrawOfferDialog } from "./DrawOfferDialog";
 import { GameOverModal } from "./GameOverModal";
@@ -343,7 +343,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                             className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded transition-colors"
                             title="Offer Draw"
                         >
-                            <MessageSquare className="w-5 h-5" />
+                            <Handshake className="w-5 h-5" />
                         </button>
                         <button
                             onClick={handleResign}
