@@ -1,13 +1,12 @@
 "use client";
 
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
+import { UserMenu } from "./UserMenu";
 
 export function Header() {
     const { data: session, status } = useSession();
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     return (
         <header className="fixed top-0 w-full z-50 bg-card text-card-foreground shadow border-b border-border">
@@ -32,67 +31,8 @@ export function Header() {
                         <ThemeToggle />
                         {status === "loading" ? (
                             <div className="text-sm text-muted-foreground">Loading...</div>
-                        ) : session ? (
-                            <div className="relative ml-3">
-                                <div>
-                                    <button
-                                        type="button"
-                                        className="flex max-w-xs items-center rounded-full bg-card text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                                        id="user-menu-button"
-                                        aria-expanded="false"
-                                        aria-haspopup="true"
-                                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                                    >
-                                        <span className="sr-only">Open user menu</span>
-                                        {(session.user as any)?.avatar ? (
-                                            <img
-                                                src={(session.user as any).avatar}
-                                                alt={session.user?.name || 'User'}
-                                                className="h-8 w-8 rounded-full object-cover"
-                                            />
-                                        ) : (
-                                            <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground font-bold">
-                                                {session.user?.name ? session.user.name.charAt(0).toUpperCase() : session.user?.email?.charAt(0).toUpperCase()}
-                                            </div>
-                                        )}
-                                    </button>
-                                </div>
-                                {/* Dropdown menu */}
-                                {isMenuOpen && (
-                                    <div
-                                        className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-card py-1 shadow-lg ring-1 ring-border focus:outline-none"
-                                        role="menu"
-                                        aria-orientation="vertical"
-                                        aria-labelledby="user-menu-button"
-                                        tabIndex={-1}
-                                    >
-                                        <div className="px-4 py-2 text-sm text-card-foreground border-b border-border">
-                                            <p className="font-medium truncate">{session.user?.name || "User"}</p>
-                                            <p className="text-xs text-muted-foreground truncate">{session.user?.email}</p>
-                                        </div>
-                                        {/* Profile link */}
-                                        <Link
-                                            href={`/profile/${(session.user as any)?.id}`}
-                                            className="block px-4 py-2 text-sm text-card-foreground hover:bg-accent hover:text-accent-foreground"
-                                            role="menuitem"
-                                            tabIndex={-1}
-                                            id="user-menu-item-0"
-                                            onClick={() => setIsMenuOpen(false)}
-                                        >
-                                            Your Profile
-                                        </Link>
-                                        <button
-                                            onClick={() => signOut()}
-                                            className="block w-full text-left px-4 py-2 text-sm text-card-foreground hover:bg-accent hover:text-accent-foreground"
-                                            role="menuitem"
-                                            tabIndex={-1}
-                                            id="user-menu-item-2"
-                                        >
-                                            Sign out
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
+                        ) : session?.user ? (
+                            <UserMenu user={session.user} />
                         ) : (
                             <div className="space-x-4">
                                 <Link
