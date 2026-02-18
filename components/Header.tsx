@@ -10,7 +10,7 @@ export function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     return (
-        <header className="bg-card text-card-foreground shadow border-b border-border">
+        <header className="fixed top-0 w-full z-50 bg-card text-card-foreground shadow border-b border-border">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 justify-between">
                     <div className="flex px-2 lg:px-0">
@@ -19,14 +19,14 @@ export function Header() {
                                 Office Chess
                             </Link>
                         </div>
-                        <div className="hidden lg:ml-8 lg:flex lg:space-x-4">
+                        {/* <div className="hidden lg:ml-8 lg:flex lg:space-x-4">
                             <Link
                                 href="/leaderboard"
                                 className="inline-flex items-center px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors"
                             >
                                 🏆 Leaderboard
                             </Link>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="flex items-center gap-4">
                         <ThemeToggle />
