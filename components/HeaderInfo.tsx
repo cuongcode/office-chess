@@ -39,7 +39,7 @@ export function HeaderInfo({
                 </div>
             </div>
 
-            <div className="flex items-center gap-3">
+            {/* <div className="flex items-center gap-3">
                 <div className={`px-3 py-1 rounded-full text-sm font-medium ${status === 'check' ? 'bg-destructive/20 text-destructive animate-pulse' : 'bg-muted text-muted-foreground'
                     }`}>
                     {statusText}
@@ -47,7 +47,7 @@ export function HeaderInfo({
                 {isOnline && (
                     <div className={`w-3 h-3 rounded-full ${isConnected ? 'bg-success shadow-[0_0_8px_rgba(34,197,94,0.5)]' : 'bg-destructive'}`} title={isConnected ? 'Connected' : 'Disconnected'} />
                 )}
-            </div>
+            </div> */}
         </div>
     );
 }

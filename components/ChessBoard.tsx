@@ -229,7 +229,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
     const bottomPlayer = getBottomPlayerInfo();
 
     return (
-        <div className="flex flex-col gap-4 w-full max-w-[600px]">
+        <div className="flex flex-col gap-4 w-full max-w-[600px] m-auto">
             <DrawOfferDialog />
             <GameOverModal onReturnHome={onLeave} />
             <ConfirmationModal
@@ -298,7 +298,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                                 onClick={setPlayerReady}
                                 className="px-8 py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xl rounded-xl shadow-2xl hover:scale-105 transition-all animate-in fade-in zoom-in duration-300"
                             >
-                                I'm Ready!
+                                Ready
                             </button>
                         </div>
                     )
@@ -333,39 +333,38 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                 showReadyStatus={!!(isOnline && timeControl && timeControl.category !== 'unlimited')}
             />
 
-            {isOnline && playerColor !== 'spectator' && (
-                <div className="flex gap-2">
-                    <button
-                        onClick={offerDraw}
-                        className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded transition-colors"
-                        title="Offer Draw"
-                    >
-                        <MessageSquare className="w-5 h-5" />
-                    </button>
-                    <button
-                        onClick={handleResign}
-                        className="p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded transition-colors"
-                        title="Resign"
-                    >
-                        <Flag className="w-5 h-5" />
-                    </button>
-                </div>
-            )}
-
-
-
-            {/* Controls */}
-            {isOnline && (
-                <div className="flex justify-center mt-2">
-                    <button
-                        onClick={handleLeave}
-                        className="flex items-center gap-2 px-4 py-2 bg-muted hover:bg-destructive/10 text-muted-foreground hover:text-destructive rounded-lg transition-colors text-sm font-medium"
-                    >
-                        <LogOut className="w-4 h-4" />
-                        Leave Game
-                    </button>
-                </div>
-            )}
+            <div className="flex items-center justify-between">
+                {isOnline && playerColor !== 'spectator' && (
+                    <div className="flex gap-2">
+                        <button
+                            onClick={offerDraw}
+                            className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded transition-colors"
+                            title="Offer Draw"
+                        >
+                            <MessageSquare className="w-5 h-5" />
+                        </button>
+                        <button
+                            onClick={handleResign}
+                            className="p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded transition-colors"
+                            title="Resign"
+                        >
+                            <Flag className="w-5 h-5" />
+                        </button>
+                    </div>
+                )}
+                {/* Controls */}
+                {isOnline && (
+                    <div className="flex justify-center mt-2">
+                        <button
+                            onClick={handleLeave}
+                            className="flex items-center gap-2 px-4 py-2 bg-muted hover:bg-destructive/10 text-muted-foreground hover:text-destructive rounded-lg transition-colors text-sm font-medium"
+                        >
+                            <LogOut className="w-4 h-4" />
+                            Leave Game
+                        </button>
+                    </div>
+                )}
+            </div>
         </div>
     );
 }
