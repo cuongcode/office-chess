@@ -116,7 +116,13 @@ export const useGameStore = create<GameState>((set, get) => ({
         try {
             // If online and it's not our turn or we are spectators, prevent move
             if (isOnline) {
-                const { playerColor, turn } = get();
+                const { playerColor, turn, whitePlayerName, blackPlayerName } = get();
+
+                // Check if both players have joined
+                if (!whitePlayerName || !blackPlayerName) {
+                    return false;
+                }
+
                 // If we are spectator, we can't move
                 if (playerColor === 'spectator') return false;
                 // If it's not our color's turn, we can't move

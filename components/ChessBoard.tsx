@@ -122,6 +122,9 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
         if (piece && piece.color === chess.turn()) {
             // Allow selection if it's my turn/color or local game
             if (isOnline) {
+                // Check if both players present
+                if (!whitePlayerName || !blackPlayerName) return;
+
                 if (playerColor === 'spectator') return;
 
                 const isMyPiece = (playerColor === 'white' && piece.color === 'w') || (playerColor === 'black' && piece.color === 'b');
@@ -288,7 +291,11 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                         lightSquareStyle: { backgroundColor: 'var(--board-light)' },
                         squareStyles: customSquareStyles,
                         animationDurationInMs: 200,
-                        allowDragging: !isOnline || (playerColor !== 'spectator' && ((playerColor === 'white' && turn === 'w') || (playerColor === 'black' && turn === 'b')))
+                        allowDragging: !isOnline || (
+                            !!whitePlayerName && !!blackPlayerName &&
+                            playerColor !== 'spectator' &&
+                            ((playerColor === 'white' && turn === 'w') || (playerColor === 'black' && turn === 'b'))
+                        )
                     }}
                 />
 
