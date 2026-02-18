@@ -82,7 +82,7 @@ export function PlayerSearchBar({ onPlayerSelect }: PlayerSearchBarProps) {
                     onChange={(e) => handleInputChange(e.target.value)}
                     onFocus={() => results.length > 0 && setShowDropdown(true)}
                     placeholder="Search players by username..."
-                    className="w-full px-4 py-2 pl-10 border border-input bg-background rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent text-foreground placeholder:text-muted-foreground"
+                    className="w-full px-4 py-2 pl-10 border border-input bg-background rounded-xl focus:ring-2 focus:ring-ring focus:border-transparent text-foreground placeholder:text-muted-foreground"
                 />
                 <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
                     🔍
@@ -103,7 +103,7 @@ export function PlayerSearchBar({ onPlayerSelect }: PlayerSearchBarProps) {
                         onClick={() => setShowDropdown(false)}
                     ></div>
 
-                    <div className="absolute z-20 mt-2 w-full bg-card rounded-lg shadow-lg border border-border max-h-80 overflow-y-auto">
+                    <div className="absolute z-20 mt-2 w-full bg-card rounded-xl shadow-lg border border-border max-h-80 overflow-y-auto">
                         {results.map((player) => (
                             <button
                                 key={player.id}
@@ -143,7 +143,7 @@ export function PlayerSearchBar({ onPlayerSelect }: PlayerSearchBarProps) {
                         className="fixed inset-0 z-10"
                         onClick={() => setShowDropdown(false)}
                     ></div>
-                    <div className="absolute z-20 mt-2 w-full bg-card rounded-lg shadow-lg border border-border p-4">
+                    <div className="absolute z-20 mt-2 w-full bg-card rounded-xl shadow-lg border border-border p-4">
                         <p className="text-sm text-muted-foreground text-center">No players found</p>
                     </div>
                 </>

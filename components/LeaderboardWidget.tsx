@@ -45,7 +45,7 @@ export function LeaderboardWidget() {
 
     if (loading) {
         return (
-            <div className="bg-card rounded-lg shadow p-6 border border-border">
+            <div className="bg-card rounded-xl shadow p-6 border border-border">
                 <h3 className="text-lg font-semibold text-card-foreground mb-4">Top Players</h3>
                 <div className="space-y-3">
                     {[1, 2, 3, 4, 5].map((i) => (
@@ -63,7 +63,7 @@ export function LeaderboardWidget() {
 
     if (error) {
         return (
-            <div className="bg-card rounded-lg shadow p-6 border border-border">
+            <div className="bg-card rounded-xl shadow p-6 border border-border">
                 <h3 className="text-lg font-semibold text-card-foreground mb-4">Top Players</h3>
                 <p className="text-sm text-destructive">{error}</p>
             </div>
@@ -71,7 +71,7 @@ export function LeaderboardWidget() {
     }
 
     return (
-        <div className="bg-card rounded-lg shadow p-6 border border-border">
+        <div className="bg-card rounded-xl shadow p-6 border border-border">
             <div className="flex items-center mb-4">
                 <Link href="/leaderboard">
                     <h3 className="text-lg font-semibold text-card-foreground">Top Players</h3>
