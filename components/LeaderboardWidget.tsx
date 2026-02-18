@@ -72,9 +72,10 @@ export function LeaderboardWidget() {
 
     return (
         <div className="bg-card rounded-xl shadow p-6 border border-border">
-            <div className="flex items-center mb-4">
+            <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-card-foreground">Top Players</h3>
                 <Link href="/leaderboard">
-                    <h3 className="text-lg font-semibold text-card-foreground">Top Players</h3>
+                    <div className='text-sm text-muted-foreground cursor-pointer'>View more</div>
                 </Link>
             </div>
 
