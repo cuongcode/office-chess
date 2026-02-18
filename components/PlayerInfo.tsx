@@ -65,23 +65,24 @@ export function PlayerInfo({
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className='flex items-center gap-4'>
                 <CapturedPieces
                     capturedPieces={capturedPieces}
                     playerColor={playerColor}
                     opponentCapturedPieces={opponentCapturedPieces}
                 />
+                {showClock && (
+                    <ChessClock
+                        timeLeft={timeLeft}
+                        playerName={name}
+                        isActive={isActive}
+                        increment={increment}
+                        isPaused={isPaused}
+                        orientation={clockOrientation}
+                    />
+                )}
             </div>
-            {/* Clock */}
-            {showClock && (
-                <ChessClock
-                    timeLeft={timeLeft}
-                    playerName={name}
-                    isActive={isActive}
-                    increment={increment}
-                    isPaused={isPaused}
-                    orientation={clockOrientation}
-                />
-            )}
         </div>
     );
 }

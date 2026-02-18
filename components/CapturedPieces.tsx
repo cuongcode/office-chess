@@ -47,29 +47,24 @@ export function CapturedPieces({ capturedPieces, playerColor, opponentCapturedPi
 
     return (
         <div className="flex items-center gap-2">
-            {/* Captured pieces display */}
-            <div className="flex items-center gap-0.5 min-h-[20px]">
-                {capturedPieces.length > 0 ? (
-                    capturedPieces.map((piece, index) => (
-                        <span
-                            key={index}
-                            className="text-muted-foreground text-sm"
-                            title={`Captured ${piece.toLowerCase()}`}
-                        >
-                            {symbols[piece.toLowerCase()]}
-                        </span>
-                    ))
-                ) : (
-                    <span className="text-muted-foreground/70 text-xs italic">None</span>
-                )}
-            </div>
-
             {/* Point difference - only show if positive (player is ahead) */}
             {pointDifference > 0 && (
                 <div className="text-xs font-bold px-1.5 py-0.5 rounded bg-success/20 text-success">
                     +{pointDifference}
                 </div>
             )}
+            {/* Captured pieces display */}
+            <div className="flex items-center gap-0.5 min-h-[20px]">
+                {capturedPieces.map((piece, index) => (
+                    <span
+                        key={index}
+                        className="text-muted-foreground text-3xl"
+                        title={`Captured ${piece.toLowerCase()}`}
+                    >
+                        {symbols[piece.toLowerCase()]}
+                    </span>
+                ))}
+            </div>
         </div>
     );
 }
