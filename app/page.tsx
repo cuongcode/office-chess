@@ -85,7 +85,7 @@ export default function Home() {
         <div className="flex-1 flex flex-col items-center p-6">
           <div className="w-full max-w-4xl flex flex-col items-center gap-6">
 
-            <div className="w-full md:w-1/2">
+            <div className="w-full md:hidden">
               <PlayerSearchBar onPlayerSelect={(id) => router.push(`/profile/${id}`)} />
             </div>
 

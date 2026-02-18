@@ -4,14 +4,17 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { ThemeToggle } from "./ThemeToggle";
 import { UserMenu } from "./UserMenu";
+import { PlayerSearchBar } from "./PlayerSearchBar";
+import { useRouter } from "next/navigation";
 
 export function Header() {
     const { data: session, status } = useSession();
+    const router = useRouter();
 
     return (
         <header className="fixed top-0 w-full z-50 bg-card text-card-foreground shadow border-b border-border">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="flex h-16 justify-between">
+                <div className="flex h-16 justify-between items-center">
                     <div className="flex px-2 lg:px-0">
                         <div className="flex flex-shrink-0 items-center">
                             <Link href="/" className="text-xl font-bold text-foreground">
@@ -27,6 +30,11 @@ export function Header() {
                             </Link>
                         </div> */}
                     </div>
+
+                    <div className="hidden md:block flex-1 max-w-md mx-4">
+                        <PlayerSearchBar onPlayerSelect={(id) => router.push(`/profile/${id}`)} />
+                    </div>
+
                     <div className="flex items-center gap-4">
                         <ThemeToggle />
                         {status === "loading" ? (
