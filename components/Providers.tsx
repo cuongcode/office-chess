@@ -8,7 +8,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
     return (
         <SessionProvider>
             <ThemeProvider>
-                {/* <Toaster position="top-center" /> */}
                 {children}
             </ThemeProvider>
         </SessionProvider>
