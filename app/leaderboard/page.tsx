@@ -159,102 +159,80 @@ export default function LeaderboardPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-background pt-18">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Header */}
                 <div className="mb-8">
-                    <h1 className="text-4xl font-bold text-gray-900 mb-2">🏆 Leaderboard</h1>
-                    <p className="text-lg text-gray-600">Top chess players ranked by rating</p>
+                    <h1 className="text-4xl font-bold mb-2">Leaderboard</h1>
                     <p className="text-sm text-gray-500 mt-1">{formatLastUpdated()}</p>
                 </div>
 
                 {/* Filter Tabs */}
-                <div className="mb-6">
-                    <div className="border-b border-gray-200">
-                        <nav className="-mb-px flex space-x-8">
-                            <Button
-                                variant="secondary"
-                                onClick={() => handleFilterChange('all-time')}
-                            // className={`${filter === 'all-time'
-                            //     ? 'border-blue-500 text-blue-600'
-                            //     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                            //     } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors !rounded-none !bg-transparent hover:!bg-transparent focus:!ring-0`}
-                            >
-                                All Time
-                            </Button>
-                            <Button
-                                variant="secondary"
-                                onClick={() => handleFilterChange('monthly')}
-                            // className={`${filter === 'monthly'
-                            //     ? 'border-blue-500 text-blue-600'
-                            //     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                            //     } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors !rounded-none !bg-transparent hover:!bg-transparent focus:!ring-0`}
-                            >
-                                This Month
-                            </Button>
-                            <Button
-                                variant="secondary"
-                                onClick={() => handleFilterChange('weekly')}
-                            // className={`${filter === 'weekly'
-                            //     ? 'border-blue-500 text-blue-600'
-                            //     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                            //     } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors !rounded-none !bg-transparent hover:!bg-transparent focus:!ring-0`}
-                            >
-                                This Week
-                            </Button>
-                        </nav>
-                    </div>
-                </div>
+                <nav className="flex justify-between md:justify-start md:space-x-4 mb-6">
+                    <Button
+                        variant="secondary"
+                        onClick={() => handleFilterChange('all-time')}
+                    >
+                        All Time
+                    </Button>
+                    <Button
+                        variant="secondary"
+                        onClick={() => handleFilterChange('monthly')}
+                    >
+                        This Month
+                    </Button>
+                    <Button
+                        variant="secondary"
+                        onClick={() => handleFilterChange('weekly')}
+                    >
+                        This Week
+                    </Button>
+                </nav>
 
                 {/* Statistics Summary */}
-                {stats && (
+                {/* {stats && (
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                        <div className="bg-white rounded-lg shadow p-6">
-                            <div className="text-sm text-gray-500 mb-1">Total Players</div>
-                            <div className="text-3xl font-bold text-gray-900">{stats.totalPlayers.toLocaleString()}</div>
+                        <div className="bg-card rounded-lg shadow p-6">
+                            <div className="text-sm text-[var(--text-muted)] mb-1">Total Players</div>
+                            <div className="text-3xl font-bold">{stats.totalPlayers.toLocaleString()}</div>
                         </div>
-                        <div className="bg-white rounded-lg shadow p-6">
-                            <div className="text-sm text-gray-500 mb-1">Active in {filter === 'weekly' ? 'Week' : filter === 'monthly' ? 'Month' : 'All Time'}</div>
-                            <div className="text-3xl font-bold text-gray-900">{totalPlayers.toLocaleString()}</div>
+                        <div className="bg-card rounded-lg shadow p-6">
+                            <div className="text-sm text-[var(--text-muted)] mb-1">Active in {filter === 'weekly' ? 'Week' : filter === 'monthly' ? 'Month' : 'All Time'}</div>
+                            <div className="text-3xl font-bold">{totalPlayers.toLocaleString()}</div>
                         </div>
-                        <div className="bg-white rounded-lg shadow p-6">
-                            <div className="text-sm text-gray-500 mb-1">Showing</div>
-                            <div className="text-3xl font-bold text-gray-900">
+                        <div className="bg-card rounded-lg shadow p-6">
+                            <div className="text-sm text-[var(--text-muted)] mb-1">Showing</div>
+                            <div className="text-3xl font-bold">
                                 {((page - 1) * limit + 1).toLocaleString()}-{Math.min(page * limit, totalPlayers).toLocaleString()}
                             </div>
                         </div>
                     </div>
-                )}
+                )} */}
 
                 {/* Current User Rank Card */}
                 {session?.user && userRank && (
-                    <div className="bg-gradient-to-r from-blue-500 to-blue-700 rounded-lg shadow-lg p-6 mb-6 text-white">
+                    <div className="bg-card rounded-lg shadow-lg p-6 mb-6">
                         <div className="flex items-center justify-between flex-wrap gap-4">
                             <div>
                                 <h3 className="text-lg font-semibold mb-2">Your Rank</h3>
                                 <div className="flex items-center gap-3">
-                                    <div className="bg-white text-blue-600 px-4 py-2 rounded-lg font-bold text-xl">
+                                    <div className="bg-card-foreground text-blue-600 px-4 py-2 rounded-lg font-bold text-xl">
                                         #{userRank.rank}
                                     </div>
                                     <div>
-                                        <p className="text-sm opacity-90">of {userRank.totalPlayers.toLocaleString()} players</p>
+                                        <p className="text-sm">of {userRank.totalPlayers.toLocaleString()} players</p>
                                         <p className="text-sm font-semibold">Top {userRank.percentile.toFixed(1)}%</p>
                                     </div>
                                 </div>
                             </div>
                             <div className="text-right">
-                                <p className="text-sm opacity-90 mb-1">Your Stats</p>
+                                <p className="text-sm mb-1">Your Stats</p>
                                 <p className="text-2xl font-bold">{(session.user as any).rating || 0}</p>
                                 <p className="text-sm">Rating</p>
                             </div>
                         </div>
                     </div>
                 )}
-
-                {/* Search Bar */}
-                <div className="mb-6">
-                    <PlayerSearchBar />
-                </div>
 
                 {/* Leaderboard Table */}
                 <LeaderboardTable
@@ -265,8 +243,8 @@ export default function LeaderboardPage() {
 
                 {/* Pagination */}
                 {!loading && totalPages > 1 && (
-                    <div className="mt-6 flex items-center justify-between bg-white rounded-lg shadow px-6 py-4">
-                        <div className="text-sm text-gray-700">
+                    <div className="mt-6 flex items-center justify-between bg-card rounded-lg shadow px-6 py-4">
+                        <div className="text-sm">
                             Showing <span className="font-medium">{(page - 1) * limit + 1}</span> to{' '}
                             <span className="font-medium">{Math.min(page * limit, totalPlayers)}</span> of{' '}
                             <span className="font-medium">{totalPlayers.toLocaleString()}</span> players
@@ -282,7 +260,7 @@ export default function LeaderboardPage() {
                             >
                                 Previous
                             </Button>
-                            <div className="text-sm text-gray-700">
+                            <div className="text-sm">
                                 Page <span className="font-medium">{page}</span> of{' '}
                                 <span className="font-medium">{totalPages}</span>
                             </div>
