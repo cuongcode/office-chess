@@ -244,15 +244,17 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
             />
 
             {/* Header Info */}
-            <HeaderInfo
-                roomId={roomId}
-                spectatorCount={spectatorCount}
-                status={status}
-                statusText={getStatusText()}
-                isOnline={isOnline}
-                isConnected={isConnected}
-                onCopyRoomId={copyRoomId}
-            />
+            <div className="md:hidden">
+                <HeaderInfo
+                    roomId={roomId}
+                    spectatorCount={spectatorCount}
+                    status={status}
+                    statusText={getStatusText()}
+                    isOnline={isOnline}
+                    isConnected={isConnected}
+                    onCopyRoomId={copyRoomId}
+                />
+            </div>
 
             {/* Top Player (Opponent) */}
             <PlayerInfo

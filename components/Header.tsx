@@ -6,10 +6,42 @@ import { ThemeToggle } from "./ThemeToggle";
 import { UserMenu } from "./UserMenu";
 import { PlayerSearchBar } from "./PlayerSearchBar";
 import { useRouter } from "next/navigation";
+import { useGameStore } from "@/store/gameStore";
+import { HeaderInfo } from "./HeaderInfo";
+import toast from "react-hot-toast";
 
 export function Header() {
     const { data: session, status } = useSession();
     const router = useRouter();
+    const {
+        roomId,
+        spectatorCount,
+        status: gameStatus,
+        isOnline,
+        isConnected,
+        turn,
+        playerColor
+    } = useGameStore();
+
+    const getStatusText = () => {
+        if (gameStatus === 'checkmate') return 'Checkmate';
+        if (gameStatus === 'draw') return 'Draw';
+        if (gameStatus === 'stalemate') return 'Stalemate';
+        if (gameStatus === 'check') return 'Check!';
+        if (isOnline) {
+            if (playerColor === 'spectator') return `${turn === 'w' ? "White" : "Black"}'s turn`;
+            const isMyTurn = (turn === 'w' && playerColor === 'white') || (turn === 'b' && playerColor === 'black');
+            return isMyTurn ? "Your turn" : "Opponent's turn";
+        }
+        return `${turn === 'w' ? "White" : "Black"}'s turn`;
+    };
+
+    const copyRoomId = () => {
+        if (roomId) {
+            navigator.clipboard.writeText(roomId);
+            toast.success('Room code copied');
+        }
+    };
 
     return (
         <header className="fixed top-0 w-full z-50 bg-card text-card-foreground shadow border-b border-border">
@@ -21,18 +53,22 @@ export function Header() {
                                 Office Chess
                             </Link>
                         </div>
-                        {/* <div className="hidden lg:ml-8 lg:flex lg:space-x-4">
-                            <Link
-                                href="/leaderboard"
-                                className="inline-flex items-center px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors"
-                            >
-                                🏆 Leaderboard
-                            </Link>
-                        </div> */}
                     </div>
 
                     <div className="hidden md:block flex-1 max-w-md mx-4">
-                        <PlayerSearchBar onPlayerSelect={(id) => router.push(`/profile/${id}`)} />
+                        {roomId ? (
+                            <HeaderInfo
+                                roomId={roomId}
+                                spectatorCount={spectatorCount}
+                                status={gameStatus}
+                                statusText={getStatusText()}
+                                isOnline={isOnline}
+                                isConnected={isConnected}
+                                onCopyRoomId={copyRoomId}
+                            />
+                        ) : (
+                            <PlayerSearchBar onPlayerSelect={(id) => router.push(`/profile/${id}`)} />
+                        )}
                     </div>
 
                     <div className="flex items-center gap-4">
