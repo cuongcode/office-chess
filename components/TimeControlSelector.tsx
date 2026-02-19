@@ -33,7 +33,7 @@ export const TimeControlSelector: React.FC<TimeControlSelectorProps> = ({
 
     return (
         <div className="space-y-4 min-h-[300px]">
-            <p className="text-muted-foreground text-center">Select Time Control</p>
+            <p className="text-muted-fg-light dark:text-muted-fg-dark text-center">Select Time Control</p>
 
             <div className="grid grid-cols-3 gap-2">
                 {categories.map((category) => (
@@ -43,7 +43,7 @@ export const TimeControlSelector: React.FC<TimeControlSelectorProps> = ({
                         onClick={() => setSelectedCategory(category)}
                         className={`text-sm font-medium transition-colors ${selectedCategory === category
                             ? '' // primary variant handles bg color
-                            : 'bg-muted text-muted-foreground hover:bg-muted/80 border-transparent'
+                            : 'bg-muted-light dark:bg-muted-dark text-muted-fg-light dark:text-muted-fg-dark hover:bg-muted-light/80 dark:hover:bg-muted-dark/80 border-transparent'
                             }`}
                     >
                         {category.charAt(0).toUpperCase() + category.slice(1)}
@@ -57,14 +57,14 @@ export const TimeControlSelector: React.FC<TimeControlSelectorProps> = ({
                         key={preset.id}
                         onClick={() => onSelect(preset)}
                         className={`p-3 rounded-lg border text-left transition-all ${selectedPreset?.id === preset.id
-                            ? 'border-primary bg-primary/10 ring-1 ring-primary'
-                            : 'border-border hover:border-muted-foreground/50 bg-card'
+                            ? 'border-blue-500 bg-blue-500/10 ring-1 ring-blue-500'
+                            : 'border-border-light dark:border-border-dark hover:border-muted-fg-light/50 dark:hover:border-muted-fg-dark/50 bg-card-light dark:bg-card-dark'
                             }`}
                     >
-                        <div className="font-bold text-card-foreground">
+                        <div className="font-bold text-card-fg-light dark:text-card-fg-dark">
                             {getTimeControlDisplay(preset)}
                         </div>
-                        <div className="text-xs text-muted-foreground">
+                        <div className="text-xs text-muted-fg-light dark:text-muted-fg-dark">
                             {preset.increment > 0 ? `+ ${preset.increment}s per move` : 'No increment'}
                         </div>
                     </button>

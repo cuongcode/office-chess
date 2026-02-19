@@ -49,7 +49,7 @@ export function CapturedPieces({ capturedPieces, playerColor, opponentCapturedPi
         <div className="flex items-center gap-2">
             {/* Point difference - only show if positive (player is ahead) */}
             {pointDifference > 0 && (
-                <div className="text-xs font-bold px-1.5 py-0.5 rounded bg-success/20 text-success">
+                <div className="text-xs font-bold px-1.5 py-0.5 rounded bg-success-light/20 dark:bg-success-dark/20 text-success-light dark:text-success-dark">
                     +{pointDifference}
                 </div>
             )}
@@ -58,7 +58,7 @@ export function CapturedPieces({ capturedPieces, playerColor, opponentCapturedPi
                 {capturedPieces.map((piece, index) => (
                     <span
                         key={index}
-                        className="text-muted-foreground text-3xl"
+                        className="text-muted-fg-light dark:text-muted-fg-dark text-3xl"
                         title={`Captured ${piece.toLowerCase()}`}
                     >
                         {symbols[piece.toLowerCase()]}

@@ -50,10 +50,10 @@ export function LeaderboardWidget() {
                 <div className="space-y-3">
                     {[1, 2, 3, 4, 5].map((i) => (
                         <div key={i} className="animate-pulse flex items-center gap-3">
-                            <div className="w-12 h-8 bg-muted rounded-full"></div>
-                            <div className="w-8 h-8 bg-muted rounded-full"></div>
-                            <div className="flex-1 h-4 bg-muted rounded"></div>
-                            <div className="w-12 h-4 bg-muted rounded"></div>
+                            <div className="w-12 h-8 bg-muted-light dark:bg-muted-dark rounded-full"></div>
+                            <div className="w-8 h-8 bg-muted-light dark:bg-muted-dark rounded-full"></div>
+                            <div className="flex-1 h-4 bg-muted-light dark:bg-muted-dark rounded"></div>
+                            <div className="w-12 h-4 bg-muted-light dark:bg-muted-dark rounded"></div>
                         </div>
                     ))}
                 </div>
@@ -63,31 +63,31 @@ export function LeaderboardWidget() {
 
     if (error) {
         return (
-            <div className="bg-card rounded-xl shadow p-6 border border-border">
-                <h3 className="text-lg font-semibold text-card-foreground mb-4">Top Players</h3>
-                <p className="text-sm text-destructive">{error}</p>
+            <div className="bg-card-light dark:bg-card-dark rounded-xl shadow p-6 border border-border-light dark:border-border-dark">
+                <h3 className="text-lg font-semibold text-card-fg-light dark:text-card-fg-dark mb-4">Top Players</h3>
+                <p className="text-sm text-destructive-light dark:text-destructive-dark">{error}</p>
             </div>
         );
     }
 
     return (
-        <div className="bg-card rounded-xl shadow p-6 border border-border">
+        <div className="bg-card-light dark:bg-card-dark rounded-xl shadow p-6 border border-border-light dark:border-border-dark">
             <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-card-foreground">Top Players</h3>
+                <h3 className="text-lg font-semibold text-card-fg-light dark:text-card-fg-dark">Top Players</h3>
                 <Link href="/leaderboard">
-                    <div className='text-sm text-muted-foreground cursor-pointer'>View more</div>
+                    <div className='text-sm text-muted-fg-light dark:text-muted-fg-dark cursor-pointer'>View more</div>
                 </Link>
             </div>
 
             {players.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No players yet</p>
+                <p className="text-sm text-muted-fg-light dark:text-muted-fg-dark">No players yet</p>
             ) : (
                 <div >
                     {players.map((player) => (
                         <Link
                             key={player.id}
                             href={`/profile/${player.id}`}
-                            className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent transition-colors"
+                            className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent-light dark:hover:bg-accent-dark transition-colors"
                         >
                             {/* <RankBadge rank={player.rank} size="sm" /> */}
 
@@ -98,18 +98,18 @@ export function LeaderboardWidget() {
                                     className="w-8 h-8 rounded-full object-cover"
                                 />
                             ) : (
-                                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground text-sm font-semibold">
+                                <div className="w-8 h-8 rounded-full bg-muted-light dark:bg-muted-dark flex items-center justify-center text-muted-fg-light dark:text-muted-fg-dark text-sm font-semibold">
                                     {(player.username || player.email).charAt(0).toUpperCase()}
                                 </div>
                             )}
 
                             <div className="flex-1 min-w-0">
-                                <p className="text-sm font-medium text-card-foreground truncate">
+                                <p className="text-sm font-medium text-card-fg-light dark:text-card-fg-dark truncate">
                                     {player.username || player.email}
                                 </p>
                             </div>
 
-                            <div className="text-sm font-semibold text-card-foreground">
+                            <div className="text-sm font-semibold text-card-fg-light dark:text-card-fg-dark">
                                 {player.rating}
                             </div>
                         </Link>

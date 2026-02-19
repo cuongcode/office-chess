@@ -44,14 +44,14 @@ export function PlayerInfo({
                 <div className="flex items-center gap-2">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center border ${isMe
                         ? 'bg-blue-500/10 border-blue-500/20'
-                        : 'bg-muted border-border'
+                        : 'bg-muted-light dark:bg-muted-dark border-border-light dark:border-border-dark'
                         }`}>
-                        <span className={`text-xs font-bold ${isMe ? 'text-blue-500' : 'text-muted-foreground'}`}>
+                        <span className={`text-xs font-bold ${isMe ? 'text-blue-500' : 'text-muted-fg-light dark:text-muted-fg-dark'}`}>
                             {avatarLabel}
                         </span>
                     </div>
                     <div>
-                        <div className="font-bold text-foreground flex items-center gap-2">
+                        <div className="font-bold text-fg-light dark:text-fg-dark flex items-center gap-2">
                             {name}
                             {showReadyStatus && (
                                 <div
@@ -60,7 +60,7 @@ export function PlayerInfo({
                                 />
                             )}
                         </div>
-                        <div className="text-xs text-muted-foreground">
+                        <div className="text-xs text-muted-fg-light dark:text-muted-fg-dark">
                             {subLabel}
                         </div>
                     </div>

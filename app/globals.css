@@ -1,203 +1,63 @@
 @import "tailwindcss";
+@variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  /* Light Mode Colors */
+  --color-bg-light: #f5f7fa;
+  --color-fg-light: #2c3e50;
+  --color-card-light: #ffffff;
+  --color-card-fg-light: #2c3e50;
+  --color-primary-light: #3498db;
+  --color-primary-fg-light: #ffffff;
+  --color-secondary-light: #f8f9fa;
+  --color-secondary-fg-light: #2c3e50;
+  --color-muted-light: #ecf0f1;
+  --color-muted-fg-light: #95a5a6;
+  --color-accent-light: #f8f9fa;
+  --color-accent-fg-light: #3498db;
+  --color-destructive-light: #ef4444;
+  --color-destructive-fg-light: #ffffff;
+  --color-border-light: #ecf0f1;
+  --color-input-light: #ecf0f1;
+  --color-ring-light: #3498db;
+  --color-board-light-light: #f8f9fa;
+  --color-board-dark-light: #cbd5e1;
+  --color-success-light: #22c55e;
+  --color-success-fg-light: #f0fdf4;
 
-  /* Card colors */
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-
-  /* Custom modern color palette using Slate/Zinc */
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-
-  --color-success: var(--success);
-  --color-success-foreground: var(--success-foreground);
-
-  --color-warning: var(--warning);
-  --color-warning-foreground: var(--warning-foreground);
-
-  /* Spacing Scale */
-  /* --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 12px;
-  --spacing-lg: 16px;
-  --spacing-xl: 20px;
-  --spacing-2xl: 24px;
-  --spacing-3xl: 32px;
-  --spacing-4xl: 40px; */
-
-  /* Border Radius */
-  /* --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px; */
+  /* Dark Mode Colors */
+  --color-bg-dark: #0f172a;
+  --color-fg-dark: #f1f5f9;
+  --color-card-dark: #1e293b;
+  --color-card-fg-dark: #f1f5f9;
+  --color-primary-dark: #3b82f6;
+  --color-primary-fg-dark: #ffffff;
+  --color-secondary-dark: #334155;
+  --color-secondary-fg-dark: #f1f5f9;
+  --color-muted-dark: #334155;
+  --color-muted-fg-dark: #94a3b8;
+  --color-accent-dark: #334155;
+  --color-accent-fg-dark: #3b82f6;
+  --color-destructive-dark: #7f1d1d;
+  --color-destructive-fg-dark: #ffffff;
+  --color-border-dark: #334155;
+  --color-input-dark: #334155;
+  --color-ring-dark: #3b82f6;
+  --color-board-light-dark: #cbd5e1;
+  --color-board-dark-dark: #475569;
+  --color-success-dark: #22c55e;
+  --color-success-fg-dark: #f0fdf4;
 
   /* Typography */
   --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-display: var(--font-outfit), sans-serif;
   --font-mono: var(--font-inter), monospace;
-}
-
-:root {
-  /* Light Theme Palette */
-  --bg-gradient-start: #f5f7fa;
-  --bg-gradient-end: #e8ecf1;
-
-  --surface-primary: #ffffff;
-  --surface-border: #ecf0f1;
-  --surface-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
-
-  --board-light-square: #f8f9fa;
-  --board-dark-square: #cbd5e1;
-  --board-border: #ecf0f1;
-  --board-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
-
-  --text-primary: #2c3e50;
-  --text-secondary: #7f8c8d;
-  --text-muted: #95a5a6;
-
-  --interactive-primary: #3498db;
-  --interactive-primary-hover: #2980b9;
-  --interactive-secondary: #f8f9fa;
-  --interactive-secondary-hover: #ecf0f1;
-  --interactive-selected: #ffd93d;
-  --interactive-legal-move: rgba(52, 152, 219, 0.3);
-
-  /* Semantic Mapping */
-  --app-background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
-  --background: var(--bg-gradient-start);
-  /* Fallback/Base */
-  --foreground: var(--text-primary);
-
-  --card: var(--surface-primary);
-  --card-foreground: var(--text-primary);
-  --popover: var(--surface-primary);
-  --popover-foreground: var(--text-primary);
-
-  --primary: var(--interactive-primary);
-  --primary-foreground: #ffffff;
-
-  --secondary: var(--interactive-secondary);
-  --secondary-foreground: var(--text-primary);
-
-  --muted: var(--surface-border);
-  --muted-foreground: var(--text-muted);
-
-  --accent: var(--interactive-secondary);
-  --accent-foreground: var(--interactive-primary);
-
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-
-  --border: var(--surface-border);
-  --input: var(--surface-border);
-  --ring: var(--interactive-primary);
-
-  --radius: 0.5rem;
-
-  /* Board Colors - Mapped */
-  --board-light: var(--board-light-square);
-  --board-dark: var(--board-dark-square);
-
-  --success: #22c55e;
-  --success-foreground: #f0fdf4;
 
   /* Shadows - Light Mode */
   --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.05);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08);
   --shadow-hover: 0 6px 24px rgba(0, 0, 0, 0.08);
-}
-
-.dark {
-  /* Dark Theme Palette */
-  --bg-gradient-start: #0f172a;
-  --bg-gradient-end: #1e293b;
-
-  --surface-primary: #1e293b;
-  --surface-border: #334155;
-  --surface-border-hover: #475569;
-  --surface-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
-
-  --board-light-square: #cbd5e1;
-  --board-dark-square: #475569;
-  --board-border: #475569;
-  --board-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
-
-  --text-primary: #f1f5f9;
-  --text-secondary: #e2e8f0;
-  --text-muted: #94a3b8;
-  --text-label: #64748b;
-
-  --interactive-primary: #3b82f6;
-  --interactive-primary-hover: #2563eb;
-  --interactive-secondary: #334155;
-  --interactive-secondary-hover: #475569;
-  --interactive-selected: #fbbf24;
-  --interactive-legal-move: rgba(59, 130, 246, 0.4);
-
-  /* Semantic Mapping */
-  --app-background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
-  --background: var(--bg-gradient-start);
-  --foreground: var(--text-primary);
-
-  --card: var(--surface-primary);
-  --card-foreground: var(--text-primary);
-  --popover: var(--surface-primary);
-  --popover-foreground: var(--text-primary);
-
-  --primary: var(--interactive-primary);
-  --primary-foreground: #ffffff;
-
-  --secondary: var(--interactive-secondary);
-  --secondary-foreground: var(--text-primary);
-
-  --muted: var(--surface-border);
-  --muted-foreground: var(--text-muted);
-
-  --accent: var(--interactive-secondary);
-  --accent-foreground: var(--interactive-primary);
-
-  --destructive: #7f1d1d;
-  --destructive-foreground: #ffffff;
-
-  --border: var(--surface-border);
-  --input: var(--surface-border);
-  --ring: var(--interactive-primary);
-
-  /* Board Colors - Mapped */
-  --board-light: var(--board-light-square);
-  --board-dark: var(--board-dark-square);
-
-  --success: #22c55e;
-  --success-foreground: #f0fdf4;
-
-  --warning: #f59e0b;
-  --warning-foreground: #fffbeb;
-
-  /* Shadows - Dark Mode */
-  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
-  --shadow-hover: 0 6px 24px rgba(0, 0, 0, 0.4);
 }
 
 /* Typography Utilities */
@@ -282,12 +142,8 @@
   transform: scale(1.02);
 }
 
-
-
 body {
-  background: var(--app-background);
   background-attachment: fixed;
-  color: var(--foreground);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

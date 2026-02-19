@@ -1,6 +1,7 @@
 'use client';
 
 import { useGameStore } from '@/store/gameStore';
+import { useTheme } from "@/components/ThemeProvider";
 import { Chessboard } from 'react-chessboard';
 import { useState, useEffect } from 'react';
 import { Chess, Square } from 'chess.js';
@@ -19,6 +20,7 @@ interface ChessBoardProps {
 }
 
 export function ChessBoard({ onLeave }: ChessBoardProps) {
+    const { theme } = useTheme();
     const {
         fen,
         makeMove,
@@ -279,7 +281,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
             />
 
             {/* Board */}
-            <div className="w-full aspect-square shadow-2xl rounded-lg overflow-hidden border-4 border-card bg-card relative group">
+            <div className="w-full aspect-square shadow-2xl rounded-lg overflow-hidden border-4 border-card-light dark:border-card-dark bg-card-light dark:bg-card-dark relative group">
                 <Chessboard
                     options={{
                         id: "MainBoard",
@@ -287,8 +289,8 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                         boardOrientation: boardOrientation,
                         onPieceDrop: onDrop,
                         onSquareClick: onSquareClick,
-                        darkSquareStyle: { backgroundColor: 'var(--board-dark)' },
-                        lightSquareStyle: { backgroundColor: 'var(--board-light)' },
+                        darkSquareStyle: { backgroundColor: theme === 'dark' ? 'var(--color-board-dark-dark)' : 'var(--color-board-dark-light)' },
+                        lightSquareStyle: { backgroundColor: theme === 'dark' ? 'var(--color-board-light-dark)' : 'var(--color-board-light-light)' },
                         squareStyles: customSquareStyles,
                         animationDurationInMs: 200,
                         allowDragging: !isOnline || (
@@ -315,10 +317,10 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
 
                 {/* Connection Overlay */}
                 {isOnline && !isConnected && (
-                    <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center z-10 transition-all">
-                        <WifiOff className="w-12 h-12 text-destructive mb-4" />
-                        <h3 className="text-xl font-bold text-foreground">Disconnected</h3>
-                        <p className="text-muted-foreground">Trying to reconnect...</p>
+                    <div className="absolute inset-0 bg-white/80 dark:bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center z-10 transition-all">
+                        <WifiOff className="w-12 h-12 text-destructive-light dark:text-destructive-dark mb-4" />
+                        <h3 className="text-xl font-bold text-fg-light dark:text-fg-dark">Disconnected</h3>
+                        <p className="text-muted-fg-light dark:text-muted-fg-dark">Trying to reconnect...</p>
                     </div>
                 )}
             </div>
@@ -347,14 +349,14 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                     <div className="flex gap-2">
                         <button
                             onClick={offerDraw}
-                            className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded transition-colors"
+                            className="p-2 text-muted-fg-light dark:text-muted-fg-dark hover:text-fg-light dark:hover:text-fg-dark hover:bg-accent-light dark:hover:bg-accent-dark rounded transition-colors"
                             title="Offer Draw"
                         >
                             <Handshake className="w-5 h-5" />
                         </button>
                         <button
                             onClick={handleResign}
-                            className="p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded transition-colors"
+                            className="p-2 text-muted-fg-light dark:text-muted-fg-dark hover:text-destructive-light dark:hover:text-destructive-dark hover:bg-destructive-light/10 dark:hover:bg-destructive-dark/10 rounded transition-colors"
                             title="Resign"
                         >
                             <Flag className="w-5 h-5" />
@@ -366,7 +368,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                     <div className="flex justify-center mt-2">
                         <button
                             onClick={handleLeave}
-                            className="flex items-center gap-2 px-4 py-2 bg-muted hover:bg-destructive/10 text-muted-foreground hover:text-destructive rounded-lg transition-colors text-sm font-medium"
+                            className="flex items-center gap-2 px-4 py-2 bg-muted-light dark:bg-muted-dark hover:bg-destructive-light/10 dark:hover:bg-destructive-dark/10 text-muted-fg-light dark:text-muted-fg-dark hover:text-destructive-light dark:hover:text-destructive-dark rounded-lg transition-colors text-sm font-medium"
                         >
                             <LogOut className="w-4 h-4" />
                             Leave Game

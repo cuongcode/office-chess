@@ -26,36 +26,36 @@ export const ChessClock: React.FC<ChessClockProps> = ({
 
     // Determine background color based on warning level and active state
     const getBackgroundColor = () => {
-        if (isTimeout) return 'bg-destructive/90';
-        if (!isActive) return 'bg-card'; // Inactive clock
+        if (isTimeout) return 'bg-destructive-light/90 dark:bg-destructive-dark/90';
+        if (!isActive) return 'bg-card-light dark:bg-card-dark'; // Inactive clock
 
         switch (warningLevel) {
             case 'critical':
-                return 'bg-destructive animate-pulse-fast';
+                return 'bg-destructive-light dark:bg-destructive-dark animate-pulse-fast';
             case 'urgent':
-                return 'bg-destructive animate-pulse';
+                return 'bg-destructive-light dark:bg-destructive-dark animate-pulse';
             case 'warning':
-                return 'bg-warning';
+                return 'bg-yellow-500';
             default:
-                return 'bg-primary';
+                return 'bg-blue-500';
         }
     };
 
     // Determine border style
     const getBorderStyle = () => {
         if (isActive && !isTimeout) {
-            return 'ring-4 ring-primary ring-opacity-75';
+            return 'ring-4 ring-blue-500 ring-opacity-75';
         }
-        return 'ring-1 ring-border';
+        return 'ring-1 ring-border-light dark:ring-border-dark';
     };
 
     // Determine text color
     const getTextColor = () => {
-        if (isTimeout) return 'text-destructive-foreground';
-        if (warningLevel === 'critical' || warningLevel === 'urgent') return 'text-destructive-foreground';
-        if (warningLevel === 'warning') return 'text-warning-foreground';
-        if (isActive) return 'text-primary-foreground';
-        return 'text-foreground';
+        if (isTimeout) return 'text-destructive-fg-light dark:text-destructive-fg-dark';
+        if (warningLevel === 'critical' || warningLevel === 'urgent') return 'text-destructive-fg-light dark:text-destructive-fg-dark';
+        if (warningLevel === 'warning') return 'text-yellow-900 dark:text-yellow-100';
+        if (isActive) return 'text-white';
+        return 'text-fg-light dark:text-fg-dark';
     };
 
     return (

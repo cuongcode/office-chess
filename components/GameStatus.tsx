@@ -7,7 +7,7 @@ export function GameStatus() {
 
     let message = '';
     let subMessage = '';
-    let colorClass = 'text-zinc-800 dark:text-zinc-100';
+    let colorClass = 'text-fg-light dark:text-fg-dark';
 
     if (status === 'checkmate') {
         message = `Checkmate! ${winner === 'w' ? 'White' : 'Black'} wins.`;
@@ -24,11 +24,11 @@ export function GameStatus() {
     }
 
     return (
-        <div className={`text-center p-4 bg-white dark:bg-zinc-900 rounded-lg shadow-sm border border-zinc-200 dark:border-zinc-800 mb-4 ${status === 'checkmate' ? 'ring-2 ring-red-500' : ''}`}>
+        <div className={`text-center p-4 bg-card-light dark:bg-card-dark rounded-lg shadow-sm border border-border-light dark:border-border-dark mb-4 ${status === 'checkmate' ? 'ring-2 ring-destructive-light dark:ring-destructive-dark' : ''}`}>
             <h2 className={`text-xl ${colorClass}`}>
                 {message}
             </h2>
-            {subMessage && <p className="text-sm text-zinc-500 mt-1">{subMessage}</p>}
+            {subMessage && <p className="text-sm text-muted-fg-light dark:text-muted-fg-dark mt-1">{subMessage}</p>}
         </div>
     );
 }

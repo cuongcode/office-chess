@@ -44,10 +44,10 @@ export function Header() {
     };
 
     return (
-        <header className="fixed top-0 w-full z-50 bg-card text-card-foreground shadow border-b border-border">
+        <header className="fixed top-0 w-full z-50 bg-card-light dark:bg-card-dark text-card-fg-light dark:text-card-fg-dark shadow border-b border-border-light dark:border-border-dark">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 justify-between items-center">
-                    <Link href="/" className="text-xl font-bold text-foreground">
+                    <Link href="/" className="text-xl font-bold text-fg-light dark:text-fg-dark">
                         Office Chess
                     </Link>
 
@@ -69,20 +69,20 @@ export function Header() {
                         </div>
                         <ThemeToggle />
                         {status === "loading" ? (
-                            <div className="text-sm text-muted-foreground">Loading...</div>
+                            <div className="text-sm text-muted-fg-light dark:text-muted-fg-dark">Loading...</div>
                         ) : session?.user ? (
                             <UserMenu user={session.user} />
                         ) : (
                             <div className="space-x-4">
                                 <Link
                                     href="/auth/login"
-                                    className="text-muted-foreground hover:text-foreground px-3 py-2 rounded-md text-sm font-medium hover:bg-accent"
+                                    className="text-muted-fg-light dark:text-muted-fg-dark hover:text-fg-light dark:hover:text-fg-dark px-3 py-2 rounded-md text-sm font-medium hover:bg-accent-light dark:hover:bg-accent-dark"
                                 >
                                     Log in
                                 </Link>
                                 <Link
                                     href="/auth/register"
-                                    className="bg-[var(--interactive-primary)] text-white shadow-sm hover:bg-[var(--interactive-primary-hover)] hover:-translate-y-px hover:shadow-[0_4px_12px_rgba(52,152,219,0.3)] active:translate-y-0 inline-flex items-center justify-center rounded-lg px-6 py-3 text-sm font-medium tracking-[0.3px] transition-all duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring"
+                                    className="bg-primary-light dark:bg-primary-dark text-white shadow-sm hover:opacity-90 hover:-translate-y-px active:translate-y-0 inline-flex items-center justify-center rounded-lg px-6 py-3 text-sm font-medium tracking-[0.3px] transition-all duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring-light dark:focus:ring-ring-dark"
                                 >
                                     Sign up
                                 </Link>

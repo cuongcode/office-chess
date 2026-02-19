@@ -51,12 +51,12 @@ export function ProfileCard({ userId, playerData }: ProfileCardProps) {
 
     if (loading) {
         return (
-            <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 animate-pulse">
+            <div className="bg-card-light dark:bg-card-dark rounded-lg p-4 border border-border-light dark:border-border-dark animate-pulse">
                 <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-slate-700" />
+                    <div className="w-12 h-12 rounded-full bg-muted-light dark:bg-muted-dark" />
                     <div className="flex-1">
-                        <div className="h-4 bg-slate-700 rounded w-24 mb-2" />
-                        <div className="h-3 bg-slate-700 rounded w-16" />
+                        <div className="h-4 bg-muted-light dark:bg-muted-dark rounded w-24 mb-2" />
+                        <div className="h-3 bg-muted-light dark:bg-muted-dark rounded w-16" />
                     </div>
                 </div>
             </div>
@@ -70,7 +70,7 @@ export function ProfileCard({ userId, playerData }: ProfileCardProps) {
     return (
         <Link
             href={`/profile/${profile.id}`}
-            className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 hover:border-blue-500 transition-all hover:shadow-lg hover:shadow-blue-500/20 cursor-pointer block"
+            className="bg-card-light dark:bg-card-dark rounded-lg p-4 border border-border-light dark:border-border-dark hover:border-blue-500 transition-all hover:shadow-lg hover:shadow-blue-500/20 cursor-pointer block"
         >
             <div className="flex items-center gap-3">
                 {/* Avatar */}
@@ -88,13 +88,13 @@ export function ProfileCard({ userId, playerData }: ProfileCardProps) {
 
                 {/* Info */}
                 <div className="flex-1 min-w-0">
-                    <h3 className="text-white font-semibold truncate">{profile.username}</h3>
+                    <h3 className="text-card-fg-light dark:text-card-fg-dark font-semibold truncate">{profile.username}</h3>
                     <div className="flex items-center gap-3 text-sm">
                         <div className="flex items-center gap-1 text-yellow-500">
                             <Trophy className="w-3 h-3" />
                             <span className="font-medium">{profile.rating}</span>
                         </div>
-                        <div className="text-slate-400">
+                        <div className="text-muted-fg-light dark:text-muted-fg-dark">
                             {profile.wins}-{profile.losses}-{profile.draws}
                         </div>
                     </div>

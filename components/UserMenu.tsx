@@ -49,7 +49,7 @@ export function UserMenu({ user }: UserMenuProps) {
             <div>
                 <button
                     type="button"
-                    className="flex max-w-xs items-center rounded-full bg-card text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                    className="flex max-w-xs items-center rounded-full bg-card-light dark:bg-card-dark text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                     id="user-menu-button"
                     aria-expanded={isOpen}
                     aria-haspopup="true"
@@ -63,7 +63,7 @@ export function UserMenu({ user }: UserMenuProps) {
                             className="h-8 w-8 rounded-full object-cover"
                         />
                     ) : (
-                        <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground font-bold">
+                        <div className="h-8 w-8 rounded-full bg-muted-light dark:bg-muted-dark flex items-center justify-center text-muted-fg-light dark:text-muted-fg-dark font-bold">
                             {user.name ? user.name.charAt(0).toUpperCase() : user.email?.charAt(0).toUpperCase()}
                         </div>
                     )}
@@ -72,20 +72,20 @@ export function UserMenu({ user }: UserMenuProps) {
 
             {isOpen && (
                 <div
-                    className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-card py-1 shadow-lg ring-1 ring-border focus:outline-none"
+                    className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-card-light dark:bg-card-dark py-1 shadow-lg ring-1 ring-border-light dark:ring-border-dark focus:outline-none"
                     role="menu"
                     aria-orientation="vertical"
                     aria-labelledby="user-menu-button"
                     tabIndex={-1}
                 >
-                    <div className="px-4 py-2 text-sm text-card-foreground border-b border-border">
+                    <div className="px-4 py-2 text-sm text-card-fg-light dark:text-card-fg-dark border-b border-border-light dark:border-border-dark">
                         <p className="font-medium truncate">{user.name || "User"}</p>
-                        <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                        <p className="text-xs text-muted-fg-light dark:text-muted-fg-dark truncate">{user.email}</p>
                     </div>
 
                     <Link
                         href={`/profile/${user.id}`}
-                        className="block px-4 py-2 text-sm text-card-foreground hover:bg-accent hover:text-accent-foreground"
+                        className="block px-4 py-2 text-sm text-card-fg-light dark:text-card-fg-dark hover:bg-muted-light dark:hover:bg-muted-dark hover:text-fg-light dark:hover:text-fg-dark"
                         role="menuitem"
                         tabIndex={-1}
                         onClick={() => setIsOpen(false)}
@@ -94,7 +94,7 @@ export function UserMenu({ user }: UserMenuProps) {
                     </Link>
                     <button
                         onClick={() => signOut()}
-                        className="block w-full text-left px-4 py-2 text-sm text-card-foreground hover:bg-accent hover:text-accent-foreground"
+                        className="block w-full text-left px-4 py-2 text-sm text-card-fg-light dark:text-card-fg-dark hover:bg-muted-light dark:hover:bg-muted-dark hover:text-fg-light dark:hover:text-fg-dark"
                         role="menuitem"
                         tabIndex={-1}
                     >

@@ -47,10 +47,10 @@ export function CreateGameModal({ userId, userName, onClose }: CreateGameModalPr
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-            <div className="bg-card border border-border rounded-2xl p-8 max-w-md w-full relative shadow-xl text-card-foreground">
+            <div className="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-2xl p-8 max-w-md w-full relative shadow-xl text-card-fg-light dark:text-card-fg-dark">
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
+                    className="absolute top-4 right-4 text-muted-fg-light dark:text-muted-fg-dark hover:text-fg-light dark:hover:text-fg-dark transition-colors"
                 >
                     <X className="w-6 h-6" />
                 </button>
@@ -60,13 +60,13 @@ export function CreateGameModal({ userId, userName, onClose }: CreateGameModalPr
                 {!roomId ? (
                     <div className="space-y-6">
                         <div>
-                            <p className="text-muted-foreground mb-3 text-center">Choose your color</p>
+                            <p className="text-muted-fg-light dark:text-muted-fg-dark mb-3 text-center">Choose your color</p>
                             <div className="grid grid-cols-3 gap-3">
                                 <button
                                     onClick={() => setSelectedColor('white')}
                                     className={`p-4 rounded-lg border-2 transition-all ${selectedColor === 'white'
                                         ? 'border-blue-500 bg-blue-500/10'
-                                        : 'border-border hover:border-muted-foreground'
+                                        : 'border-border-light dark:border-border-dark hover:border-muted-fg-light dark:hover:border-muted-fg-dark'
                                         }`}
                                 >
                                     <div className="w-12 h-12 rounded-full bg-white border border-gray-200 mx-auto mb-2 shadow-sm"></div>
@@ -76,7 +76,7 @@ export function CreateGameModal({ userId, userName, onClose }: CreateGameModalPr
                                     onClick={() => setSelectedColor('black')}
                                     className={`p-4 rounded-lg border-2 transition-all ${selectedColor === 'black'
                                         ? 'border-blue-500 bg-blue-500/10'
-                                        : 'border-border hover:border-muted-foreground'
+                                        : 'border-border-light dark:border-border-dark hover:border-muted-fg-light dark:hover:border-muted-fg-dark'
                                         }`}
                                 >
                                     <div className="w-12 h-12 rounded-full bg-gray-800 border border-gray-700 mx-auto mb-2 shadow-sm"></div>
@@ -86,12 +86,12 @@ export function CreateGameModal({ userId, userName, onClose }: CreateGameModalPr
                                     onClick={() => setSelectedColor('random')}
                                     className={`p-4 rounded-lg border-2 transition-all ${selectedColor === 'random'
                                         ? 'border-blue-500 bg-blue-500/10'
-                                        : 'border-border hover:border-muted-foreground'
+                                        : 'border-border-light dark:border-border-dark hover:border-muted-fg-light dark:hover:border-muted-fg-dark'
                                         }`}
                                 >
                                     <div className="flex items-center justify-center">
-                                        <div className="w-6 h-12 rounded-l-full bg-white border border-border mb-2 shadow-sm"></div>
-                                        <div className="w-6 h-12 rounded-r-full bg-gray-800 border border-border mb-2 shadow-sm"></div>
+                                        <div className="w-6 h-12 rounded-l-full bg-white border border-border-light dark:border-border-dark mb-2 shadow-sm"></div>
+                                        <div className="w-6 h-12 rounded-r-full bg-gray-800 border border-border-light dark:border-border-dark mb-2 shadow-sm"></div>
                                     </div>
                                     <p className="text-sm font-semibold">Random</p>
                                 </button>
@@ -116,11 +116,11 @@ export function CreateGameModal({ userId, userName, onClose }: CreateGameModalPr
                     </div>
                 ) : (
                     <div className="space-y-6">
-                        <div className="bg-muted p-6 rounded-xl border border-border text-center">
-                            <p className="text-muted-foreground mb-2">Room Code</p>
+                        <div className="bg-muted-light dark:bg-muted-dark p-6 rounded-xl border border-border-light dark:border-border-dark text-center">
+                            <p className="text-muted-fg-light dark:text-muted-fg-dark mb-2">Room Code</p>
                             <div
                                 onClick={copyToClipboard}
-                                className="text-4xl font-mono font-bold tracking-wider cursor-pointer hover:scale-105 transition-transform select-all text-blue-500"
+                                className="text-4xl font-mono font-bold tracking-wider cursor-pointer hover:scale-105 transition-transform select-all text-card-fg-light dark:text-card-fg-dark"
                             >
                                 {roomId}
                             </div>
