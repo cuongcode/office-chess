@@ -219,15 +219,15 @@ export default function EditProfilePage() {
     const bioCharLimit = 200;
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-12 px-4">
+        <div className="min-h-[calc(100vh-80px)] py-12 px-4">
             <div className="max-w-2xl mx-auto">
-                <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-slate-700">
-                    <h1 className="text-3xl font-bold text-white mb-6">Edit Profile</h1>
+                <div className="bg-card-light dark:bg-card-dark backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-border-light dark:border-border-dark">
+                    <h1 className="text-3xl font-bold text-fg-light dark:text-fg-dark mb-6">Edit Profile</h1>
 
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {/* Avatar Upload */}
                         <div>
-                            <label className="block text-sm font-medium text-slate-300 mb-2">
+                            <label className="block text-sm font-medium text-muted-fg-light dark:text-muted-fg-dark mb-2">
                                 Profile Picture
                             </label>
                             <div className="flex items-center gap-6">
@@ -250,14 +250,14 @@ export default function EditProfilePage() {
                                 <div
                                     onDrop={handleDrop}
                                     onDragOver={handleDragOver}
-                                    className="flex-1 border-2 border-dashed border-slate-600 rounded-lg p-6 text-center hover:border-blue-500 transition cursor-pointer"
+                                    className="flex-1 border-2 border-dashed border-border-light dark:border-border-dark rounded-lg p-6 text-center hover:border-blue-500 transition cursor-pointer"
                                     onClick={() => fileInputRef.current?.click()}
                                 >
-                                    <Upload className="w-8 h-8 text-slate-400 mx-auto mb-2" />
-                                    <p className="text-slate-300 text-sm mb-1">
+                                    <Upload className="w-8 h-8 text-muted-fg-light dark:text-muted-fg-dark mx-auto mb-2" />
+                                    <p className="text-muted-fg-light dark:text-muted-fg-dark text-sm mb-1">
                                         Click to upload or drag and drop
                                     </p>
-                                    <p className="text-slate-500 text-xs">
+                                    <p className="text-muted-fg-light dark:text-muted-fg-dark text-xs">
                                         JPG, PNG, GIF or WebP (max 2MB)
                                     </p>
                                     <input
@@ -273,7 +273,7 @@ export default function EditProfilePage() {
 
                         {/* Username */}
                         <div>
-                            <label htmlFor="username" className="block text-sm font-medium text-slate-300 mb-2">
+                            <label htmlFor="username" className="block text-sm font-medium text-muted-fg-light dark:text-muted-fg-dark mb-2">
                                 Username
                             </label>
                             <div className="relative">
@@ -282,7 +282,7 @@ export default function EditProfilePage() {
                                     id="username"
                                     value={formData.username}
                                     onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                                    className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    className="w-full px-4 py-3 bg-secondary-light dark:bg-secondary-dark border border-border-light dark:border-border-dark rounded-lg text-fg-light dark:text-fg-dark placeholder-muted-fg-light dark:placeholder-muted-fg-dark focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                     placeholder="Enter username"
                                 />
                                 {checkingUsername && (
@@ -300,14 +300,14 @@ export default function EditProfilePage() {
                                     </div>
                                 )}
                             </div>
-                            <p className="text-slate-400 text-xs mt-1">
+                            <p className="text-muted-fg-light dark:text-muted-fg-dark text-xs mt-1">
                                 3-20 characters, letters, numbers, and underscores only
                             </p>
                         </div>
 
                         {/* Bio */}
                         <div>
-                            <label htmlFor="bio" className="block text-sm font-medium text-slate-300 mb-2">
+                            <label htmlFor="bio" className="block text-sm font-medium text-muted-fg-light dark:text-muted-fg-dark mb-2">
                                 Bio
                             </label>
                             <textarea
@@ -316,12 +316,12 @@ export default function EditProfilePage() {
                                 onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
                                 rows={4}
                                 maxLength={200}
-                                className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                                className="w-full px-4 py-3 bg-secondary-light dark:bg-secondary-dark border border-border-light dark:border-border-dark rounded-lg text-fg-light dark:text-fg-dark placeholder-muted-fg-light dark:placeholder-muted-fg-dark focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                                 placeholder="Tell us about yourself..."
                             />
                             <div className="flex justify-between items-center mt-1">
-                                <p className="text-slate-400 text-xs">Short description for your profile</p>
-                                <p className={`text-xs ${bioCharCount > bioCharLimit ? 'text-red-500' : 'text-slate-400'}`}>
+                                <p className="text-muted-fg-light dark:text-muted-fg-dark text-xs">Short description for your profile</p>
+                                <p className={`text-xs ${bioCharCount > bioCharLimit ? 'text-red-500' : 'text-muted-fg-light dark:text-muted-fg-dark'}`}>
                                     {bioCharCount}/{bioCharLimit}
                                 </p>
                             </div>
@@ -329,7 +329,7 @@ export default function EditProfilePage() {
 
                         {/* Email (read-only) */}
                         <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">
+                            <label htmlFor="email" className="block text-sm font-medium text-muted-fg-light dark:text-muted-fg-dark mb-2">
                                 Email
                             </label>
                             <input
@@ -337,7 +337,7 @@ export default function EditProfilePage() {
                                 id="email"
                                 value={session?.user?.email || ''}
                                 disabled
-                                className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-slate-400 cursor-not-allowed"
+                                className="w-full px-4 py-3 bg-secondary-light/50 dark:bg-secondary-dark/50 border border-border-light dark:border-border-dark rounded-lg text-muted-fg-light dark:text-muted-fg-dark cursor-not-allowed"
                             />
                         </div>
 
@@ -361,7 +361,7 @@ export default function EditProfilePage() {
                                 type="button"
                                 variant="secondary"
                                 onClick={() => router.back()}
-                                className="px-6 py-3 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition !border-0"
+                                className="px-6 py-3 bg-secondary-light dark:bg-secondary-dark text-secondary-fg-light dark:text-secondary-fg-dark rounded-lg hover:bg-secondary-light/80 dark:hover:bg-secondary-dark/80 transition !border-0"
                             >
                                 Cancel
                             </Button>

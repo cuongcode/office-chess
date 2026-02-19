@@ -109,10 +109,10 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
     const lossPercentage = profile.totalGames > 0 ? (profile.losses / profile.totalGames) * 100 : 0;
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-12 px-4">
+        <div className="min-h-[calc(100vh-80px)] py-12 px-4">
             <div className="max-w-4xl mx-auto">
                 {/* Profile Header */}
-                <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl shadow-2xl p-8 mb-6 border border-slate-700">
+                <div className="bg-card-light dark:bg-card-dark backdrop-blur-sm rounded-2xl shadow-2xl p-8 mb-6 border border-border-light dark:border-border-dark">
                     <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
                         {/* Avatar */}
                         <div className="relative">
@@ -131,10 +131,10 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
 
                         {/* User Info */}
                         <div className="flex-1 text-center md:text-left">
-                            <h1 className="text-4xl font-bold text-white mb-2">{profile.username}</h1>
-                            <p className="text-slate-400 mb-3">{profile.email}</p>
+                            <h1 className="text-4xl font-bold text-fg-light dark:text-fg-dark mb-2">{profile.username}</h1>
+                            <p className="text-muted-fg-light dark:text-muted-fg-dark mb-3">{profile.email}</p>
                             {profile.bio && (
-                                <p className="text-slate-300 mb-4 max-w-2xl">{profile.bio}</p>
+                                <p className="text-fg-light dark:text-fg-dark mb-4 max-w-2xl">{profile.bio}</p>
                             )}
                             <div className="flex flex-wrap gap-3 justify-center md:justify-start">
                                 {isOwnProfile && (
@@ -149,7 +149,7 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                                 <Button
                                     variant="secondary"
                                     onClick={handleShareProfile}
-                                    className="px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition flex items-center gap-2 !border-0"
+                                    className="px-4 py-2 flex items-center gap-2 !border-0"
                                 >
                                     <Copy className="w-4 h-4" />
                                     Share Profile
@@ -160,8 +160,8 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                 </div>
 
                 {/* Statistics Card */}
-                <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl shadow-2xl p-8 mb-6 border border-slate-700">
-                    <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                <div className="bg-card-light dark:bg-card-dark backdrop-blur-sm rounded-2xl shadow-2xl p-8 mb-6 border border-border-light dark:border-border-dark">
+                    <h2 className="text-2xl font-bold text-fg-light dark:text-fg-dark mb-6 flex items-center gap-2">
                         <Trophy className="w-6 h-6 text-yellow-500" />
                         Statistics
                     </h2>
@@ -172,13 +172,13 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                             <div className="text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-2">
                                 {profile.rating}
                             </div>
-                            <div className="text-slate-400 text-sm">Rating</div>
+                            <div className="text-muted-fg-light dark:text-muted-fg-dark text-sm">Rating</div>
                         </div>
 
                         {/* Total Games */}
                         <div className="text-center">
-                            <div className="text-5xl font-bold text-white mb-2">{profile.totalGames}</div>
-                            <div className="text-slate-400 text-sm">Total Games</div>
+                            <div className="text-5xl font-bold text-fg-light dark:text-fg-dark mb-2">{profile.totalGames}</div>
+                            <div className="text-muted-fg-light dark:text-muted-fg-dark text-sm">Total Games</div>
                         </div>
 
                         {/* Win Rate */}
@@ -186,48 +186,48 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                             <div className={`text-5xl font-bold mb-2 ${profile.winRate > 50 ? 'text-green-500' : 'text-red-500'}`}>
                                 {profile.winRate.toFixed(1)}%
                             </div>
-                            <div className="text-slate-400 text-sm">Win Rate</div>
+                            <div className="text-muted-fg-light dark:text-muted-fg-dark text-sm">Win Rate</div>
                         </div>
 
                         {/* Record */}
                         <div className="text-center">
-                            <div className="text-3xl font-bold text-white mb-2">
+                            <div className="text-3xl font-bold text-fg-light dark:text-fg-dark mb-2">
                                 {profile.wins}-{profile.losses}-{profile.draws}
                             </div>
-                            <div className="text-slate-400 text-sm">W-L-D</div>
+                            <div className="text-muted-fg-light dark:text-muted-fg-dark text-sm">W-L-D</div>
                         </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {/* Current Streak */}
-                        <div className="bg-slate-700/50 rounded-lg p-4">
+                        <div className="bg-secondary-light dark:bg-secondary-dark rounded-lg p-4">
                             <div className="flex items-center justify-between mb-2">
-                                <span className="text-slate-400 text-sm">Current Streak</span>
+                                <span className="text-muted-fg-light dark:text-muted-fg-dark text-sm">Current Streak</span>
                                 {profile.currentStreak > 3 && <Flame className="w-5 h-5 text-orange-500" />}
                             </div>
-                            <div className="text-3xl font-bold text-white">{profile.currentStreak}</div>
+                            <div className="text-3xl font-bold text-secondary-fg-light dark:text-secondary-fg-dark">{profile.currentStreak}</div>
                         </div>
 
                         {/* Longest Streak */}
-                        <div className="bg-slate-700/50 rounded-lg p-4">
-                            <div className="text-slate-400 text-sm mb-2">Longest Streak</div>
-                            <div className="text-3xl font-bold text-white">{profile.longestStreak}</div>
+                        <div className="bg-secondary-light dark:bg-secondary-dark rounded-lg p-4">
+                            <div className="text-muted-fg-light dark:text-muted-fg-dark text-sm mb-2">Longest Streak</div>
+                            <div className="text-3xl font-bold text-secondary-fg-light dark:text-secondary-fg-dark">{profile.longestStreak}</div>
                         </div>
 
                         {/* Last Game */}
-                        <div className="bg-slate-700/50 rounded-lg p-4">
-                            <div className="flex items-center gap-2 text-slate-400 text-sm mb-2">
+                        <div className="bg-secondary-light dark:bg-secondary-dark rounded-lg p-4">
+                            <div className="flex items-center gap-2 text-muted-fg-light dark:text-muted-fg-dark text-sm mb-2">
                                 <Calendar className="w-4 h-4" />
                                 Last Game
                             </div>
-                            <div className="text-lg font-semibold text-white">{getRelativeTime(profile.lastGameAt)}</div>
+                            <div className="text-lg font-semibold text-secondary-fg-light dark:text-secondary-fg-dark">{getRelativeTime(profile.lastGameAt)}</div>
                         </div>
                     </div>
                 </div>
 
                 {/* Quick Stats Bar */}
-                <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl shadow-2xl p-8 mb-6 border border-slate-700">
-                    <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <div className="bg-card-light dark:bg-card-dark backdrop-blur-sm rounded-2xl shadow-2xl p-8 mb-6 border border-border-light dark:border-border-dark">
+                    <h3 className="text-xl font-bold text-fg-light dark:text-fg-dark mb-4 flex items-center gap-2">
                         <TrendingUp className="w-5 h-5 text-blue-500" />
                         Performance Breakdown
                     </h3>
@@ -236,9 +236,9 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                         <div>
                             <div className="flex justify-between text-sm mb-2">
                                 <span className="text-green-400">Wins</span>
-                                <span className="text-slate-400">{profile.wins} ({winPercentage.toFixed(1)}%)</span>
+                                <span className="text-muted-fg-light dark:text-muted-fg-dark">{profile.wins} ({winPercentage.toFixed(1)}%)</span>
                             </div>
-                            <div className="h-3 bg-slate-700 rounded-full overflow-hidden">
+                            <div className="h-3 bg-muted-light dark:bg-muted-dark rounded-full overflow-hidden">
                                 <div
                                     className="h-full bg-gradient-to-r from-green-500 to-green-400 transition-all duration-500"
                                     style={{ width: `${winPercentage}%` }}
@@ -250,9 +250,9 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                         <div>
                             <div className="flex justify-between text-sm mb-2">
                                 <span className="text-yellow-400">Draws</span>
-                                <span className="text-slate-400">{profile.draws} ({drawPercentage.toFixed(1)}%)</span>
+                                <span className="text-muted-fg-light dark:text-muted-fg-dark">{profile.draws} ({drawPercentage.toFixed(1)}%)</span>
                             </div>
-                            <div className="h-3 bg-slate-700 rounded-full overflow-hidden">
+                            <div className="h-3 bg-muted-light dark:bg-muted-dark rounded-full overflow-hidden">
                                 <div
                                     className="h-full bg-gradient-to-r from-yellow-500 to-yellow-400 transition-all duration-500"
                                     style={{ width: `${drawPercentage}%` }}
@@ -264,9 +264,9 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                         <div>
                             <div className="flex justify-between text-sm mb-2">
                                 <span className="text-red-400">Losses</span>
-                                <span className="text-slate-400">{profile.losses} ({lossPercentage.toFixed(1)}%)</span>
+                                <span className="text-muted-fg-light dark:text-muted-fg-dark">{profile.losses} ({lossPercentage.toFixed(1)}%)</span>
                             </div>
-                            <div className="h-3 bg-slate-700 rounded-full overflow-hidden">
+                            <div className="h-3 bg-muted-light dark:bg-muted-dark rounded-full overflow-hidden">
                                 <div
                                     className="h-full bg-gradient-to-r from-red-500 to-red-400 transition-all duration-500"
                                     style={{ width: `${lossPercentage}%` }}
@@ -277,11 +277,11 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                 </div>
 
                 {/* Recent Activity Placeholder */}
-                <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-slate-700">
-                    <h3 className="text-xl font-bold text-white mb-4">Recent Activity</h3>
+                <div className="bg-card-light dark:bg-card-dark backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-border-light dark:border-border-dark">
+                    <h3 className="text-xl font-bold text-fg-light dark:text-fg-dark mb-4">Recent Activity</h3>
                     <div className="text-center py-12">
-                        <p className="text-slate-400">Recent games will appear here</p>
-                        <p className="text-slate-500 text-sm mt-2">Coming soon in Step 8</p>
+                        <p className="text-muted-fg-light dark:text-muted-fg-dark">Recent games will appear here</p>
+                        <p className="text-muted-fg-light dark:text-muted-fg-dark text-sm mt-2">Coming soon in Step 8</p>
                     </div>
                 </div>
             </div>

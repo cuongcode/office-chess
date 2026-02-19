@@ -56,17 +56,17 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-10 shadow-md">
+        <div className="flex min-h-[calc(100vh-80px)] flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            <div className="w-full max-w-md space-y-8 rounded-xl bg-card-light dark:bg-card-dark p-10 shadow-md border border-border-light dark:border-border-dark">
                 <div>
-                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                    <h2 className="mt-6 text-center text-3xl font-extrabold text-fg-light dark:text-fg-dark">
                         Create your account
                     </h2>
-                    <p className="mt-2 text-center text-sm text-gray-600">
+                    <p className="mt-2 text-center text-sm text-muted-fg-light dark:text-muted-fg-dark">
                         Already have an account?{" "}
                         <Link
                             href="/auth/login"
-                            className="font-medium text-blue-600 hover:text-blue-500"
+                            className="font-medium text-primary-light dark:text-primary-dark hover:text-primary-light/80 dark:hover:text-primary-dark/80"
                         >
                             Sign in
                         </Link>
@@ -84,7 +84,7 @@ export default function RegisterPage() {
                                 type="text"
                                 autoComplete="name"
                                 required
-                                className="relative block w-full appearance-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                                className="relative block w-full appearance-none rounded-t-md border border-border-light dark:border-border-dark bg-secondary-light dark:bg-secondary-dark px-3 py-2 text-fg-light dark:text-fg-dark placeholder-muted-fg-light dark:placeholder-muted-fg-dark focus:z-10 focus:border-primary-light dark:focus:border-primary-dark focus:outline-none focus:ring-primary-light dark:focus:ring-primary-dark sm:text-sm"
                                 placeholder="Name"
                                 value={data.name}
                                 onChange={(e) => setData({ ...data, name: e.target.value })}
@@ -100,7 +100,7 @@ export default function RegisterPage() {
                                 type="email"
                                 autoComplete="email"
                                 required
-                                className="relative block w-full appearance-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                                className="relative block w-full appearance-none border border-border-light dark:border-border-dark bg-secondary-light dark:bg-secondary-dark px-3 py-2 text-fg-light dark:text-fg-dark placeholder-muted-fg-light dark:placeholder-muted-fg-dark focus:z-10 focus:border-primary-light dark:focus:border-primary-dark focus:outline-none focus:ring-primary-light dark:focus:ring-primary-dark sm:text-sm"
                                 placeholder="Email address (must be @test.com)"
                                 value={data.email}
                                 onChange={(e) => setData({ ...data, email: e.target.value })}
@@ -115,7 +115,7 @@ export default function RegisterPage() {
                                 name="password"
                                 type="password"
                                 required
-                                className="relative block w-full appearance-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                                className="relative block w-full appearance-none border border-border-light dark:border-border-dark bg-secondary-light dark:bg-secondary-dark px-3 py-2 text-fg-light dark:text-fg-dark placeholder-muted-fg-light dark:placeholder-muted-fg-dark focus:z-10 focus:border-primary-light dark:focus:border-primary-dark focus:outline-none focus:ring-primary-light dark:focus:ring-primary-dark sm:text-sm"
                                 placeholder="Password"
                                 value={data.password}
                                 onChange={(e) => setData({ ...data, password: e.target.value })}
@@ -130,7 +130,7 @@ export default function RegisterPage() {
                                 name="confirmPassword"
                                 type="password"
                                 required
-                                className="relative block w-full appearance-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                                className="relative block w-full appearance-none rounded-b-md border border-border-light dark:border-border-dark bg-secondary-light dark:bg-secondary-dark px-3 py-2 text-fg-light dark:text-fg-dark placeholder-muted-fg-light dark:placeholder-muted-fg-dark focus:z-10 focus:border-primary-light dark:focus:border-primary-dark focus:outline-none focus:ring-primary-light dark:focus:ring-primary-dark sm:text-sm"
                                 placeholder="Confirm Password"
                                 value={data.confirmPassword}
                                 onChange={(e) => setData({ ...data, confirmPassword: e.target.value })}

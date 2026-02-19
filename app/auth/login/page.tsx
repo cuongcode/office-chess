@@ -51,17 +51,17 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-10 shadow-md">
+        <div className="flex min-h-[calc(100vh-80px)] flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            <div className="w-full max-w-md space-y-8 rounded-xl bg-card-light dark:bg-card-dark p-10 shadow-md border border-border-light dark:border-border-dark">
                 <div>
-                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                    <h2 className="mt-6 text-center text-3xl font-extrabold text-fg-light dark:text-fg-dark">
                         Sign in to your account
                     </h2>
-                    <p className="mt-2 text-center text-sm text-gray-600">
+                    <p className="mt-2 text-center text-sm text-muted-fg-light dark:text-muted-fg-dark">
                         Or{" "}
                         <Link
                             href="/auth/register"
-                            className="font-medium text-blue-600 hover:text-blue-500"
+                            className="font-medium text-primary-light dark:text-primary-dark hover:text-primary-light/80 dark:hover:text-primary-dark/80"
                         >
                             start for free today
                         </Link>
@@ -80,7 +80,7 @@ export default function LoginPage() {
                                 type="email"
                                 autoComplete="email"
                                 required
-                                className="relative block w-full appearance-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                                className="relative block w-full appearance-none rounded-t-md border border-border-light dark:border-border-dark bg-secondary-light dark:bg-secondary-dark px-3 py-2 text-fg-light dark:text-fg-dark placeholder-muted-fg-light dark:placeholder-muted-fg-dark focus:z-10 focus:border-primary-light dark:focus:border-primary-dark focus:outline-none focus:ring-primary-light dark:focus:ring-primary-dark sm:text-sm"
                                 placeholder="Email address"
                                 value={data.email}
                                 onChange={(e) => setData({ ...data, email: e.target.value })}
@@ -96,7 +96,7 @@ export default function LoginPage() {
                                 type="password"
                                 autoComplete="current-password"
                                 required
-                                className="relative block w-full appearance-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                                className="relative block w-full appearance-none rounded-b-md border border-border-light dark:border-border-dark bg-secondary-light dark:bg-secondary-dark px-3 py-2 text-fg-light dark:text-fg-dark placeholder-muted-fg-light dark:placeholder-muted-fg-dark focus:z-10 focus:border-primary-light dark:focus:border-primary-dark focus:outline-none focus:ring-primary-light dark:focus:ring-primary-dark sm:text-sm"
                                 placeholder="Password"
                                 value={data.password}
                                 onChange={(e) => setData({ ...data, password: e.target.value })}
@@ -110,11 +110,11 @@ export default function LoginPage() {
                                 id="remember-me"
                                 name="remember-me"
                                 type="checkbox"
-                                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                className="h-4 w-4 rounded border-border-light dark:border-border-dark text-primary-light dark:text-primary-dark focus:ring-primary-light dark:focus:ring-primary-dark"
                             />
                             <label
                                 htmlFor="remember-me"
-                                className="ml-2 block text-sm text-gray-900"
+                                className="ml-2 block text-sm text-fg-light dark:text-fg-dark"
                             >
                                 Remember me
                             </label>
@@ -123,7 +123,7 @@ export default function LoginPage() {
                         <div className="text-sm">
                             <Link
                                 href="/auth/forgot-password"
-                                className="font-medium text-blue-600 hover:text-blue-500"
+                                className="font-medium text-primary-light dark:text-primary-dark hover:text-primary-light/80 dark:hover:text-primary-dark/80"
                             >
                                 Forgot your password?
                             </Link>

@@ -54,10 +54,10 @@ export default function ResetPasswordPage({ params }: { params: Promise<{ token:
     };
 
     return (
-        <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-10 shadow-md">
+        <div className="flex min-h-[calc(100vh-80px)] flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            <div className="w-full max-w-md space-y-8 rounded-xl bg-card-light dark:bg-card-dark p-10 shadow-md border border-border-light dark:border-border-dark">
                 <div>
-                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                    <h2 className="mt-6 text-center text-3xl font-extrabold text-fg-light dark:text-fg-dark">
                         Reset Password
                     </h2>
                 </div>
@@ -72,7 +72,7 @@ export default function ResetPasswordPage({ params }: { params: Promise<{ token:
                                 name="password"
                                 type="password"
                                 required
-                                className="relative block w-full appearance-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                                className="relative block w-full appearance-none rounded-t-md border border-border-light dark:border-border-dark bg-secondary-light dark:bg-secondary-dark px-3 py-2 text-fg-light dark:text-fg-dark placeholder-muted-fg-light dark:placeholder-muted-fg-dark focus:z-10 focus:border-primary-light dark:focus:border-primary-dark focus:outline-none focus:ring-primary-light dark:focus:ring-primary-dark sm:text-sm"
                                 placeholder="New Password"
                                 value={data.password}
                                 onChange={(e) => setData({ ...data, password: e.target.value })}
@@ -87,7 +87,7 @@ export default function ResetPasswordPage({ params }: { params: Promise<{ token:
                                 name="confirmPassword"
                                 type="password"
                                 required
-                                className="relative block w-full appearance-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                                className="relative block w-full appearance-none rounded-b-md border border-border-light dark:border-border-dark bg-secondary-light dark:bg-secondary-dark px-3 py-2 text-fg-light dark:text-fg-dark placeholder-muted-fg-light dark:placeholder-muted-fg-dark focus:z-10 focus:border-primary-light dark:focus:border-primary-dark focus:outline-none focus:ring-primary-light dark:focus:ring-primary-dark sm:text-sm"
                                 placeholder="Confirm Password"
                                 value={data.confirmPassword}
                                 onChange={(e) => setData({ ...data, confirmPassword: e.target.value })}
@@ -99,7 +99,7 @@ export default function ResetPasswordPage({ params }: { params: Promise<{ token:
                         <button
                             type="submit"
                             disabled={loading}
-                            className="group relative flex w-full justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-blue-400"
+                            className="group relative flex w-full justify-center rounded-md border border-transparent bg-primary-light dark:bg-primary-dark py-2 px-4 text-sm font-medium text-primary-fg-light dark:text-primary-fg-dark hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:ring-offset-2 disabled:opacity-70"
                         >
                             {loading ? "Resetting..." : "Reset Password"}
                         </button>

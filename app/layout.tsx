@@ -28,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
-      <body className="antialiased">
+      <body className="antialiased bg-bg-light dark:bg-bg-dark text-fg-light dark:text-fg-dark transition-colors duration-300">
         <Providers>
           <Header />
           <main>
