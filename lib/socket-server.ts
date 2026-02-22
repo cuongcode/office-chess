@@ -13,7 +13,9 @@ import {
     GameRoom
 } from './gameRooms';
 import { updatePlayerStats } from './rating';
-import { TimeControlPreset } from './timeControls';
+import { TimeControlPreset, getTimeControlDisplay } from './timeControls';
+import { generatePGN, detectOpening, toPgnResult, toDbResult } from './pgn';
+import { prisma } from './prisma';
 
 export const initSocketServer = (httpServer: NetServer) => {
     const io = new SocketIOServer(httpServer, {
@@ -27,6 +29,73 @@ export const initSocketServer = (httpServer: NetServer) => {
 
     // Store timer intervals for each room
     const roomTimerIntervals = new Map<string, NodeJS.Timeout>();
+
+    // ---------------------------------------------------------------------------
+    // saveGame — persist a completed game to the database
+    // ---------------------------------------------------------------------------
+    const saveGame = async (
+        room: GameRoom,
+        result: 'white' | 'black' | 'draw' | string,
+        reason: string
+    ): Promise<string | null> => {
+        if (!room.whitePlayer || !room.blackPlayer) return null;
+
+        try {
+            const moves = room.gameState.moveHistory ?? [];
+            const endedAt = new Date();
+            const startedAt = room.gameStartedAt ? new Date(room.gameStartedAt) : room.createdAt;
+            const durationSec = Math.round((endedAt.getTime() - startedAt.getTime()) / 1000);
+
+            // Time control string e.g. "3+2" or "unlimited"
+            const timeControlStr = room.timeControl
+                ? getTimeControlDisplay(room.timeControl)
+                : 'unlimited';
+
+            // Map result/reason to DB columns
+            const { result: dbResult, resultMethod } = toDbResult(result, reason);
+
+            // PGN result token
+            const pgnResult = toPgnResult(result);
+
+            // Generate PGN
+            const pgn = generatePGN({
+                whitePlayerName: room.whitePlayer.name,
+                blackPlayerName: room.blackPlayer.name,
+                moves,
+                result: pgnResult,
+                date: startedAt,
+                timeControl: timeControlStr,
+            });
+
+            // Detect opening from first 10 moves
+            const opening = detectOpening(moves.slice(0, 10));
+
+            const saved = await prisma.game.create({
+                data: {
+                    whitePlayerId: room.whitePlayer.id,
+                    blackPlayerId: room.blackPlayer.id,
+                    result: dbResult,
+                    resultMethod,
+                    movesPGN: pgn,
+                    movesArray: moves,
+                    finalPosition: room.gameState.fen,
+                    moveCount: moves.length,
+                    timeControl: timeControlStr,
+                    whiteTimeLeft: room.timeControl ? Math.round(room.whiteTimeLeft) : null,
+                    blackTimeLeft: room.timeControl ? Math.round(room.blackTimeLeft) : null,
+                    duration: durationSec,
+                    opening,
+                    endedAt,
+                },
+            });
+
+            console.log(`[Server] Game saved: ${saved.id} | result: ${dbResult} | method: ${resultMethod}`);
+            return saved.id;
+        } catch (err) {
+            console.error('[Server] Failed to save game:', err);
+            return null;
+        }
+    };
 
     // Helper function to start timer sync for a room
     const startTimerSync = (roomId: string) => {
@@ -119,11 +188,14 @@ export const initSocketServer = (httpServer: NetServer) => {
 
         console.log(`[Server] Emitting game_over for timeout in room ${roomId}, winner: ${winner}`);
 
-        // Emit game over
-        io.to(roomId).emit('game_over', {
-            result: winner,
-            reason: 'timeout',
-            gameState: room.gameState
+        // Save game then emit
+        saveGame(room, winner, 'timeout').then((gameId) => {
+            io.to(roomId).emit('game_over', {
+                result: winner,
+                reason: 'timeout',
+                gameState: room.gameState,
+                gameId,
+            });
         });
     };
 
@@ -289,12 +361,22 @@ export const initSocketServer = (httpServer: NetServer) => {
                         updatedRoom.timerStartedAt = Date.now();
                     }
 
+                    // Track game start time (first activity)
+                    if (!updatedRoom.gameStartedAt) {
+                        updatedRoom.gameStartedAt = Date.now();
+                    }
+
                     // Emit timer update
                     io.to(data.roomId).emit('timer_updated', {
                         whiteTimeLeft: updatedRoom.whiteTimeLeft,
                         blackTimeLeft: updatedRoom.blackTimeLeft,
                         activeColor: updatedRoom.activeTimerColor
                     });
+                }
+
+                // For unlimited games, track start on first move
+                if (!updatedRoom.gameStartedAt) {
+                    updatedRoom.gameStartedAt = Date.now();
                 }
 
                 socket.to(data.roomId).emit('move_made', {
@@ -311,19 +393,29 @@ export const initSocketServer = (httpServer: NetServer) => {
                     updatePlayerStats(winnerPlayer.id, 'win').catch(console.error);
                     updatePlayerStats(loserPlayer.id, 'loss').catch(console.error);
 
-                    io.to(data.roomId).emit('game_over', {
-                        result: winner === 'w' ? 'white' : 'black',
-                        reason: 'checkmate',
-                        gameState: updatedRoom.gameState
+                    stopTimerSync(data.roomId);
+                    const resultColor = winner === 'w' ? 'white' : 'black';
+                    saveGame(updatedRoom, resultColor, 'checkmate').then((gameId) => {
+                        io.to(data.roomId).emit('game_over', {
+                            result: resultColor,
+                            reason: 'checkmate',
+                            gameState: updatedRoom.gameState,
+                            gameId,
+                        });
                     });
                 } else if ((data.gameState.status === 'stalemate' || data.gameState.status === 'draw') && updatedRoom.whitePlayer && updatedRoom.blackPlayer) {
                     updatePlayerStats(updatedRoom.whitePlayer.id, 'draw').catch(console.error);
                     updatePlayerStats(updatedRoom.blackPlayer.id, 'draw').catch(console.error);
 
-                    io.to(data.roomId).emit('game_over', {
-                        result: 'draw',
-                        reason: data.gameState.status === 'stalemate' ? 'stalemate' : 'draw',
-                        gameState: updatedRoom.gameState
+                    stopTimerSync(data.roomId);
+                    const drawReason = data.gameState.status === 'stalemate' ? 'stalemate' : 'draw';
+                    saveGame(updatedRoom, 'draw', drawReason).then((gameId) => {
+                        io.to(data.roomId).emit('game_over', {
+                            result: 'draw',
+                            reason: drawReason,
+                            gameState: updatedRoom.gameState,
+                            gameId,
+                        });
                     });
                 }
             }
@@ -356,10 +448,13 @@ export const initSocketServer = (httpServer: NetServer) => {
                     }
 
                     // Emit game_over to notify the remaining player
-                    io.to(data.roomId).emit('game_over', {
-                        result: winner,
-                        reason: 'resignation',
-                        gameState: result.room.gameState
+                    saveGame(result.room, winner, 'resignation').then((gameId) => {
+                        io.to(data.roomId).emit('game_over', {
+                            result: winner,
+                            reason: 'resignation',
+                            gameState: result.room!.gameState,
+                            gameId,
+                        });
                     });
                 }
 
@@ -385,10 +480,14 @@ export const initSocketServer = (httpServer: NetServer) => {
                         updatePlayerStats(room.blackPlayer.id, 'draw').catch(console.error);
                     }
 
-                    io.to(data.roomId).emit('game_over', {
-                        result: 'draw',
-                        reason: 'agreement',
-                        gameState: room.gameState
+                    stopTimerSync(data.roomId);
+                    saveGame(room, 'draw', 'agreement').then((gameId) => {
+                        io.to(data.roomId).emit('game_over', {
+                            result: 'draw',
+                            reason: 'agreement',
+                            gameState: room.gameState,
+                            gameId,
+                        });
                     });
                 }
             } else {
@@ -412,10 +511,14 @@ export const initSocketServer = (httpServer: NetServer) => {
                     updatePlayerStats(loserPlayer.id, 'loss').catch(console.error);
                 }
 
-                io.to(data.roomId).emit('game_over', {
-                    result: winner,
-                    reason: 'resignation',
-                    gameState: room.gameState
+                stopTimerSync(data.roomId);
+                saveGame(room, winner, 'resignation').then((gameId) => {
+                    io.to(data.roomId).emit('game_over', {
+                        result: winner,
+                        reason: 'resignation',
+                        gameState: room.gameState,
+                        gameId,
+                    });
                 });
             }
         });

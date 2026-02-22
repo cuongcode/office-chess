@@ -39,6 +39,9 @@ export interface GameRoom {
     // Ready state
     whiteReady: boolean;
     blackReady: boolean;
+
+    // Track when the game actually started (first move / timer start)
+    gameStartedAt: number | null;
 }
 
 // In-memory storage for game rooms
@@ -109,7 +112,10 @@ export const createRoom = (creator: Player, colorPreference: 'white' | 'black' |
 
         // Initialize ready state
         whiteReady: false,
-        blackReady: false
+        blackReady: false,
+
+        // Game hasn't started yet
+        gameStartedAt: null,
     };
 
     gameRooms.set(roomId, newRoom);
@@ -273,7 +279,19 @@ export const updateGameState = (roomId: string, gameState: GameState): GameRoom 
     const room = gameRooms.get(roomId);
     if (!room) return null;
 
-    room.gameState = gameState;
+    // Always keep the longer move history — the client who received a move via `move_made`
+    // reconstructs their chess instance from FEN only, so their chess.history() resets to [].
+    // The player who *made* the move sends the full history, but the *recipient* sends only
+    // moves they've made since receiving the FEN. We therefore merge by keeping the longer list.
+    const mergedHistory =
+        (gameState.moveHistory?.length ?? 0) >= (room.gameState.moveHistory?.length ?? 0)
+            ? gameState.moveHistory
+            : room.gameState.moveHistory;
+
+    room.gameState = {
+        ...gameState,
+        moveHistory: mergedHistory,
+    };
     return room;
 };
 

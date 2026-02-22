@@ -408,15 +408,25 @@ export const useGameStore = create<GameState>((set, get) => ({
         });
 
         newSocket.on('move_made', ({ move, gameState }: any) => {
-            // The server sends us the authoritative game state after the move
-            // We should trust the server's FEN rather than trying to apply the move locally
-            const newChess = new Chess(gameState.fen);
+            // Apply the opponent's move onto our existing chess instance so history is preserved.
+            // Creating a new Chess(fen) would lose all prior history, causing chess.history()
+            // to return only moves made since that FEN — breaking move history tracking.
+            const currentChess = get().chess;
+            let updatedChess = currentChess;
+
+            try {
+                currentChess.move({ from: move.from, to: move.to, promotion: move.promotion || 'q' });
+            } catch {
+                // Fallback: if the move fails (e.g. out-of-sync), reconstruct from server FEN
+                // and use the server-provided moveHistory as the source of truth.
+                updatedChess = new Chess(gameState.fen);
+            }
 
             set({
-                chess: newChess,
+                chess: updatedChess,
                 fen: gameState.fen,
                 turn: gameState.turn,
-                history: gameState.moveHistory || newChess.history(),
+                history: gameState.moveHistory || updatedChess.history(),
                 status: gameState.status as any,
                 lastMove: { from: move.from, to: move.to },
                 capturedPieces: gameState.capturedPieces || { white: [], black: [] }

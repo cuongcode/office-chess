@@ -32,4 +32,39 @@ model User {
   currentStreak       Int       @default(0)
   longestStreak       Int       @default(0)
   lastGameAt          DateTime?
+
+  // Game history relations
+  gamesAsWhite        Game[]    @relation("GamesAsWhite")
+  gamesAsBlack        Game[]    @relation("GamesAsBlack")
+}
+
+model Game {
+  id             String   @id @default(cuid())
+  whitePlayerId  String
+  blackPlayerId  String
+  whitePlayer    User     @relation("GamesAsWhite", fields: [whitePlayerId], references: [id])
+  blackPlayer    User     @relation("GamesAsBlack", fields: [blackPlayerId], references: [id])
+
+  // Result fields
+  result         String   // 'white_win' | 'black_win' | 'draw' | 'timeout_white' | 'timeout_black'
+  resultMethod   String   // 'checkmate' | 'resignation' | 'draw_agreement' | 'stalemate' | 'timeout'
+
+  // Move data
+  movesPGN       String
+  movesArray     Json
+  finalPosition  String
+  moveCount      Int
+
+  // Time data
+  timeControl    String   // e.g. "3+2" or "unlimited"
+  whiteTimeLeft  Int?     // seconds remaining at game end
+  blackTimeLeft  Int?     // seconds remaining at game end
+  duration       Int      // seconds from start to end
+
+  // Opening
+  opening        String?
+
+  // Timestamps
+  createdAt      DateTime @default(now())
+  endedAt        DateTime
 }
