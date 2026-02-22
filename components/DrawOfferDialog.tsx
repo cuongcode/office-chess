@@ -41,7 +41,7 @@ export function DrawOfferDialog() {
 
     return (
         <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 animate-slide-down">
-            <div className="bg-card-light dark:bg-card-dark border-2 border-yellow-500 rounded-xl shadow-2xl p-4 flex items-center gap-6">
+            <div className="bg-card-light dark:bg-card-dark border-2 border-yellow-500 rounded-xl p-4 flex items-center gap-6">
                 <div>
                     <h3 className="font-bold text-card-fg-light dark:text-card-fg-dark text-lg">Draw Offered</h3>
                     <p className="text-muted-fg-light dark:text-muted-fg-dark text-sm">Your opponent offers a draw.</p>
@@ -49,14 +49,14 @@ export function DrawOfferDialog() {
                 <div className="flex gap-2">
                     <button
                         onClick={() => handleRespond(true)}
-                        className="p-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors shadow-sm"
+                        className="p-2 bg-success-light hover:bg-success-light/80 text-white rounded-lg transition-colors cursor-pointer"
                         title="Accept Draw"
                     >
                         <Check className="w-5 h-5" />
                     </button>
                     <button
                         onClick={() => handleRespond(false)}
-                        className="p-2 bg-destructive-light dark:bg-destructive-dark hover:opacity-90 text-destructive-fg-light dark:text-destructive-fg-dark rounded-lg transition-colors shadow-sm"
+                        className="p-2 bg-destructive-light dark:bg-destructive-light/80 hover:opacity-90 text-destructive-fg-light dark:text-destructive-fg-dark rounded-lg transition-colors cursor-pointer"
                         title="Decline Draw"
                     >
                         <X className="w-5 h-5" />

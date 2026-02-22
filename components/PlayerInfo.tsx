@@ -39,7 +39,7 @@ export function PlayerInfo({
     showReadyStatus
 }: PlayerInfoProps) {
     return (
-        <div className="flex items-center justify-between px-2">
+        <div className="flex items-center justify-between">
             <div className='flex items-center gap-4'>
                 <div className="flex items-center gap-2">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center border ${isMe
@@ -55,7 +55,7 @@ export function PlayerInfo({
                             {name}
                             {showReadyStatus && (
                                 <div
-                                    className={`w-2 h-2 rounded-full ${isReady ? 'bg-green-500 shadow-[0_0_4px_rgba(34,197,94,0.6)]' : 'bg-zinc-600'}`}
+                                    className={`w-2 h-2 rounded-full ${isReady ? 'bg-success-light' : 'bg-muted-fg-light'}`}
                                     title={isReady ? 'Ready' : 'Not Ready'}
                                 />
                             )}

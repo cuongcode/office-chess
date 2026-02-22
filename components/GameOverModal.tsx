@@ -1,4 +1,4 @@
-import { Trophy, RefreshCw, Home } from 'lucide-react';
+import { Trophy, RefreshCw, Home, Handshake } from 'lucide-react';
 import { useGameStore } from '@/store/gameStore';
 
 interface GameOverModalProps {
@@ -49,7 +49,7 @@ export function GameOverModal({ onReturnHome }: GameOverModalProps) {
                     {status === 'checkmate' || status === 'resignation' ? (
                         <Trophy className={`w-16 h-16 ${(isWinner || playerColor === 'spectator' || !isOnline) && winner ? 'text-yellow-500 drop-shadow-md' : 'text-muted-fg-light dark:text-muted-fg-dark'}`} />
                     ) : (
-                        <div className="text-4xl">🤝</div>
+                        <div className="text-4xl"><Handshake className="w-16 h-16" /></div>
                     )}
                 </div>
 

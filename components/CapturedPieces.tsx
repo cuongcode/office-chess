@@ -27,12 +27,12 @@ const PIECE_SYMBOLS: Record<string, string> = {
 };
 
 const WHITE_PIECE_SYMBOLS: Record<string, string> = {
-    'p': '♙', // White pawn
-    'n': '♘', // White knight
-    'b': '♗', // White bishop
-    'r': '♖', // White rook
-    'q': '♕', // White queen
-    'k': '♔'  // White king
+    'p': '♟', // White pawn
+    'n': '♞', // White knight
+    'b': '♝', // White bishop
+    'r': '♜', // White rook
+    'q': '♛', // White queen
+    'k': '♚'  // White king
 };
 
 export function CapturedPieces({ capturedPieces, playerColor, opponentCapturedPieces }: CapturedPiecesProps) {
@@ -49,7 +49,7 @@ export function CapturedPieces({ capturedPieces, playerColor, opponentCapturedPi
         <div className="flex items-center gap-2">
             {/* Point difference - only show if positive (player is ahead) */}
             {pointDifference > 0 && (
-                <div className="text-xs font-bold px-1.5 py-0.5 rounded bg-success-light/20 dark:bg-success-dark/20 text-success-light dark:text-success-dark">
+                <div className="text-sm font-bold px-1.5 py-0.5 rounded bg-secondary-light dark:bg-secondary-dark dark:text-fg-dark">
                     +{pointDifference}
                 </div>
             )}

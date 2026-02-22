@@ -234,7 +234,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
     const bottomPlayer = getBottomPlayerInfo();
 
     return (
-        <div className="flex flex-col gap-4 w-full max-w-[600px] m-auto">
+        <div className="flex flex-col gap-4 w-full max-w-[600px] m-auto px-2">
             <DrawOfferDialog />
             <GameOverModal onReturnHome={onLeave} />
             <ConfirmationModal
@@ -281,7 +281,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
             />
 
             {/* Board */}
-            <div className="w-full aspect-square shadow-2xl rounded-lg overflow-hidden border-4 border-card-light dark:border-card-dark bg-card-light dark:bg-card-dark relative group">
+            <div className="w-full aspect-square rounded-lg overflow-hidden border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark relative group">
                 <Chessboard
                     options={{
                         id: "MainBoard",
@@ -307,7 +307,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                         <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex items-center justify-center z-20">
                             <button
                                 onClick={setPlayerReady}
-                                className="px-8 py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xl rounded-xl shadow-2xl hover:scale-105 transition-all animate-in fade-in zoom-in duration-300"
+                                className="px-8 py-4 bg-success-light text-success-fg-light font-bold text-xl rounded-xl hover:scale-105 transition-all animate-in fade-in zoom-in duration-300"
                             >
                                 Ready
                             </button>
@@ -344,19 +344,19 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                 showReadyStatus={!!(isOnline && timeControl && timeControl.category !== 'unlimited')}
             />
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-end gap-2">
                 {isOnline && playerColor !== 'spectator' && (
                     <div className="flex gap-2">
                         <button
                             onClick={offerDraw}
-                            className="p-2 text-muted-fg-light dark:text-muted-fg-dark hover:text-fg-light dark:hover:text-fg-dark hover:bg-accent-light dark:hover:bg-accent-dark rounded transition-colors"
+                            className="flex items-center p-2 cursor-pointer text-muted-fg-light dark:text-muted-fg-dark hover:text-fg-light dark:hover:text-fg-dark hover:bg-accent-light dark:hover:bg-accent-dark rounded transition-colors"
                             title="Offer Draw"
                         >
                             <Handshake className="w-5 h-5" />
                         </button>
                         <button
                             onClick={handleResign}
-                            className="p-2 text-muted-fg-light dark:text-muted-fg-dark hover:text-destructive-light dark:hover:text-destructive-dark hover:bg-destructive-light/10 dark:hover:bg-destructive-dark/10 rounded transition-colors"
+                            className="p-2 cursor-pointer text-muted-fg-light dark:text-muted-fg-dark hover:text-destructive-light hover:bg-destructive-light/10 rounded transition-colors"
                             title="Resign"
                         >
                             <Flag className="w-5 h-5" />
@@ -365,15 +365,13 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                 )}
                 {/* Controls */}
                 {isOnline && (
-                    <div className="flex justify-center mt-2">
-                        <button
-                            onClick={handleLeave}
-                            className="flex items-center gap-2 px-4 py-2 bg-muted-light dark:bg-muted-dark hover:bg-destructive-light/10 dark:hover:bg-destructive-dark/10 text-muted-fg-light dark:text-muted-fg-dark hover:text-destructive-light dark:hover:text-destructive-dark rounded-lg transition-colors text-sm font-medium"
-                        >
-                            <LogOut className="w-4 h-4" />
-                            Leave Game
-                        </button>
-                    </div>
+                    <button
+                        onClick={handleLeave}
+                        className="flex items-center gap-2 px-4 py-2 cursor-pointer bg-muted-light dark:bg-muted-dark hover:bg-destructive-light/10 text-muted-fg-light dark:text-muted-fg-dark hover:text-destructive-light rounded-lg text-sm font-medium"
+                    >
+                        <LogOut className="w-4 h-4" />
+                        Leave Game
+                    </button>
                 )}
             </div>
         </div>

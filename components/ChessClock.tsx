@@ -44,7 +44,7 @@ export const ChessClock: React.FC<ChessClockProps> = ({
     // Determine border style
     const getBorderStyle = () => {
         if (isActive && !isTimeout) {
-            return 'ring-4 ring-blue-500 ring-opacity-75';
+            return '';
         }
         return 'ring-1 ring-border-light dark:ring-border-dark';
     };

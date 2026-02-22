@@ -28,7 +28,7 @@ export function HeaderInfo({
                     title="Copy Room Code"
                 >
                     <span className="text-muted-foreground text-xs uppercase tracking-wider">Room</span>
-                    <span className="font-mono font-bold text-blue-500">{roomId}</span>
+                    <span className="font-mono font-bold text-primary-light dark:text-primary-dark">{roomId}</span>
                     <Copy className="w-3 h-3 text-muted-foreground" />
                 </div>
             )}
