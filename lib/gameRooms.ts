@@ -214,7 +214,9 @@ export const joinRoomAsSpectator = (roomId: string, player: Player): { room: Gam
 export const leaveRoom = (roomId: string, socketId: string): {
     room: GameRoom | null;
     resignedColor?: 'white' | 'black';
-    gameJustEnded?: boolean; // True if this leave caused the game to end
+    resignedPlayer?: Player;   // The player who left (captured before their slot is cleared)
+    remainingPlayer?: Player;  // The other player still in the room
+    gameJustEnded?: boolean;
 } => {
     const room = gameRooms.get(roomId);
     if (!room) return { room: null };
@@ -223,16 +225,22 @@ export const leaveRoom = (roomId: string, socketId: string): {
     const wasPlaying = room.gameState.status === 'playing';
 
     // If this is an explicit "leave game" action:
+    let resignedPlayer: Player | undefined;
     if (room.whitePlayer?.socketId === socketId) {
         resignedColor = 'white';
+        resignedPlayer = room.whitePlayer;    // snapshot before clearing
         room.whitePlayer = null;
     } else if (room.blackPlayer?.socketId === socketId) {
         resignedColor = 'black';
+        resignedPlayer = room.blackPlayer;    // snapshot before clearing
         room.blackPlayer = null;
     } else {
         // Just a spectator leaving
         room.spectators = room.spectators.filter(s => s.socketId !== socketId);
     }
+
+    const remainingPlayer = resignedColor === 'white' ? room.blackPlayer ?? undefined
+        : room.whitePlayer ?? undefined;
 
     // If a player resigned by leaving, update game state
     let gameJustEnded = false;
@@ -246,10 +254,10 @@ export const leaveRoom = (roomId: string, socketId: string): {
     // If room is empty, delete it
     if (!room.whitePlayer && !room.blackPlayer && room.spectators.length === 0) {
         gameRooms.delete(roomId);
-        return { room: null, resignedColor, gameJustEnded };
+        return { room: null, resignedColor, resignedPlayer, remainingPlayer, gameJustEnded };
     }
 
-    return { room, resignedColor, gameJustEnded };
+    return { room, resignedColor, resignedPlayer, remainingPlayer, gameJustEnded };
 };
 
 // Handle socket disconnect (not explicit leave)

@@ -422,44 +422,58 @@ export const initSocketServer = (httpServer: NetServer) => {
         });
 
         socket.on('leave_game', (data: { roomId: string }) => {
+            // Snapshot the room state BEFORE leaveRoom nulls the leaving player's slot
+            const roomBeforeLeave = getRoom(data.roomId);
             const result = leaveRoom(data.roomId, socket.id);
             socket.leave(data.roomId);
 
-            if (result.room) {
+            // result.room may be null if the room was deleted (both players gone)
+            // Use the room that still exists, or fall back to the pre-leave snapshot
+            const activeRoom = result.room ?? roomBeforeLeave;
+
+            if (activeRoom) {
                 io.to(data.roomId).emit('player_left', {
                     socketId: socket.id
                 });
 
                 // Notify about spectator count change
                 io.to(data.roomId).emit('spectator_left', {
-                    count: result.room.spectators.length
+                    count: activeRoom.spectators.length
                 });
 
                 // Only emit game_over if this leave JUST caused the game to end (resignation by leaving)
-                // Don't emit if game already ended before this leave (draw, checkmate, or prior resignation)
                 if (result.gameJustEnded && result.resignedColor) {
                     const winner = result.resignedColor === 'white' ? 'black' : 'white';
-                    const winnerPlayer = winner === 'white' ? result.room.whitePlayer : result.room.blackPlayer;
-                    const loserPlayer = winner === 'white' ? result.room.blackPlayer : result.room.whitePlayer;
+                    const winnerPlayer = result.remainingPlayer;
+                    const loserPlayer = result.resignedPlayer;
 
                     if (winnerPlayer && loserPlayer) {
                         updatePlayerStats(winnerPlayer.id, 'win').catch(console.error);
                         updatePlayerStats(loserPlayer.id, 'loss').catch(console.error);
                     }
 
-                    // Emit game_over to notify the remaining player
-                    saveGame(result.room, winner, 'resignation').then((gameId) => {
+                    // Build a temporary room snapshot with both players restored for saveGame()
+                    const roomForSave = {
+                        ...activeRoom,
+                        whitePlayer: result.resignedColor === 'white' ? result.resignedPlayer ?? null : result.remainingPlayer ?? null,
+                        blackPlayer: result.resignedColor === 'black' ? result.resignedPlayer ?? null : result.remainingPlayer ?? null,
+                    };
+
+                    stopTimerSync(data.roomId);
+                    saveGame(roomForSave, winner, 'resignation').then((gameId) => {
                         io.to(data.roomId).emit('game_over', {
                             result: winner,
                             reason: 'resignation',
-                            gameState: result.room!.gameState,
+                            gameState: activeRoom.gameState,
                             gameId,
                         });
                     });
                 }
 
                 // If room still exists, send update
-                io.to(data.roomId).emit('room_updated', result.room);
+                if (result.room) {
+                    io.to(data.roomId).emit('room_updated', result.room);
+                }
             }
         });
 
