@@ -50,16 +50,16 @@ export function ActiveGamesList({ userId, userName, onClose }: ActiveGamesListPr
             <div className="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-2xl p-8 max-w-2xl w-full relative shadow-xl max-h-[80vh] flex flex-col text-card-fg-light dark:text-card-fg-dark">
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 text-muted-fg-light dark:text-muted-fg-dark hover:text-fg-light dark:hover:text-fg-dark transition-colors"
+                    className="absolute top-4 cursor-pointer right-4 text-muted-fg-light dark:text-muted-fg-dark hover:text-fg-light dark:hover:text-fg-dark transition-colors"
                 >
                     <X className="w-6 h-6" />
                 </button>
 
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center mb-6 gap-6">
                     <h2 className="text-2xl font-bold">Active Games</h2>
                     <button
                         onClick={fetchGames}
-                        className="p-2 bg-muted-light/50 dark:bg-muted-dark/50 rounded-lg hover:bg-muted-light dark:hover:bg-muted-dark transition-colors"
+                        className="p-2 bg-muted-light/50 cursor-pointer dark:bg-muted-dark/50 rounded-lg hover:bg-muted-light dark:hover:bg-muted-dark transition-colors"
                         title="Refresh"
                     >
                         <RefreshCw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />

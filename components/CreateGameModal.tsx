@@ -47,51 +47,51 @@ export function CreateGameModal({ userId, userName, onClose }: CreateGameModalPr
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-            <div className="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-2xl p-8 max-w-md w-full relative shadow-xl text-card-fg-light dark:text-card-fg-dark">
+            <div className="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-2xl p-8 max-w-md w-full relative text-card-fg-light dark:text-card-fg-dark">
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 text-muted-fg-light dark:text-muted-fg-dark hover:text-fg-light dark:hover:text-fg-dark transition-colors"
+                    className="absolute top-4 right-4 text-muted-fg-light cursor-pointer dark:text-muted-fg-dark hover:text-fg-light dark:hover:text-fg-dark transition-colors"
                 >
                     <X className="w-6 h-6" />
                 </button>
 
-                <h2 className="text-2xl font-bold mb-6 text-center">Create Game</h2>
+                <h2 className="text-2xl font-bold text-center mb-6">Create Game</h2>
 
                 {!roomId ? (
-                    <div className="space-y-6">
+                    <div className="flex flex-col gap-4">
                         <div>
                             <p className="text-muted-fg-light dark:text-muted-fg-dark mb-3 text-center">Choose your color</p>
                             <div className="grid grid-cols-3 gap-3">
                                 <button
                                     onClick={() => setSelectedColor('white')}
                                     className={`p-4 rounded-lg border-2 transition-all ${selectedColor === 'white'
-                                        ? 'border-blue-500 bg-blue-500/10'
+                                        ? 'border-primary-light dark:border-primary-dark bg-primary-light/10 dark:bg-primary-dark/10'
                                         : 'border-border-light dark:border-border-dark hover:border-muted-fg-light dark:hover:border-muted-fg-dark'
                                         }`}
                                 >
-                                    <div className="w-12 h-12 rounded-full bg-white border border-gray-200 mx-auto mb-2 shadow-sm"></div>
+                                    <div className="w-12 h-12 rounded-full bg-white border border-border-light dark:border-border-dark mx-auto mb-2"></div>
                                     <p className="text-sm font-semibold">White</p>
                                 </button>
                                 <button
                                     onClick={() => setSelectedColor('black')}
                                     className={`p-4 rounded-lg border-2 transition-all ${selectedColor === 'black'
-                                        ? 'border-blue-500 bg-blue-500/10'
+                                        ? 'border-primary-light dark:border-primary-dark bg-primary-light/10 dark:bg-primary-dark/10'
                                         : 'border-border-light dark:border-border-dark hover:border-muted-fg-light dark:hover:border-muted-fg-dark'
                                         }`}
                                 >
-                                    <div className="w-12 h-12 rounded-full bg-gray-800 border border-gray-700 mx-auto mb-2 shadow-sm"></div>
+                                    <div className="w-12 h-12 rounded-full bg-gray-800 border border-gray-700 mx-auto mb-2"></div>
                                     <p className="text-sm font-semibold">Black</p>
                                 </button>
                                 <button
                                     onClick={() => setSelectedColor('random')}
                                     className={`p-4 rounded-lg border-2 transition-all ${selectedColor === 'random'
-                                        ? 'border-blue-500 bg-blue-500/10'
+                                        ? 'border-primary-light dark:border-primary-dark bg-primary-light/10 dark:bg-primary-dark/10'
                                         : 'border-border-light dark:border-border-dark hover:border-muted-fg-light dark:hover:border-muted-fg-dark'
                                         }`}
                                 >
                                     <div className="flex items-center justify-center">
-                                        <div className="w-6 h-12 rounded-l-full bg-white border border-border-light dark:border-border-dark mb-2 shadow-sm"></div>
-                                        <div className="w-6 h-12 rounded-r-full bg-gray-800 border border-border-light dark:border-border-dark mb-2 shadow-sm"></div>
+                                        <div className="w-6 h-12 rounded-l-full bg-white mb-2"></div>
+                                        <div className="w-6 h-12 rounded-r-full bg-gray-800 mb-2"></div>
                                     </div>
                                     <p className="text-sm font-semibold">Random</p>
                                 </button>

@@ -57,7 +57,7 @@ export function JoinGameModal({ userId, userName, onClose }: JoinGameModalProps)
             <div className="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-2xl p-8 max-w-md w-full relative shadow-xl text-card-fg-light dark:text-card-fg-dark">
                 <button
                     onClick={handleClose}
-                    className="absolute top-4 right-4 text-muted-fg-light dark:text-muted-fg-dark hover:text-fg-light dark:hover:text-fg-dark transition-colors"
+                    className="absolute top-4 cursor-pointer right-4 text-muted-fg-light dark:text-muted-fg-dark hover:text-fg-light dark:hover:text-fg-dark transition-colors"
                 >
                     <X className="w-6 h-6" />
                 </button>

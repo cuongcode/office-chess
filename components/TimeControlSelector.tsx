@@ -57,7 +57,7 @@ export const TimeControlSelector: React.FC<TimeControlSelectorProps> = ({
                         key={preset.id}
                         onClick={() => onSelect(preset)}
                         className={`p-3 rounded-lg border text-left transition-all ${selectedPreset?.id === preset.id
-                            ? 'border-blue-500 bg-blue-500/10 ring-1 ring-blue-500'
+                            ? 'border-primary-light dark:border-primary-dark bg-primary-light/10 dark:bg-primary-dark/10'
                             : 'border-border-light dark:border-border-dark hover:border-muted-fg-light/50 dark:hover:border-muted-fg-dark/50 bg-card-light dark:bg-card-dark'
                             }`}
                     >

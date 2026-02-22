@@ -83,7 +83,7 @@ export function PlayerSearchBar({ onPlayerSelect }: PlayerSearchBarProps) {
                     onChange={(e) => handleInputChange(e.target.value)}
                     onFocus={() => results.length > 0 && setShowDropdown(true)}
                     placeholder="Search other players"
-                    className="w-full px-4 py-2 pl-10 border border-input-light dark:border-input-dark bg-card-light dark:bg-card-dark rounded-xl focus:ring-2 focus:ring-ring focus:border-transparent text-fg-light dark:text-fg-dark placeholder:text-muted-fg-light dark:placeholder:text-muted-fg-dark placeholder:text-sm"
+                    className="w-full p-2 pl-10 border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark rounded-lg text-fg-light dark:text-fg-dark placeholder:text-muted-fg-light dark:placeholder:text-muted-fg-dark placeholder:text-sm"
                 />
                 <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-fg-light dark:text-muted-fg-dark">
                     <Search className="h-4 w-4" />
@@ -104,7 +104,7 @@ export function PlayerSearchBar({ onPlayerSelect }: PlayerSearchBarProps) {
                         onClick={() => setShowDropdown(false)}
                     ></div>
 
-                    <div className="absolute z-20 mt-2 w-full bg-card-light dark:bg-card-dark rounded-xl shadow-lg border border-border-light dark:border-border-dark max-h-80 overflow-y-auto">
+                    <div className="absolute z-20 mt-2 w-full bg-card-light dark:bg-card-dark rounded-xl border border-border-light dark:border-border-dark max-h-80 overflow-y-auto">
                         {results.map((player) => (
                             <button
                                 key={player.id}
