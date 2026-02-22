@@ -37,7 +37,7 @@ export const ChessClock: React.FC<ChessClockProps> = ({
             case 'warning':
                 return 'bg-yellow-500';
             default:
-                return 'bg-blue-500';
+                return 'bg-primary-light dark:bg-primary-dark';
         }
     };
 
@@ -61,7 +61,7 @@ export const ChessClock: React.FC<ChessClockProps> = ({
     return (
         <div
             className={`
-                relative px-4 py-2 rounded-lg transition-all duration-300
+                relative px-4 py-2
                 ${getBackgroundColor()}
                 ${getBorderStyle()}
                 ${isActive ? 'shadow-xl' : 'shadow-md'}
@@ -79,7 +79,7 @@ export const ChessClock: React.FC<ChessClockProps> = ({
 
             {/* Time Display */}
             <div className="flex items-center justify-center">
-                <span className={`text-xl font-mono font-bold ${getTextColor()} tabular-nums`}>
+                <span className={`font-mono font-bold ${getTextColor()} tabular-nums`}>
                     {isTimeout ? '00:00' : formattedTime}
                 </span>
             </div>
