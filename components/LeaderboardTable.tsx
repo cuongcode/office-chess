@@ -63,30 +63,30 @@ export function LeaderboardTable({ players, currentUserId, loading }: Leaderboar
 
     if (loading) {
         return (
-            <div className="bg-card-light dark:bg-card-dark rounded-lg shadow overflow-hidden border border-border-light dark:border-border-dark">
+            <div className="bg-card-light dark:bg-card-dark rounded-lg overflow-hidden border border-border-light dark:border-border-dark">
                 <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-border-light dark:divide-border-dark">
                         <thead className="bg-muted-light/50 dark:bg-muted-dark/50">
                             <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-fg-light dark:text-muted-fg-dark uppercase tracking-wider">Rank</th>
+                                {/* <th className="px-6 py-3 text-left text-xs font-medium text-muted-fg-light dark:text-muted-fg-dark uppercase tracking-wider">Rank</th> */}
                                 <th className="px-6 py-3 text-left text-xs font-medium text-muted-fg-light dark:text-muted-fg-dark uppercase tracking-wider">Player</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-muted-fg-light dark:text-muted-fg-dark uppercase tracking-wider">Rating</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-fg-light dark:text-muted-fg-dark uppercase tracking-wider">Record</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-muted-fg-light dark:text-muted-fg-dark uppercase tracking-wider">Games</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-muted-fg-light dark:text-muted-fg-dark uppercase tracking-wider">Win Rate</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-fg-light dark:text-muted-fg-dark uppercase tracking-wider">Record</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-fg-light dark:text-muted-fg-dark uppercase tracking-wider">Last Active</th>
+                                {/* <th className="px-6 py-3 text-left text-xs font-medium text-muted-fg-light dark:text-muted-fg-dark uppercase tracking-wider">Last Active</th> */}
                             </tr>
                         </thead>
                         <tbody className="bg-card-light dark:bg-card-dark divide-y divide-border-light dark:divide-border-dark">
                             {[1, 2, 3, 4, 5].map((i) => (
                                 <tr key={i} className="animate-pulse">
-                                    <td className="px-6 py-4"><div className="h-6 w-16 bg-muted rounded"></div></td>
+                                    {/* <td className="px-6 py-4"><div className="h-6 w-16 bg-muted rounded"></div></td> */}
                                     <td className="px-6 py-4"><div className="h-6 w-32 bg-muted rounded"></div></td>
                                     <td className="px-6 py-4"><div className="h-6 w-12 bg-muted rounded"></div></td>
+                                    <td className="px-6 py-4"><div className="h-6 w-20 bg-muted rounded"></div></td>
                                     <td className="px-6 py-4"><div className="h-6 w-12 bg-muted rounded"></div></td>
                                     <td className="px-6 py-4"><div className="h-6 w-24 bg-muted rounded"></div></td>
-                                    <td className="px-6 py-4"><div className="h-6 w-20 bg-muted rounded"></div></td>
-                                    <td className="px-6 py-4"><div className="h-6 w-16 bg-muted rounded"></div></td>
+                                    {/* <td className="px-6 py-4"><div className="h-6 w-16 bg-muted rounded"></div></td> */}
                                 </tr>
                             ))}
                         </tbody>
@@ -99,7 +99,7 @@ export function LeaderboardTable({ players, currentUserId, loading }: Leaderboar
     if (players.length === 0) {
         return (
             <div className="bg-card-light dark:bg-card-dark rounded-lg shadow p-12 text-center border border-border-light dark:border-border-dark">
-                <div className="text-6xl mb-4">🏆</div>
+                {/* <div className="text-6xl mb-4">🏆</div> */}
                 <h3 className="text-lg font-medium text-card-fg-light dark:text-card-fg-dark mb-2">No players found</h3>
                 <p className="text-sm text-muted-fg-light dark:text-muted-fg-dark">Try switching to a different time filter</p>
             </div>
@@ -109,95 +109,94 @@ export function LeaderboardTable({ players, currentUserId, loading }: Leaderboar
     return (
         <>
             {/* Desktop Table */}
-            <div className="hidden md:block bg-card-light dark:bg-card-dark rounded-lg shadow overflow-hidden border border-border-light dark:border-border-dark">
-                <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-border-light dark:divide-border-dark">
-                        <thead className="bg-muted-light/50 dark:bg-muted-dark/50">
-                            <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Rank</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Player</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Rating</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Games</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Win Rate</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Record</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Last Active</th>
-                            </tr>
-                        </thead>
-                        <tbody className="bg-card-light dark:bg-card-dark divide-y divide-border-light dark:divide-border-dark">
-                            {players.map((player) => {
-                                const isCurrentUser = currentUserId === player.id;
-                                return (
-                                    <tr
-                                        key={player.id}
-                                        onClick={() => router.push(`/profile/${player.id}`)}
-                                        className={`cursor-pointer transition-colors ${isCurrentUser
-                                            ? 'bg-blue-500/10 hover:bg-blue-500/20'
-                                            : 'hover:bg-muted-light dark:hover:bg-muted-dark'
-                                            }`}
-                                    >
-                                        <td className="px-6 py-4 whitespace-nowrap">
+            <div className="hidden md:block bg-card-light dark:bg-card-dark rounded-lg border border-border-light dark:border-border-dark max-h-[calc(100vh-18rem)] overflow-y-auto">
+                <table className="min-w-full divide-y divide-border-light dark:divide-border-dark">
+                    <thead className="bg-muted-light dark:bg-muted-dark sticky top-0 z-10">
+                        <tr>
+                            {/* <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Rank</th> */}
+                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Player</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Rating</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Record</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Games</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Win Rate</th>
+                            {/* <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Last Active</th> */}
+                        </tr>
+                    </thead>
+                    <tbody className="bg-card-light dark:bg-card-dark divide-y divide-border-light dark:divide-border-dark">
+                        {players.map((player) => {
+                            const isCurrentUser = currentUserId === player.id;
+                            return (
+                                <tr
+                                    key={player.id}
+                                    onClick={() => router.push(`/profile/${player.id}`)}
+                                    className={`cursor-pointer transition-colors ${isCurrentUser
+                                        ? 'bg-blue-500/10 hover:bg-blue-500/20'
+                                        : 'hover:bg-accent-light dark:hover:bg-accent-dark'
+                                        }`}
+                                >
+                                    {/* <td className="px-6 py-4 whitespace-nowrap">
                                             <RankBadge rank={player.rank} size="sm" />
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="flex items-center gap-3">
-                                                {player.avatar ? (
-                                                    <img
-                                                        src={player.avatar}
-                                                        alt={player.username || player.email}
-                                                        className="w-10 h-10 rounded-full object-cover"
-                                                    />
-                                                ) : (
-                                                    <div className="w-10 h-10 rounded-full bg-muted-light dark:bg-muted-dark flex items-center justify-center text-muted-fg-light dark:text-muted-fg-dark font-semibold">
-                                                        {(player.username || player.email).charAt(0).toUpperCase()}
-                                                    </div>
-                                                )}
-                                                <div>
-                                                    <p className="text-sm font-medium text-card-fg-light dark:text-card-fg-dark">
-                                                        {player.username || player.email}
-                                                        {isCurrentUser && (
-                                                            <span className="ml-2 text-xs text-blue-500 font-semibold">(You)</span>
-                                                        )}
-                                                    </p>
+                                        </td> */}
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <div className="flex items-center gap-3">
+                                            {player.avatar ? (
+                                                <img
+                                                    src={player.avatar}
+                                                    alt={player.username || player.email}
+                                                    className="w-10 h-10 rounded-full object-cover"
+                                                />
+                                            ) : (
+                                                <div className="w-10 h-10 rounded-full bg-muted-light dark:bg-muted-dark flex items-center justify-center text-muted-fg-light dark:text-muted-fg-dark font-semibold">
+                                                    {(player.username || player.email).charAt(0).toUpperCase()}
                                                 </div>
+                                            )}
+                                            <div>
+                                                <p className="text-sm font-medium text-card-fg-light dark:text-card-fg-dark">
+                                                    {player.username || player.email}
+                                                    {isCurrentUser && (
+                                                        <span className="ml-2 text-xs text-blue-500 font-semibold">(You)</span>
+                                                    )}
+                                                </p>
                                             </div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className={`text-lg ${getRatingColor(player.rating)}`}>
-                                                {player.rating}
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <span className={`text-lg ${getRatingColor(player.rating)}`}>
+                                            {player.rating}
+                                        </span>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-fg-light dark:text-muted-fg-dark">
+                                        <span className="text-green-500 font-medium">{player.wins}</span>
+                                        {' - '}
+                                        <span className="text-red-500 font-medium">{player.losses}</span>
+                                        {' - '}
+                                        <span className="text-muted-fg-light dark:text-muted-fg-dark">{player.draws}</span>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-card-fg-light dark:text-card-fg-dark">
+                                        {player.totalGames}
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <div className="flex items-center gap-2">
+                                            <div className="flex-1 bg-muted-light dark:bg-muted-dark rounded-full h-2 w-24">
+                                                <div
+                                                    className={`h-2 rounded-full ${getWinRateColor(player.winRate)}`}
+                                                    style={{ width: `${Math.min(player.winRate, 100)}%` }}
+                                                ></div>
+                                            </div>
+                                            <span className="text-sm font-medium text-card-fg-light dark:text-card-fg-dark w-12">
+                                                {player.winRate.toFixed(0)}%
                                             </span>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-card-fg-light dark:text-card-fg-dark">
-                                            {player.totalGames}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="flex items-center gap-2">
-                                                <div className="flex-1 bg-muted-light dark:bg-muted-dark rounded-full h-2 w-24">
-                                                    <div
-                                                        className={`h-2 rounded-full ${getWinRateColor(player.winRate)}`}
-                                                        style={{ width: `${Math.min(player.winRate, 100)}%` }}
-                                                    ></div>
-                                                </div>
-                                                <span className="text-sm font-medium text-card-fg-light dark:text-card-fg-dark w-12">
-                                                    {player.winRate.toFixed(0)}%
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-fg-light dark:text-muted-fg-dark">
-                                            <span className="text-green-500 font-medium">{player.wins}</span>
-                                            {' - '}
-                                            <span className="text-red-500 font-medium">{player.losses}</span>
-                                            {' - '}
-                                            <span className="text-muted-fg-light dark:text-muted-fg-dark">{player.draws}</span>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-fg-light dark:text-muted-fg-dark">
+                                        </div>
+                                    </td>
+
+                                    {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-fg-light dark:text-muted-fg-dark">
                                             {formatRelativeTime(player.lastGameAt)}
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                </div>
+                                        </td> */}
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
             </div>
 
             {/* Mobile Cards */}
@@ -212,7 +211,7 @@ export function LeaderboardTable({ players, currentUserId, loading }: Leaderboar
                                 }`}
                         >
                             <div className="flex items-start gap-3 mb-3">
-                                <RankBadge rank={player.rank} size="sm" />
+                                {/* <RankBadge rank={player.rank} size="sm" /> */}
                                 {player.avatar ? (
                                     <img
                                         src={player.avatar}
@@ -256,9 +255,9 @@ export function LeaderboardTable({ players, currentUserId, loading }: Leaderboar
                                         <span className="text-muted-fg-light dark:text-muted-fg-dark">{player.draws}</span>
                                     </span>
                                 </div>
-                                <div className="col-span-2 text-muted-fg-light dark:text-muted-fg-dark">
+                                {/* <div className="col-span-2 text-muted-fg-light dark:text-muted-fg-dark">
                                     Last active: {formatRelativeTime(player.lastGameAt)}
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     );

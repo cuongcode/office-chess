@@ -17,7 +17,7 @@ function GameModeButton({ onClick, label }: GameModeButtonProps) {
     return (
         <button
             onClick={onClick}
-            className="flex flex-col items-center justify-center p-4 bg-card-light dark:bg-card-dark backdrop-blur-sm border border-border-light dark:border-border-dark rounded-xl hover:bg-accent-light dark:hover:bg-accent-dark transition-all hover:scale-105 group"
+            className="flex flex-col items-center justify-center p-4 bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-xl hover:bg-accent-light dark:hover:bg-accent-dark hover:scale-105 group"
         >
             <h3 className="text-xl font-bold text-card-fg-light dark:text-card-fg-dark">{label}</h3>
         </button>
