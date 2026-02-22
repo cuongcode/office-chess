@@ -63,7 +63,7 @@ export default function LoginPage() {
                             href="/auth/register"
                             className="font-medium text-primary-light dark:text-primary-dark hover:text-primary-light/80 dark:hover:text-primary-dark/80"
                         >
-                            start for free today
+                            Sign up now
                         </Link>
                     </p>
                 </div>
