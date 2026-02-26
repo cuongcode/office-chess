@@ -79,7 +79,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-bg-light dark:bg-bg-dark text-fg-light dark:text-fg-dark flex flex-col pt-18">
-      <Toaster position="top-right" />
+      <Toaster position="bottom-right" />
 
       {view === 'menu' && (
         <div className="flex-1 flex flex-col items-center p-6">
