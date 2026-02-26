@@ -44,7 +44,7 @@ export function DrawOfferDialog() {
 
     return (
         <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 animate-slide-down">
-            <div className="bg-card-light dark:bg-card-dark border-2 border-yellow-500 rounded-xl p-4 flex items-center gap-6">
+            <div className="bg-card-light dark:bg-card-dark border-2 border-yellow-500 rounded-xl p-4 flex items-center gap-6 flex flex-col">
                 <div>
                     <h3 className="font-bold text-card-fg-light dark:text-card-fg-dark text-lg">Draw Offered</h3>
                     <p className="text-muted-fg-light dark:text-muted-fg-dark text-sm">Your opponent offers a draw.</p>
