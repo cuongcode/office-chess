@@ -42,6 +42,9 @@ export interface GameRoom {
 
     // Track when the game actually started (first move / timer start)
     gameStartedAt: number | null;
+
+    // Prevent duplicate DB saves
+    gameSaved: boolean;
 }
 
 // In-memory storage for game rooms
@@ -116,6 +119,9 @@ export const createRoom = (creator: Player, colorPreference: 'white' | 'black' |
 
         // Game hasn't started yet
         gameStartedAt: null,
+
+        // No DB record yet
+        gameSaved: false,
     };
 
     gameRooms.set(roomId, newRoom);
@@ -243,8 +249,9 @@ export const leaveRoom = (roomId: string, socketId: string): {
         : room.whitePlayer ?? undefined;
 
     // If a player resigned by leaving, update game state
+    // Only trigger if the game was still active AND hasn't been saved yet
     let gameJustEnded = false;
-    if (resignedColor && room.gameState.status === 'playing') {
+    if (resignedColor && room.gameState.status === 'playing' && !room.gameSaved) {
         const winner = resignedColor === 'white' ? 'black' : 'white';
         room.gameState.status = 'resignation';
         room.gameState.winner = winner;

@@ -190,6 +190,7 @@ export const initSocketServer = (httpServer: NetServer) => {
 
         // Save game then emit
         saveGame(room, winner, 'timeout').then((gameId) => {
+            room.gameSaved = true;
             io.to(roomId).emit('game_over', {
                 result: winner,
                 reason: 'timeout',
@@ -396,6 +397,7 @@ export const initSocketServer = (httpServer: NetServer) => {
                     stopTimerSync(data.roomId);
                     const resultColor = winner === 'w' ? 'white' : 'black';
                     saveGame(updatedRoom, resultColor, 'checkmate').then((gameId) => {
+                        updatedRoom.gameSaved = true;
                         io.to(data.roomId).emit('game_over', {
                             result: resultColor,
                             reason: 'checkmate',
@@ -410,6 +412,7 @@ export const initSocketServer = (httpServer: NetServer) => {
                     stopTimerSync(data.roomId);
                     const drawReason = data.gameState.status === 'stalemate' ? 'stalemate' : 'draw';
                     saveGame(updatedRoom, 'draw', drawReason).then((gameId) => {
+                        updatedRoom.gameSaved = true;
                         io.to(data.roomId).emit('game_over', {
                             result: 'draw',
                             reason: drawReason,
@@ -461,6 +464,9 @@ export const initSocketServer = (httpServer: NetServer) => {
 
                     stopTimerSync(data.roomId);
                     saveGame(roomForSave, winner, 'resignation').then((gameId) => {
+                        roomForSave.gameSaved = true;
+                        // Also mark the active room as saved if it still exists
+                        if (result.room) result.room.gameSaved = true;
                         io.to(data.roomId).emit('game_over', {
                             result: winner,
                             reason: 'resignation',
@@ -495,7 +501,12 @@ export const initSocketServer = (httpServer: NetServer) => {
                     }
 
                     stopTimerSync(data.roomId);
+
+                    // Immediately notify the draw offerer so their board freezes
+                    // without waiting for the async DB save round-trip.
+                    socket.to(data.roomId).emit('draw_accepted');
                     saveGame(room, 'draw', 'agreement').then((gameId) => {
+                        room.gameSaved = true;
                         io.to(data.roomId).emit('game_over', {
                             result: 'draw',
                             reason: 'agreement',
@@ -527,6 +538,7 @@ export const initSocketServer = (httpServer: NetServer) => {
 
                 stopTimerSync(data.roomId);
                 saveGame(room, winner, 'resignation').then((gameId) => {
+                    room.gameSaved = true;
                     io.to(data.roomId).emit('game_over', {
                         result: winner,
                         reason: 'resignation',

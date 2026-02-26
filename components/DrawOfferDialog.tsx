@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 export function DrawOfferDialog() {
-    const { socket, roomId } = useGameStore();
+    const { socket, roomId, acceptDraw } = useGameStore();
     const [show, setShow] = useState(false);
     const [opponentColor, setOpponentColor] = useState<string>('');
 
@@ -31,10 +31,13 @@ export function DrawOfferDialog() {
     }, [socket]);
 
     const handleRespond = (accept: boolean) => {
-        if (socket && roomId) {
-            socket.emit('respond_draw', { roomId, accept });
-            setShow(false);
+        if (accept) {
+            // Use store action so status is frozen immediately on both clients
+            acceptDraw();
+        } else if (socket && roomId) {
+            socket.emit('respond_draw', { roomId, accept: false });
         }
+        setShow(false);
     };
 
     if (!show) return null;

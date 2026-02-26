@@ -55,6 +55,7 @@ interface GameState {
     leaveGame: () => void;
     resign: () => void;
     offerDraw: () => void;
+    acceptDraw: () => void;
     rejoinGame: () => void;
     clearJoinError: () => void;
 
@@ -112,8 +113,12 @@ export const useGameStore = create<GameState>((set, get) => ({
     blackReady: false,
 
     makeMove: (source, target, promotion = 'q') => {
-        const { chess, isOnline, socket, roomId, capturedPieces } = get();
+        const { chess, isOnline, socket, roomId, capturedPieces, status } = get();
         try {
+            // Block all moves when the game is in a terminal state
+            const terminalStatuses = ['checkmate', 'stalemate', 'draw', 'resignation'];
+            if (terminalStatuses.includes(status)) return false;
+
             // If online and it's not our turn or we are spectators, prevent move
             if (isOnline) {
                 const { playerColor, turn, whitePlayerName, blackPlayerName } = get();
@@ -458,6 +463,13 @@ export const useGameStore = create<GameState>((set, get) => ({
             });
         });
 
+        // Freeze the draw-offerer's board immediately when their opponent accepts.
+        // This fires before the async DB save completes, so they can't sneak in any moves.
+        newSocket.on('draw_accepted', () => {
+            get().pauseTimer();
+            set({ status: 'draw', winner: null });
+        });
+
         newSocket.on('spectator_joined', ({ count }: { count: number }) => {
             set({ spectatorCount: count });
         });
@@ -536,7 +548,15 @@ export const useGameStore = create<GameState>((set, get) => ({
     },
 
     leaveGame: () => {
-        const { socket, roomId } = get();
+        const { socket, roomId, playerColor, status } = get();
+
+        // Immediately freeze the board on the leaving client
+        // so no further moves can be made while the socket round-trip completes.
+        if (status === 'playing' || status === 'check') {
+            const winner = playerColor === 'white' ? 'b' : playerColor === 'black' ? 'w' : null;
+            set({ status: 'resignation', winner });
+        }
+
         if (socket && roomId) {
             socket.emit('leave_game', { roomId });
         }
@@ -560,6 +580,10 @@ export const useGameStore = create<GameState>((set, get) => ({
     resign: () => {
         const { socket, roomId, playerColor } = get();
         if (socket && roomId && playerColor && playerColor !== 'spectator') {
+            // Immediately freeze the board locally — don't wait for the server round-trip.
+            const winner = playerColor === 'white' ? 'b' : 'w';
+            set({ status: 'resignation', winner });
+            get().pauseTimer();
             socket.emit('resign', { roomId, color: playerColor });
         }
     },
@@ -568,6 +592,17 @@ export const useGameStore = create<GameState>((set, get) => ({
         const { socket, roomId, playerColor } = get();
         if (socket && roomId && playerColor && playerColor !== 'spectator') {
             socket.emit('offer_draw', { roomId, color: playerColor });
+        }
+    },
+
+    acceptDraw: () => {
+        const { socket, roomId } = get();
+        // Immediately freeze the board locally for both clients.
+        // The server will emit game_over to confirm, but we act instantly.
+        set({ status: 'draw', winner: null });
+        get().pauseTimer();
+        if (socket && roomId) {
+            socket.emit('respond_draw', { roomId, accept: true });
         }
     },
 

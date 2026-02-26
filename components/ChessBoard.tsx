@@ -236,7 +236,6 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
     return (
         <div className="flex flex-col gap-4 w-full max-w-[600px] m-auto px-2">
             <DrawOfferDialog />
-            <GameOverModal onReturnHome={onLeave} />
             <ConfirmationModal
                 isOpen={confirmModal.isOpen}
                 title={confirmModal.title}
@@ -344,36 +343,41 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                 showReadyStatus={!!(isOnline && timeControl && timeControl.category !== 'unlimited')}
             />
 
-            <div className="flex items-center justify-end gap-2">
-                {isOnline && playerColor !== 'spectator' && (
-                    <div className="flex gap-2">
+            {/* Game Over Banner or Controls */}
+            {status !== 'playing' && status !== 'check' ? (
+                <GameOverModal onReturnHome={onLeave} />
+            ) : (
+                <div className="flex items-center justify-end gap-2">
+                    {isOnline && playerColor !== 'spectator' && (
+                        <div className="flex gap-2">
+                            <button
+                                onClick={offerDraw}
+                                className="flex items-center p-2 cursor-pointer text-muted-fg-light dark:text-muted-fg-dark hover:text-fg-light dark:hover:text-fg-dark hover:bg-accent-light dark:hover:bg-accent-dark rounded transition-colors"
+                                title="Offer Draw"
+                            >
+                                <Handshake className="w-5 h-5" />
+                            </button>
+                            <button
+                                onClick={handleResign}
+                                className="p-2 cursor-pointer text-muted-fg-light dark:text-muted-fg-dark hover:text-destructive hover:bg-destructive/10 rounded transition-colors"
+                                title="Resign"
+                            >
+                                <Flag className="w-5 h-5" />
+                            </button>
+                        </div>
+                    )}
+                    {/* Controls */}
+                    {isOnline && (
                         <button
-                            onClick={offerDraw}
-                            className="flex items-center p-2 cursor-pointer text-muted-fg-light dark:text-muted-fg-dark hover:text-fg-light dark:hover:text-fg-dark hover:bg-accent-light dark:hover:bg-accent-dark rounded transition-colors"
-                            title="Offer Draw"
+                            onClick={handleLeave}
+                            className="flex items-center gap-2 px-4 py-2 cursor-pointer bg-muted-light dark:bg-muted-dark hover:bg-destructive/10 text-muted-fg-light dark:text-muted-fg-dark hover:text-destructive rounded-lg text-sm font-medium"
                         >
-                            <Handshake className="w-5 h-5" />
+                            <LogOut className="w-4 h-4" />
+                            Leave Game
                         </button>
-                        <button
-                            onClick={handleResign}
-                            className="p-2 cursor-pointer text-muted-fg-light dark:text-muted-fg-dark hover:text-destructive hover:bg-destructive/10 rounded transition-colors"
-                            title="Resign"
-                        >
-                            <Flag className="w-5 h-5" />
-                        </button>
-                    </div>
-                )}
-                {/* Controls */}
-                {isOnline && (
-                    <button
-                        onClick={handleLeave}
-                        className="flex items-center gap-2 px-4 py-2 cursor-pointer bg-muted-light dark:bg-muted-dark hover:bg-destructive/10 text-muted-fg-light dark:text-muted-fg-dark hover:text-destructive rounded-lg text-sm font-medium"
-                    >
-                        <LogOut className="w-4 h-4" />
-                        Leave Game
-                    </button>
-                )}
-            </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 }
