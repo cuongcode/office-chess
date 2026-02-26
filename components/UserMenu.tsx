@@ -92,6 +92,15 @@ export function UserMenu({ user }: UserMenuProps) {
                     >
                         Your Profile
                     </Link>
+                    <Link
+                        href="/history"
+                        className="block px-4 py-2 text-sm text-card-fg-light dark:text-card-fg-dark hover:bg-muted-light dark:hover:bg-muted-dark hover:text-fg-light dark:hover:text-fg-dark"
+                        role="menuitem"
+                        tabIndex={-1}
+                        onClick={() => setIsOpen(false)}
+                    >
+                        Game History
+                    </Link>
                     <button
                         onClick={() => signOut()}
                         className="block w-full text-left px-4 py-2 text-sm text-card-fg-light dark:text-card-fg-dark hover:bg-muted-light dark:hover:bg-muted-dark hover:text-fg-light dark:hover:text-fg-dark"
