@@ -25,19 +25,19 @@
   --color-bg-dark: #0f172a;
   --color-fg-dark: #f1f5f9;
   --color-card-dark: #1e293b;
-  --color-card-fg-dark: #f1f5f9;
+  --color-card-fg-dark: var(--color-fg-dark);
   --color-primary-dark: #3b82f6;
-  --color-primary-fg-dark: #ffffff;
+  --color-primary-fg-dark: var(--color-card-light);
   --color-secondary-dark: #334155;
-  --color-secondary-fg-dark: #f1f5f9;
-  --color-muted-dark: #334155;
+  --color-secondary-fg-dark: var(--color-fg-dark);
+  --color-muted-dark: var(--color-secondary-dark);
   --color-muted-fg-dark: #94a3b8;
-  --color-accent-dark: #334155;
-  --color-accent-fg-dark: #3b82f6;
-  --color-border-dark: #334155;
-  --color-input-dark: #334155;
-  --color-ring-dark: #3b82f6;
-  --color-board-light-dark: #cbd5e1;
+  --color-accent-dark: var(--color-secondary-dark);
+  --color-accent-fg-dark: var(--color-primary-dark);
+  --color-border-dark: var(--color-board-dark-dark);
+  --color-input-dark: var(--color-secondary-dark);
+  --color-ring-dark: var(--color-primary-dark);
+  --color-board-light-dark: var(--color-board-dark-light);
   --color-board-dark-dark: #475569;
 
   /* Common Colors */
