@@ -55,7 +55,7 @@ export function PlayerInfo({
                             {name}
                             {showReadyStatus && (
                                 <div
-                                    className={`w-2 h-2 rounded-full ${isReady ? 'bg-success-light' : 'bg-muted-fg-light'}`}
+                                    className={`w-2 h-2 rounded-full ${isReady ? 'bg-success' : 'bg-muted-fg-light'}`}
                                     title={isReady ? 'Ready' : 'Not Ready'}
                                 />
                             )}

@@ -90,7 +90,7 @@ export function ActiveGamesList({ userId, userName, onClose }: ActiveGamesListPr
                                         <span className="flex items-center gap-1">
                                             <Eye className="w-4 h-4" /> {game.spectatorCount}
                                         </span>
-                                        <span className={`px-2 py-0.5 rounded text-xs ${game.status === 'playing' ? 'bg-success-light/20 text-success-light' : 'bg-muted-light dark:bg-muted-dark text-muted-fg-light dark:text-muted-fg-dark'}`}>
+                                        <span className={`px-2 py-0.5 rounded text-xs ${game.status === 'playing' ? 'bg-success/20 text-success' : 'bg-muted-light dark:bg-muted-dark text-muted-fg-light dark:text-muted-fg-dark'}`}>
                                             {game.status}
                                         </span>
                                     </div>

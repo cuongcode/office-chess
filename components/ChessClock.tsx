@@ -26,14 +26,14 @@ export const ChessClock: React.FC<ChessClockProps> = ({
 
     // Determine background color based on warning level and active state
     const getBackgroundColor = () => {
-        if (isTimeout) return 'bg-destructive-light/90 dark:bg-destructive-dark/90';
+        if (isTimeout) return 'bg-destructive/90 dark:bg-destructive/90';
         if (!isActive) return 'bg-card-light dark:bg-card-dark'; // Inactive clock
 
         switch (warningLevel) {
             case 'critical':
-                return 'bg-destructive-light dark:bg-destructive-dark animate-pulse-fast';
+                return 'bg-destructive dark:bg-destructive animate-pulse-fast';
             case 'urgent':
-                return 'bg-destructive-light dark:bg-destructive-dark animate-pulse';
+                return 'bg-destructive dark:bg-destructive animate-pulse';
             case 'warning':
                 return 'bg-yellow-500';
             default:
@@ -113,8 +113,8 @@ export const ChessClock: React.FC<ChessClockProps> = ({
             {warningLevel === 'critical' && !isTimeout && (
                 <div className="absolute -top-1 -right-1">
                     <span className="flex h-4 w-4">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-destructive-light opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-4 w-4 bg-destructive-light"></span>
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-destructive opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-4 w-4 bg-destructive"></span>
                     </span>
                 </div>
             )}

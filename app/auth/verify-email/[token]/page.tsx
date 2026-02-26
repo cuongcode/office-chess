@@ -54,14 +54,14 @@ export default function VerifyEmailPage({ params }: { params: Promise<{ token: s
                 )}
 
                 {status === "success" && (
-                    <div className="rounded-md bg-success-light/10 p-4">
-                        <p className="text-sm font-medium text-success-light">{message}</p>
+                    <div className="rounded-md bg-success/10 p-4">
+                        <p className="text-sm font-medium text-success">{message}</p>
                     </div>
                 )}
 
                 {status === "error" && (
-                    <div className="rounded-md bg-destructive-light/10 p-4">
-                        <p className="text-sm font-medium text-destructive-light">{message}</p>
+                    <div className="rounded-md bg-destructive/10 p-4">
+                        <p className="text-sm font-medium text-destructive">{message}</p>
                         <div className="mt-4">
                             <Link href="/auth/login" className="text-sm font-medium text-primary-light dark:text-primary-dark hover:opacity-80">
                                 Back to login

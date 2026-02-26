@@ -11,7 +11,7 @@ export function GameStatus() {
 
     if (status === 'checkmate') {
         message = `Checkmate! ${winner === 'w' ? 'White' : 'Black'} wins.`;
-        colorClass = 'text-destructive-light font-bold';
+        colorClass = 'text-destructive font-bold';
     } else if (status === 'draw' || status === 'stalemate') {
         message = 'Game Over - Draw';
         subMessage = status === 'stalemate' ? '(Stalemate)' : '(Insufficient Material/Repetition)';
@@ -24,7 +24,7 @@ export function GameStatus() {
     }
 
     return (
-        <div className={`text-center p-4 bg-card-light dark:bg-card-dark rounded-lg shadow-sm border border-border-light dark:border-border-dark mb-4 ${status === 'checkmate' ? 'ring-2 ring-destructive-light dark:ring-destructive-dark' : ''}`}>
+        <div className={`text-center p-4 bg-card-light dark:bg-card-dark rounded-lg shadow-sm border border-border-light dark:border-border-dark mb-4 ${status === 'checkmate' ? 'ring-2 ring-destructive dark:ring-destructive' : ''}`}>
             <h2 className={`text-xl ${colorClass}`}>
                 {message}
             </h2>

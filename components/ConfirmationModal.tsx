@@ -28,26 +28,26 @@ export function ConfirmationModal({
     const getConfirmButtonStyles = () => {
         switch (confirmVariant) {
             case 'danger':
-                return 'bg-destructive-light hover:bg-destructive-light/80 text-white';
+                return 'bg-destructive hover:bg-destructive/80 text-white';
             case 'warning':
                 return 'bg-yellow-600 hover:bg-yellow-700 text-white';
             case 'primary':
                 return 'bg-primary-light dark:bg-primary-dark hover:opacity-90 text-white';
             default:
-                return 'bg-destructive-light hover:bg-destructive-light/80 text-white';
+                return 'bg-destructive hover:bg-destructive/80 text-white';
         }
     };
 
     const getIconColor = () => {
         switch (confirmVariant) {
             case 'danger':
-                return 'text-destructive-light';
+                return 'text-destructive';
             case 'warning':
                 return 'text-yellow-400';
             case 'primary':
                 return 'text-primary-light dark:text-primary-dark';
             default:
-                return 'text-destructive-light';
+                return 'text-destructive';
         }
     };
 

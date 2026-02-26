@@ -65,7 +65,7 @@ export function LeaderboardWidget() {
         return (
             <div className="bg-card-light dark:bg-card-dark rounded-xl p-6 border border-border-light dark:border-border-dark">
                 <h3 className="text-lg font-semibold text-card-fg-light dark:text-card-fg-dark mb-4">Top Players</h3>
-                <p className="text-sm text-destructive-light dark:text-destructive-dark">{error}</p>
+                <p className="text-sm text-destructive dark:text-destructive">{error}</p>
             </div>
         );
     }

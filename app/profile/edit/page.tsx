@@ -293,9 +293,9 @@ export default function EditProfilePage() {
                                 {!checkingUsername && usernameAvailable !== null && formData.username !== originalUsername && (
                                     <div className="absolute right-3 top-1/2 -translate-y-1/2">
                                         {usernameAvailable ? (
-                                            <Check className="w-5 h-5 text-success-light" />
+                                            <Check className="w-5 h-5 text-success" />
                                         ) : (
-                                            <X className="w-5 h-5 text-destructive-light" />
+                                            <X className="w-5 h-5 text-destructive" />
                                         )}
                                     </div>
                                 )}
@@ -321,7 +321,7 @@ export default function EditProfilePage() {
                             />
                             <div className="flex justify-between items-center mt-1">
                                 <p className="text-muted-fg-light dark:text-muted-fg-dark text-xs">Short description for your profile</p>
-                                <p className={`text-xs ${bioCharCount > bioCharLimit ? 'text-destructive-light' : 'text-muted-fg-light dark:text-muted-fg-dark'}`}>
+                                <p className={`text-xs ${bioCharCount > bioCharLimit ? 'text-destructive' : 'text-muted-fg-light dark:text-muted-fg-dark'}`}>
                                     {bioCharCount}/{bioCharLimit}
                                 </p>
                             </div>

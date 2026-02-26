@@ -307,7 +307,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                         <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex items-center justify-center z-20">
                             <button
                                 onClick={setPlayerReady}
-                                className="px-8 py-4 bg-success-light text-success-fg-light font-bold text-xl rounded-xl hover:scale-105 transition-all animate-in fade-in zoom-in duration-300"
+                                className="px-8 py-4 bg-success text-success-fg-light font-bold text-xl rounded-xl hover:scale-105 transition-all animate-in fade-in zoom-in duration-300"
                             >
                                 Ready
                             </button>
@@ -318,7 +318,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                 {/* Connection Overlay */}
                 {isOnline && !isConnected && (
                     <div className="absolute inset-0 bg-white/80 dark:bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center z-10 transition-all">
-                        <WifiOff className="w-12 h-12 text-destructive-light dark:text-destructive-dark mb-4" />
+                        <WifiOff className="w-12 h-12 text-destructive dark:text-destructive mb-4" />
                         <h3 className="text-xl font-bold text-fg-light dark:text-fg-dark">Disconnected</h3>
                         <p className="text-muted-fg-light dark:text-muted-fg-dark">Trying to reconnect...</p>
                     </div>
@@ -356,7 +356,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                         </button>
                         <button
                             onClick={handleResign}
-                            className="p-2 cursor-pointer text-muted-fg-light dark:text-muted-fg-dark hover:text-destructive-light hover:bg-destructive-light/10 rounded transition-colors"
+                            className="p-2 cursor-pointer text-muted-fg-light dark:text-muted-fg-dark hover:text-destructive hover:bg-destructive/10 rounded transition-colors"
                             title="Resign"
                         >
                             <Flag className="w-5 h-5" />
@@ -367,7 +367,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                 {isOnline && (
                     <button
                         onClick={handleLeave}
-                        className="flex items-center gap-2 px-4 py-2 cursor-pointer bg-muted-light dark:bg-muted-dark hover:bg-destructive-light/10 text-muted-fg-light dark:text-muted-fg-dark hover:text-destructive-light rounded-lg text-sm font-medium"
+                        className="flex items-center gap-2 px-4 py-2 cursor-pointer bg-muted-light dark:bg-muted-dark hover:bg-destructive/10 text-muted-fg-light dark:text-muted-fg-dark hover:text-destructive rounded-lg text-sm font-medium"
                     >
                         <LogOut className="w-4 h-4" />
                         Leave Game

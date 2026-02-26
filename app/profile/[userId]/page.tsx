@@ -183,7 +183,7 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
 
                         {/* Win Rate */}
                         <div className="text-center">
-                            <div className={`text-5xl font-bold mb-2 ${profile.winRate > 50 ? 'text-success-light' : 'text-destructive-light'}`}>
+                            <div className={`text-5xl font-bold mb-2 ${profile.winRate > 50 ? 'text-success' : 'text-destructive'}`}>
                                 {profile.winRate.toFixed(1)}%
                             </div>
                             <div className="text-muted-fg-light dark:text-muted-fg-dark text-sm">Win Rate</div>
@@ -235,12 +235,12 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                         {/* Wins Bar */}
                         <div>
                             <div className="flex justify-between text-sm mb-2">
-                                <span className="text-success-light">Wins</span>
+                                <span className="text-success">Wins</span>
                                 <span className="text-muted-fg-light dark:text-muted-fg-dark">{profile.wins} ({winPercentage.toFixed(1)}%)</span>
                             </div>
                             <div className="h-3 bg-muted-light dark:bg-muted-dark rounded-full overflow-hidden">
                                 <div
-                                    className="h-full bg-gradient-to-r from-success-light to-success-light/70 transition-all duration-500"
+                                    className="h-full bg-gradient-to-r from-success to-success/70 transition-all duration-500"
                                     style={{ width: `${winPercentage}%` }}
                                 />
                             </div>
@@ -263,12 +263,12 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                         {/* Losses Bar */}
                         <div>
                             <div className="flex justify-between text-sm mb-2">
-                                <span className="text-destructive-light">Losses</span>
+                                <span className="text-destructive">Losses</span>
                                 <span className="text-muted-fg-light dark:text-muted-fg-dark">{profile.losses} ({lossPercentage.toFixed(1)}%)</span>
                             </div>
                             <div className="h-3 bg-muted-light dark:bg-muted-dark rounded-full overflow-hidden">
                                 <div
-                                    className="h-full bg-gradient-to-r from-destructive-light to-destructive-light/70 transition-all duration-500"
+                                    className="h-full bg-gradient-to-r from-destructive to-destructive/70 transition-all duration-500"
                                     style={{ width: `${lossPercentage}%` }}
                                 />
                             </div>

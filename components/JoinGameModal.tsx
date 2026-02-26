@@ -75,15 +75,15 @@ export function JoinGameModal({ userId, userName, onClose }: JoinGameModalProps)
                             value={roomIdInput}
                             onChange={handleInputChange}
                             placeholder="Ex: A1B2C3"
-                            className={`w-full bg-bg-light dark:bg-bg-dark border ${joinError ? 'border-destructive-light dark:border-destructive-dark' : 'border-input-light dark:border-input-dark'
-                                } rounded-lg px-4 py-3 text-fg-light dark:text-fg-dark placeholder:text-muted-fg-light dark:placeholder:text-muted-fg-dark focus:outline-none focus:ring-2 ${joinError ? 'focus:ring-destructive-light dark:focus:ring-destructive-dark' : 'focus:ring-primary-light dark:focus:ring-primary-dark'
+                            className={`w-full bg-bg-light dark:bg-bg-dark border ${joinError ? 'border-destructive dark:border-destructive' : 'border-input-light dark:border-input-dark'
+                                } rounded-lg px-4 py-3 text-fg-light dark:text-fg-dark placeholder:text-muted-fg-light dark:placeholder:text-muted-fg-dark focus:outline-none focus:ring-2 ${joinError ? 'focus:ring-destructive dark:focus:ring-destructive' : 'focus:ring-primary-light dark:focus:ring-primary-dark'
                                 } font-mono text-center text-xl tracking-wider uppercase`}
                             autoFocus
                             maxLength={6}
                             disabled={isJoining}
                         />
                         {joinError && (
-                            <div className="mt-2 flex items-start gap-2 text-destructive-light dark:text-destructive-dark text-sm">
+                            <div className="mt-2 flex items-start gap-2 text-destructive dark:text-destructive text-sm">
                                 <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
                                 <span>{joinError}</span>
                             </div>

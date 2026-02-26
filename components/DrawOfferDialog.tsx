@@ -49,14 +49,14 @@ export function DrawOfferDialog() {
                 <div className="flex gap-2">
                     <button
                         onClick={() => handleRespond(true)}
-                        className="p-2 bg-success-light hover:bg-success-light/80 text-white rounded-lg transition-colors cursor-pointer"
+                        className="p-2 bg-success hover:bg-success/80 text-white rounded-lg transition-colors cursor-pointer"
                         title="Accept Draw"
                     >
                         <Check className="w-5 h-5" />
                     </button>
                     <button
                         onClick={() => handleRespond(false)}
-                        className="p-2 bg-destructive-light dark:bg-destructive-light/80 hover:opacity-90 text-destructive-fg-light dark:text-destructive-fg-dark rounded-lg transition-colors cursor-pointer"
+                        className="p-2 bg-destructive dark:bg-destructive/80 hover:opacity-90 text-destructive-fg-light dark:text-destructive-fg-dark rounded-lg transition-colors cursor-pointer"
                         title="Decline Draw"
                     >
                         <X className="w-5 h-5" />

@@ -41,7 +41,7 @@ export function LeaderboardTable({ players, currentUserId, loading }: Leaderboar
         // if (winRate >= 70) return 'bg-green-500';
         // if (winRate >= 50) return 'bg-blue-500';
         // if (winRate >= 30) return 'bg-yellow-500';
-        return 'bg-success-light';
+        return 'bg-success';
     };
 
     // Format relative time
@@ -166,9 +166,9 @@ export function LeaderboardTable({ players, currentUserId, loading }: Leaderboar
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-fg-light dark:text-muted-fg-dark">
-                                        <span className="text-success-light font-medium">{player.wins}</span>
+                                        <span className="text-success font-medium">{player.wins}</span>
                                         {' - '}
-                                        <span className="text-destructive-light font-medium">{player.losses}</span>
+                                        <span className="text-destructive font-medium">{player.losses}</span>
                                         {' - '}
                                         <span className="text-muted-fg-light dark:text-muted-fg-dark">{player.draws}</span>
                                     </td>
@@ -248,9 +248,9 @@ export function LeaderboardTable({ players, currentUserId, loading }: Leaderboar
                                 <div className="col-span-2">
                                     <span className="text-muted-fg-light dark:text-muted-fg-dark">Record:</span>
                                     <span className="ml-1">
-                                        <span className="text-success-light font-medium">{player.wins}</span>
+                                        <span className="text-success font-medium">{player.wins}</span>
                                         {' - '}
-                                        <span className="text-destructive-light font-medium">{player.losses}</span>
+                                        <span className="text-destructive font-medium">{player.losses}</span>
                                         {' - '}
                                         <span className="text-muted-fg-light dark:text-muted-fg-dark">{player.draws}</span>
                                     </span>
