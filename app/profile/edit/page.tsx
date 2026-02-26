@@ -220,7 +220,7 @@ export default function EditProfilePage() {
 
     return (
         <div className="min-h-[calc(100vh-80px)] py-12 px-4 pt-28">
-            <div className="max-w-2xl mx-auto bg-card-light dark:bg-card-dark backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-border-light dark:border-border-dark">
+            <div className="max-w-2xl mx-auto bg-card-light dark:bg-card-dark backdrop-blur-sm rounded-2xl p-8 border border-border-light dark:border-border-dark">
                 <h1 className="text-3xl font-bold text-fg-light dark:text-fg-dark mb-6">Edit Profile</h1>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
