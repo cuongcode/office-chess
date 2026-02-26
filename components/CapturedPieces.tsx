@@ -1,5 +1,8 @@
 'use client';
 
+import { defaultPieces } from 'react-chessboard';
+import { useTheme } from '@/components/ThemeProvider';
+
 interface CapturedPiecesProps {
     capturedPieces: string[];
     playerColor: 'white' | 'black';
@@ -13,37 +16,29 @@ const PIECE_VALUES: Record<string, number> = {
     'b': 3, // Bishop
     'r': 5, // Rook
     'q': 9, // Queen
-    'k': 0  // King (shouldn't be captured but just in case)
+    'k': 0  // King
 };
 
-// Unicode symbols for chess pieces
-const PIECE_SYMBOLS: Record<string, string> = {
-    'p': '♟', // Black pawn
-    'n': '♞', // Black knight
-    'b': '♝', // Black bishop
-    'r': '♜', // Black rook
-    'q': '♛', // Black queen
-    'k': '♚'  // Black king
-};
-
-const WHITE_PIECE_SYMBOLS: Record<string, string> = {
-    'p': '♟', // White pawn
-    'n': '♞', // White knight
-    'b': '♝', // White bishop
-    'r': '♜', // White rook
-    'q': '♛', // White queen
-    'k': '♚'  // White king
+// Map piece letter to react-chessboard uppercase code
+const PIECE_CODE: Record<string, string> = {
+    'p': 'P',
+    'n': 'N',
+    'b': 'B',
+    'r': 'R',
+    'q': 'Q',
+    'k': 'K',
 };
 
 export function CapturedPieces({ capturedPieces, playerColor, opponentCapturedPieces }: CapturedPiecesProps) {
+    const { theme } = useTheme();
+
+    // Uniform fill: light on dark theme, dark on light theme
+    const fill = theme === 'dark' ? '#d1d5db' : '#1f2937';
+
     // Calculate points
     const myPoints = capturedPieces.reduce((sum, piece) => sum + (PIECE_VALUES[piece.toLowerCase()] || 0), 0);
     const opponentPoints = opponentCapturedPieces.reduce((sum, piece) => sum + (PIECE_VALUES[piece.toLowerCase()] || 0), 0);
     const pointDifference = myPoints - opponentPoints;
-
-    // Get the correct symbols based on what was captured
-    // If I'm white and I captured pieces, I captured black pieces
-    const symbols = playerColor === 'white' ? PIECE_SYMBOLS : WHITE_PIECE_SYMBOLS;
 
     return (
         <div className="flex items-center gap-2">
@@ -54,16 +49,30 @@ export function CapturedPieces({ capturedPieces, playerColor, opponentCapturedPi
                 </div>
             )}
             {/* Captured pieces display */}
-            <div className="flex items-center gap-0.5 min-h-[20px]">
-                {capturedPieces.map((piece, index) => (
-                    <span
-                        key={index}
-                        className="text-muted-fg-light dark:text-muted-fg-dark text-3xl"
-                        title={`Captured ${piece.toLowerCase()}`}
-                    >
-                        {symbols[piece.toLowerCase()]}
-                    </span>
-                ))}
+            <div className="flex items-center flex-wrap min-h-[20px]">
+                {[...capturedPieces]
+                    .sort((a, b) => {
+                        const valueDiff = (PIECE_VALUES[b.toLowerCase()] ?? 0) - (PIECE_VALUES[a.toLowerCase()] ?? 0);
+                        if (valueDiff !== 0) return valueDiff;
+                        return a.toLowerCase().localeCompare(b.toLowerCase());
+                    })
+                    .map((piece, index) => {
+                        const code = PIECE_CODE[piece.toLowerCase()];
+                        if (!code) return null;
+                        // Use 'w' prefix for shape (same shapes, fill is overridden)
+                        const PieceSvg = defaultPieces[`w${code}` as keyof typeof defaultPieces];
+                        if (!PieceSvg) return null;
+                        return (
+                            <span
+                                key={index}
+                                className="inline-block"
+                                style={{ width: 28, height: 28, marginRight: piece.toLowerCase() === 'p' ? -16 : -4 }}
+                                title={`Captured ${piece.toLowerCase()}`}
+                            >
+                                <PieceSvg fill={fill} />
+                            </span>
+                        );
+                    })}
             </div>
         </div>
     );

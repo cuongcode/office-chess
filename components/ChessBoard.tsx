@@ -327,7 +327,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
 
             {/* Bottom Player (You) */}
             <PlayerInfo
-                name={isOnline ? (bottomPlayer.isMe ? `${bottomPlayer.name} (You)` : bottomPlayer.name) : 'White'}
+                name={isOnline ? bottomPlayer.name : 'White'}
                 subLabel={isOnline && bottomPlayer.colorLabel ? bottomPlayer.colorLabel : ''}
                 avatarLabel={boardOrientation === 'white' ? 'W' : 'B'}
                 isMe={bottomPlayer.isMe}
