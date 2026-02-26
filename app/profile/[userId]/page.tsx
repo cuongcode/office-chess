@@ -166,7 +166,7 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                         Statistics
                     </h2>
 
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+                    <div className="grid grid-cols-2 md:grid-cols-4 mb-8">
                         {/* Rating */}
                         <div className="text-center">
                             <div className="text-5xl font-bold mb-2">
