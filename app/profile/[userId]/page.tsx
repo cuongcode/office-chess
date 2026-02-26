@@ -109,10 +109,10 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
     const lossPercentage = profile.totalGames > 0 ? (profile.losses / profile.totalGames) * 100 : 0;
 
     return (
-        <div className="min-h-[calc(100vh-80px)] py-12 px-4">
+        <div className="min-h-[calc(100vh-80px)] py-12 px-4 mt-10">
             <div className="max-w-4xl mx-auto">
                 {/* Profile Header */}
-                <div className="bg-card-light dark:bg-card-dark backdrop-blur-sm rounded-2xl shadow-2xl p-8 mb-6 border border-border-light dark:border-border-dark">
+                <div className="bg-card-light dark:bg-card-dark backdrop-blur-sm rounded-2xl p-8 mb-6 border border-border-light dark:border-border-dark">
                     <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
                         {/* Avatar */}
                         <div className="relative">
@@ -146,21 +146,21 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                                         Edit Profile
                                     </Link>
                                 )}
-                                <Button
+                                {/* <Button
                                     variant="secondary"
                                     onClick={handleShareProfile}
                                     className="px-4 py-2 flex items-center gap-2 !border-0"
                                 >
                                     <Copy className="w-4 h-4" />
                                     Share Profile
-                                </Button>
+                                </Button> */}
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Statistics Card */}
-                <div className="bg-card-light dark:bg-card-dark backdrop-blur-sm rounded-2xl shadow-2xl p-8 mb-6 border border-border-light dark:border-border-dark">
+                <div className="bg-card-light dark:bg-card-dark backdrop-blur-sm rounded-2xl p-8 mb-6 border border-border-light dark:border-border-dark">
                     <h2 className="text-2xl font-bold text-fg-light dark:text-fg-dark mb-6 flex items-center gap-2">
                         <Trophy className="w-6 h-6 text-yellow-500" />
                         Statistics
@@ -226,7 +226,7 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                 </div>
 
                 {/* Quick Stats Bar */}
-                <div className="bg-card-light dark:bg-card-dark backdrop-blur-sm rounded-2xl shadow-2xl p-8 mb-6 border border-border-light dark:border-border-dark">
+                <div className="bg-card-light dark:bg-card-dark backdrop-blur-sm rounded-2xl p-8 mb-6 border border-border-light dark:border-border-dark">
                     <h3 className="text-xl font-bold text-fg-light dark:text-fg-dark mb-4 flex items-center gap-2">
                         <TrendingUp className="w-5 h-5 text-primary-light dark:text-primary-dark" />
                         Performance Breakdown
@@ -277,7 +277,7 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                 </div>
 
                 {/* Recent Activity Placeholder */}
-                <div className="bg-card-light dark:bg-card-dark backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-border-light dark:border-border-dark">
+                <div className="bg-card-light dark:bg-card-dark backdrop-blur-sm rounded-2xl p-8 border border-border-light dark:border-border-dark">
                     <h3 className="text-xl font-bold text-fg-light dark:text-fg-dark mb-4">Recent Activity</h3>
                     <div className="text-center py-12">
                         <p className="text-muted-fg-light dark:text-muted-fg-dark">Recent games will appear here</p>
