@@ -239,8 +239,8 @@ export default function EditProfilePage() {
                                         className="w-24 h-24 rounded-full border-4 border-primary-light dark:border-primary-dark object-cover"
                                     />
                                 ) : (
-                                    <div className="w-24 h-24 rounded-full border-4 border-primary-light dark:border-primary-dark bg-gradient-to-br from-primary-light to-purple-600 flex items-center justify-center">
-                                        <User className="w-12 h-12 text-white" />
+                                    <div className="w-24 h-24 rounded-full bg-secondary-light dark:bg-secondary-dark flex items-center justify-center">
+                                        <User className="w-12 h-12 text-muted-fg-light dark:text-muted-fg-dark" />
                                     </div>
                                 )}
                             </div>
@@ -249,7 +249,7 @@ export default function EditProfilePage() {
                             <div
                                 onDrop={handleDrop}
                                 onDragOver={handleDragOver}
-                                className="flex-1 border-2 border-dashed border-border-light dark:border-border-dark rounded-lg p-6 text-center hover:border-primary-light dark:hover:border-primary-dark transition cursor-pointer"
+                                className="flex-1 border-2 border-dashed border-border-light dark:border-border-dark rounded-lg p-6 text-center hover:border-primary-light dark:hover:border-primary-dark cursor-pointer"
                                 onClick={() => fileInputRef.current?.click()}
                             >
                                 <Upload className="w-8 h-8 text-muted-fg-light dark:text-muted-fg-dark mx-auto mb-2" />
@@ -360,7 +360,7 @@ export default function EditProfilePage() {
                             type="button"
                             variant="secondary"
                             onClick={() => router.back()}
-                            className="px-6 py-3 bg-secondary-light dark:bg-secondary-dark text-secondary-fg-light dark:text-secondary-fg-dark rounded-lg hover:bg-secondary-light/80 dark:hover:bg-secondary-dark/80 transition !border-0"
+                            className="px-6 py-3 bg-secondary-light dark:bg-secondary-dark text-secondary-fg-light dark:text-secondary-fg-dark rounded-lg hover:bg-secondary-light/80 dark:hover:bg-secondary-dark/80 !border-0"
                         >
                             Cancel
                         </Button>
