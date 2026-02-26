@@ -49,21 +49,21 @@ export default function VerifyEmailPage({ params }: { params: Promise<{ token: s
 
                 {status === "loading" && (
                     <div className="flex justify-center py-4">
-                        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
+                        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary-light dark:border-primary-dark"></div>
                     </div>
                 )}
 
                 {status === "success" && (
-                    <div className="rounded-md bg-green-50 p-4">
-                        <p className="text-sm font-medium text-green-800">{message}</p>
+                    <div className="rounded-md bg-success-light/10 p-4">
+                        <p className="text-sm font-medium text-success-light">{message}</p>
                     </div>
                 )}
 
                 {status === "error" && (
-                    <div className="rounded-md bg-red-50 p-4">
-                        <p className="text-sm font-medium text-red-800">{message}</p>
+                    <div className="rounded-md bg-destructive-light/10 p-4">
+                        <p className="text-sm font-medium text-destructive-light">{message}</p>
                         <div className="mt-4">
-                            <Link href="/auth/login" className="text-sm font-medium text-blue-600 hover:text-blue-500">
+                            <Link href="/auth/login" className="text-sm font-medium text-primary-light dark:text-primary-dark hover:opacity-80">
                                 Back to login
                             </Link>
                         </div>

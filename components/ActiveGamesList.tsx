@@ -90,7 +90,7 @@ export function ActiveGamesList({ userId, userName, onClose }: ActiveGamesListPr
                                         <span className="flex items-center gap-1">
                                             <Eye className="w-4 h-4" /> {game.spectatorCount}
                                         </span>
-                                        <span className={`px-2 py-0.5 rounded text-xs ${game.status === 'playing' ? 'bg-green-500/20 text-green-500' : 'bg-muted-light dark:bg-muted-dark text-muted-fg-light dark:text-muted-fg-dark'}`}>
+                                        <span className={`px-2 py-0.5 rounded text-xs ${game.status === 'playing' ? 'bg-success-light/20 text-success-light' : 'bg-muted-light dark:bg-muted-dark text-muted-fg-light dark:text-muted-fg-dark'}`}>
                                             {game.status}
                                         </span>
                                     </div>
@@ -98,7 +98,7 @@ export function ActiveGamesList({ userId, userName, onClose }: ActiveGamesListPr
 
                                 <button
                                     onClick={() => handleSpectate(game.roomId)}
-                                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold flex items-center gap-2 transition-colors shadow-sm"
+                                    className="px-4 py-2 bg-primary-light dark:bg-primary-dark hover:opacity-90 text-primary-fg-light dark:text-primary-fg-dark rounded-lg font-semibold flex items-center gap-2 transition-colors shadow-sm"
                                 >
                                     Watch <ArrowRight className="w-4 h-4" />
                                 </button>

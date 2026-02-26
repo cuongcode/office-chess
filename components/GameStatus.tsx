@@ -11,7 +11,7 @@ export function GameStatus() {
 
     if (status === 'checkmate') {
         message = `Checkmate! ${winner === 'w' ? 'White' : 'Black'} wins.`;
-        colorClass = 'text-red-600 dark:text-red-400 font-bold';
+        colorClass = 'text-destructive-light font-bold';
     } else if (status === 'draw' || status === 'stalemate') {
         message = 'Game Over - Draw';
         subMessage = status === 'stalemate' ? '(Stalemate)' : '(Insufficient Material/Repetition)';

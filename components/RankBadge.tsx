@@ -57,7 +57,7 @@ export function RankBadge({ rank, size = 'md' }: RankBadgeProps) {
     // Top 50: trophy with blue
     if (rank <= 50) {
         return (
-            <div className={`inline-flex items-center gap-1 ${sizeClasses[size]} rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold shadow`}>
+            <div className={`inline-flex items-center gap-1 ${sizeClasses[size]} rounded-full bg-gradient-to-r from-primary-light to-primary-dark text-white font-semibold shadow`}>
                 <span className={iconSizes[size]}>🏆</span>
                 <span>#{rank}</span>
             </div>

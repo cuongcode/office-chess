@@ -96,7 +96,7 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                 <div className="text-center">
                     <h1 className="text-4xl font-bold text-white mb-4">Profile Not Found</h1>
                     <p className="text-slate-400 mb-6">The user you're looking for doesn't exist.</p>
-                    <Link href="/" className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                    <Link href="/" className="px-6 py-3 bg-primary-light dark:bg-primary-dark text-primary-fg-light dark:text-primary-fg-dark rounded-lg hover:opacity-90 transition">
                         Go Home
                     </Link>
                 </div>
@@ -120,10 +120,10 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                                 <img
                                     src={profile.avatar}
                                     alt={profile.username}
-                                    className="w-32 h-32 rounded-full border-4 border-blue-500 object-cover"
+                                    className="w-32 h-32 rounded-full border-4 border-primary-light dark:border-primary-dark object-cover"
                                 />
                             ) : (
-                                <div className="w-32 h-32 rounded-full border-4 border-blue-500 bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
+                                <div className="w-32 h-32 rounded-full border-4 border-primary-light dark:border-primary-dark bg-gradient-to-br from-primary-light to-purple-600 flex items-center justify-center">
                                     <User className="w-16 h-16 text-white" />
                                 </div>
                             )}
@@ -140,7 +140,7 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                                 {isOwnProfile && (
                                     <Link
                                         href="/profile/edit"
-                                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2"
+                                        className="px-4 py-2 bg-primary-light dark:bg-primary-dark text-primary-fg-light dark:text-primary-fg-dark rounded-lg hover:opacity-90 transition flex items-center gap-2"
                                     >
                                         <Edit className="w-4 h-4" />
                                         Edit Profile
@@ -169,7 +169,7 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
                         {/* Rating */}
                         <div className="text-center">
-                            <div className="text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-2">
+                            <div className="text-5xl font-bold bg-gradient-to-r from-primary-light to-purple-500 bg-clip-text text-transparent mb-2">
                                 {profile.rating}
                             </div>
                             <div className="text-muted-fg-light dark:text-muted-fg-dark text-sm">Rating</div>
@@ -183,7 +183,7 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
 
                         {/* Win Rate */}
                         <div className="text-center">
-                            <div className={`text-5xl font-bold mb-2 ${profile.winRate > 50 ? 'text-green-500' : 'text-red-500'}`}>
+                            <div className={`text-5xl font-bold mb-2 ${profile.winRate > 50 ? 'text-success-light' : 'text-destructive-light'}`}>
                                 {profile.winRate.toFixed(1)}%
                             </div>
                             <div className="text-muted-fg-light dark:text-muted-fg-dark text-sm">Win Rate</div>
@@ -228,19 +228,19 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                 {/* Quick Stats Bar */}
                 <div className="bg-card-light dark:bg-card-dark backdrop-blur-sm rounded-2xl shadow-2xl p-8 mb-6 border border-border-light dark:border-border-dark">
                     <h3 className="text-xl font-bold text-fg-light dark:text-fg-dark mb-4 flex items-center gap-2">
-                        <TrendingUp className="w-5 h-5 text-blue-500" />
+                        <TrendingUp className="w-5 h-5 text-primary-light dark:text-primary-dark" />
                         Performance Breakdown
                     </h3>
                     <div className="space-y-4">
                         {/* Wins Bar */}
                         <div>
                             <div className="flex justify-between text-sm mb-2">
-                                <span className="text-green-400">Wins</span>
+                                <span className="text-success-light">Wins</span>
                                 <span className="text-muted-fg-light dark:text-muted-fg-dark">{profile.wins} ({winPercentage.toFixed(1)}%)</span>
                             </div>
                             <div className="h-3 bg-muted-light dark:bg-muted-dark rounded-full overflow-hidden">
                                 <div
-                                    className="h-full bg-gradient-to-r from-green-500 to-green-400 transition-all duration-500"
+                                    className="h-full bg-gradient-to-r from-success-light to-success-light/70 transition-all duration-500"
                                     style={{ width: `${winPercentage}%` }}
                                 />
                             </div>
@@ -263,12 +263,12 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                         {/* Losses Bar */}
                         <div>
                             <div className="flex justify-between text-sm mb-2">
-                                <span className="text-red-400">Losses</span>
+                                <span className="text-destructive-light">Losses</span>
                                 <span className="text-muted-fg-light dark:text-muted-fg-dark">{profile.losses} ({lossPercentage.toFixed(1)}%)</span>
                             </div>
                             <div className="h-3 bg-muted-light dark:bg-muted-dark rounded-full overflow-hidden">
                                 <div
-                                    className="h-full bg-gradient-to-r from-red-500 to-red-400 transition-all duration-500"
+                                    className="h-full bg-gradient-to-r from-destructive-light to-destructive-light/70 transition-all duration-500"
                                     style={{ width: `${lossPercentage}%` }}
                                 />
                             </div>

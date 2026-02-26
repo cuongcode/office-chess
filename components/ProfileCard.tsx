@@ -70,7 +70,7 @@ export function ProfileCard({ userId, playerData }: ProfileCardProps) {
     return (
         <Link
             href={`/profile/${profile.id}`}
-            className="bg-card-light dark:bg-card-dark rounded-lg p-4 border border-border-light dark:border-border-dark hover:border-blue-500 transition-all hover:shadow-lg hover:shadow-blue-500/20 cursor-pointer block"
+            className="bg-card-light dark:bg-card-dark rounded-lg p-4 border border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark transition-all hover:shadow-lg hover:shadow-primary-light/20 cursor-pointer block"
         >
             <div className="flex items-center gap-3">
                 {/* Avatar */}
@@ -78,10 +78,10 @@ export function ProfileCard({ userId, playerData }: ProfileCardProps) {
                     <img
                         src={profile.avatar}
                         alt={profile.username}
-                        className="w-12 h-12 rounded-full border-2 border-blue-500 object-cover"
+                        className="w-12 h-12 rounded-full border-2 border-primary-light dark:border-primary-dark object-cover"
                     />
                 ) : (
-                    <div className="w-12 h-12 rounded-full border-2 border-blue-500 bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-full border-2 border-primary-light dark:border-primary-dark bg-gradient-to-br from-primary-light to-purple-600 flex items-center justify-center">
                         <User className="w-6 h-6 text-white" />
                     </div>
                 )}

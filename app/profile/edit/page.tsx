@@ -237,10 +237,10 @@ export default function EditProfilePage() {
                                         <img
                                             src={avatarPreview}
                                             alt="Avatar preview"
-                                            className="w-24 h-24 rounded-full border-4 border-blue-500 object-cover"
+                                            className="w-24 h-24 rounded-full border-4 border-primary-light dark:border-primary-dark object-cover"
                                         />
                                     ) : (
-                                        <div className="w-24 h-24 rounded-full border-4 border-blue-500 bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
+                                        <div className="w-24 h-24 rounded-full border-4 border-primary-light dark:border-primary-dark bg-gradient-to-br from-primary-light to-purple-600 flex items-center justify-center">
                                             <User className="w-12 h-12 text-white" />
                                         </div>
                                     )}
@@ -250,7 +250,7 @@ export default function EditProfilePage() {
                                 <div
                                     onDrop={handleDrop}
                                     onDragOver={handleDragOver}
-                                    className="flex-1 border-2 border-dashed border-border-light dark:border-border-dark rounded-lg p-6 text-center hover:border-blue-500 transition cursor-pointer"
+                                    className="flex-1 border-2 border-dashed border-border-light dark:border-border-dark rounded-lg p-6 text-center hover:border-primary-light dark:hover:border-primary-dark transition cursor-pointer"
                                     onClick={() => fileInputRef.current?.click()}
                                 >
                                     <Upload className="w-8 h-8 text-muted-fg-light dark:text-muted-fg-dark mx-auto mb-2" />
@@ -282,7 +282,7 @@ export default function EditProfilePage() {
                                     id="username"
                                     value={formData.username}
                                     onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                                    className="w-full px-4 py-3 bg-secondary-light dark:bg-secondary-dark border border-border-light dark:border-border-dark rounded-lg text-fg-light dark:text-fg-dark placeholder-muted-fg-light dark:placeholder-muted-fg-dark focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    className="w-full px-4 py-3 bg-secondary-light dark:bg-secondary-dark border border-border-light dark:border-border-dark rounded-lg text-fg-light dark:text-fg-dark placeholder-muted-fg-light dark:placeholder-muted-fg-dark focus:outline-none focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-transparent"
                                     placeholder="Enter username"
                                 />
                                 {checkingUsername && (
@@ -293,9 +293,9 @@ export default function EditProfilePage() {
                                 {!checkingUsername && usernameAvailable !== null && formData.username !== originalUsername && (
                                     <div className="absolute right-3 top-1/2 -translate-y-1/2">
                                         {usernameAvailable ? (
-                                            <Check className="w-5 h-5 text-green-500" />
+                                            <Check className="w-5 h-5 text-success-light" />
                                         ) : (
-                                            <X className="w-5 h-5 text-red-500" />
+                                            <X className="w-5 h-5 text-destructive-light" />
                                         )}
                                     </div>
                                 )}
@@ -316,12 +316,12 @@ export default function EditProfilePage() {
                                 onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
                                 rows={4}
                                 maxLength={200}
-                                className="w-full px-4 py-3 bg-secondary-light dark:bg-secondary-dark border border-border-light dark:border-border-dark rounded-lg text-fg-light dark:text-fg-dark placeholder-muted-fg-light dark:placeholder-muted-fg-dark focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                                className="w-full px-4 py-3 bg-secondary-light dark:bg-secondary-dark border border-border-light dark:border-border-dark rounded-lg text-fg-light dark:text-fg-dark placeholder-muted-fg-light dark:placeholder-muted-fg-dark focus:outline-none focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-transparent resize-none"
                                 placeholder="Tell us about yourself..."
                             />
                             <div className="flex justify-between items-center mt-1">
                                 <p className="text-muted-fg-light dark:text-muted-fg-dark text-xs">Short description for your profile</p>
-                                <p className={`text-xs ${bioCharCount > bioCharLimit ? 'text-red-500' : 'text-muted-fg-light dark:text-muted-fg-dark'}`}>
+                                <p className={`text-xs ${bioCharCount > bioCharLimit ? 'text-destructive-light' : 'text-muted-fg-light dark:text-muted-fg-dark'}`}>
                                     {bioCharCount}/{bioCharLimit}
                                 </p>
                             </div>
@@ -346,7 +346,7 @@ export default function EditProfilePage() {
                             <Button
                                 type="submit"
                                 disabled={loading || (formData.username !== originalUsername && !usernameAvailable)}
-                                className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                className="flex-1 px-6 py-3 bg-primary-light dark:bg-primary-dark text-primary-fg-light dark:text-primary-fg-dark rounded-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                             >
                                 {loading ? (
                                     <>

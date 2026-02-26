@@ -29,19 +29,19 @@ export function LeaderboardTable({ players, currentUserId, loading }: Leaderboar
 
     // Get rating color based on value
     const getRatingColor = (rating: number) => {
-        if (rating >= 401) return 'text-yellow-600 font-bold';
-        if (rating >= 301) return 'text-purple-600 font-semibold';
-        if (rating >= 201) return 'text-blue-600 font-semibold';
-        if (rating >= 101) return 'text-green-600 font-medium';
-        return 'text-gray-600';
+        // if (rating >= 401) return 'text-yellow-600 font-bold';
+        // if (rating >= 301) return 'text-purple-600 font-semibold';
+        // if (rating >= 201) return 'text-blue-600 font-semibold';
+        // if (rating >= 101) return 'text-green-600 font-medium';
+        return 'text-fg-light dark:text-fg-dark';
     };
 
     // Get win rate color
     const getWinRateColor = (winRate: number) => {
-        if (winRate >= 70) return 'bg-green-500';
-        if (winRate >= 50) return 'bg-blue-500';
-        if (winRate >= 30) return 'bg-yellow-500';
-        return 'bg-red-500';
+        // if (winRate >= 70) return 'bg-green-500';
+        // if (winRate >= 50) return 'bg-blue-500';
+        // if (winRate >= 30) return 'bg-yellow-500';
+        return 'bg-success-light';
     };
 
     // Format relative time
@@ -130,7 +130,7 @@ export function LeaderboardTable({ players, currentUserId, loading }: Leaderboar
                                     key={player.id}
                                     onClick={() => router.push(`/profile/${player.id}`)}
                                     className={`cursor-pointer transition-colors ${isCurrentUser
-                                        ? 'bg-blue-500/10 hover:bg-blue-500/20'
+                                        ? 'bg-primary-light/10 hover:bg-primary-light/20 dark:bg-primary-dark/10 dark:hover:bg-primary-dark/20'
                                         : 'hover:bg-accent-light dark:hover:bg-accent-dark'
                                         }`}
                                 >
@@ -154,7 +154,7 @@ export function LeaderboardTable({ players, currentUserId, loading }: Leaderboar
                                                 <p className="text-sm font-medium text-card-fg-light dark:text-card-fg-dark">
                                                     {player.username || player.email}
                                                     {isCurrentUser && (
-                                                        <span className="ml-2 text-xs text-blue-500 font-semibold">(You)</span>
+                                                        <span className="ml-2 text-xs text-primary-light dark:text-primary-dark font-semibold">(You)</span>
                                                     )}
                                                 </p>
                                             </div>
@@ -166,13 +166,13 @@ export function LeaderboardTable({ players, currentUserId, loading }: Leaderboar
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-fg-light dark:text-muted-fg-dark">
-                                        <span className="text-green-500 font-medium">{player.wins}</span>
+                                        <span className="text-success-light font-medium">{player.wins}</span>
                                         {' - '}
-                                        <span className="text-red-500 font-medium">{player.losses}</span>
+                                        <span className="text-destructive-light font-medium">{player.losses}</span>
                                         {' - '}
                                         <span className="text-muted-fg-light dark:text-muted-fg-dark">{player.draws}</span>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-card-fg-light dark:text-card-fg-dark">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-fg-light dark:text-fg-dark">
                                         {player.totalGames}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
@@ -207,7 +207,7 @@ export function LeaderboardTable({ players, currentUserId, loading }: Leaderboar
                         <div
                             key={player.id}
                             onClick={() => router.push(`/profile/${player.id}`)}
-                            className={`bg-card-light dark:bg-card-dark rounded-lg shadow p-4 cursor-pointer transition-colors border border-border-light dark:border-border-dark ${isCurrentUser ? 'ring-2 ring-blue-500' : ''
+                            className={`bg-card-light dark:bg-card-dark rounded-lg shadow p-4 cursor-pointer transition-colors border border-border-light dark:border-border-dark ${isCurrentUser ? 'ring-2 ring-primary-light dark:ring-primary-dark' : ''
                                 }`}
                         >
                             <div className="flex items-start gap-3 mb-3">
@@ -227,7 +227,7 @@ export function LeaderboardTable({ players, currentUserId, loading }: Leaderboar
                                     <p className="text-sm font-medium text-card-fg-light dark:text-card-fg-dark truncate">
                                         {player.username || player.email}
                                         {isCurrentUser && (
-                                            <span className="ml-2 text-xs text-blue-500 font-semibold">(You)</span>
+                                            <span className="ml-2 text-xs text-primary-light dark:text-primary-dark font-semibold">(You)</span>
                                         )}
                                     </p>
                                     <p className={`text-lg ${getRatingColor(player.rating)}`}>
@@ -248,9 +248,9 @@ export function LeaderboardTable({ players, currentUserId, loading }: Leaderboar
                                 <div className="col-span-2">
                                     <span className="text-muted-fg-light dark:text-muted-fg-dark">Record:</span>
                                     <span className="ml-1">
-                                        <span className="text-green-500 font-medium">{player.wins}</span>
+                                        <span className="text-success-light font-medium">{player.wins}</span>
                                         {' - '}
-                                        <span className="text-red-500 font-medium">{player.losses}</span>
+                                        <span className="text-destructive-light font-medium">{player.losses}</span>
                                         {' - '}
                                         <span className="text-muted-fg-light dark:text-muted-fg-dark">{player.draws}</span>
                                     </span>

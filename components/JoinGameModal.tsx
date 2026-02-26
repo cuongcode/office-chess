@@ -76,7 +76,7 @@ export function JoinGameModal({ userId, userName, onClose }: JoinGameModalProps)
                             onChange={handleInputChange}
                             placeholder="Ex: A1B2C3"
                             className={`w-full bg-bg-light dark:bg-bg-dark border ${joinError ? 'border-destructive-light dark:border-destructive-dark' : 'border-input-light dark:border-input-dark'
-                                } rounded-lg px-4 py-3 text-fg-light dark:text-fg-dark placeholder:text-muted-fg-light dark:placeholder:text-muted-fg-dark focus:outline-none focus:ring-2 ${joinError ? 'focus:ring-destructive-light dark:focus:ring-destructive-dark' : 'focus:ring-blue-500'
+                                } rounded-lg px-4 py-3 text-fg-light dark:text-fg-dark placeholder:text-muted-fg-light dark:placeholder:text-muted-fg-dark focus:outline-none focus:ring-2 ${joinError ? 'focus:ring-destructive-light dark:focus:ring-destructive-dark' : 'focus:ring-primary-light dark:focus:ring-primary-dark'
                                 } font-mono text-center text-xl tracking-wider uppercase`}
                             autoFocus
                             maxLength={6}
