@@ -69,7 +69,7 @@ export default function LoginPage() {
                 </div>
                 <form className="mt-8 space-y-6" onSubmit={loginUser}>
                     <input type="hidden" name="remember" value="true" />
-                    <div className="-space-y-px rounded-md shadow-sm">
+                    <div className="-space-y-px rounded-md">
                         <div>
                             <label htmlFor="email-address" className="sr-only">
                                 Email address

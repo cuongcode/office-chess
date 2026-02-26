@@ -15,15 +15,11 @@
   --color-muted-fg-light: #95a5a6;
   --color-accent-light: var(--color-secondary-light);
   --color-accent-fg-light: var(--color-primary-light);
-  --color-destructive-light: #ef4444;
-  --color-destructive-fg-light: var(--color-card-light);
   --color-border-light: var(--color-muted-light);
   --color-input-light: var(--color-muted-light);
   --color-ring-light: var(--color-primary-light);
   --color-board-light-light: var(--color-secondary-light);
   --color-board-dark-light: #cbd5e1;
-  --color-success-light: #22c55e;
-  --color-success-fg-light: #f0fdf4;
 
   /* Dark Mode Colors */
   --color-bg-dark: #0f172a;
@@ -38,15 +34,17 @@
   --color-muted-fg-dark: #94a3b8;
   --color-accent-dark: #334155;
   --color-accent-fg-dark: #3b82f6;
-  --color-destructive-dark: #7f1d1d;
-  --color-destructive-fg-dark: #ffffff;
   --color-border-dark: #334155;
   --color-input-dark: #334155;
   --color-ring-dark: #3b82f6;
   --color-board-light-dark: #cbd5e1;
   --color-board-dark-dark: #475569;
-  --color-success-dark: #22c55e;
-  --color-success-fg-dark: #f0fdf4;
+
+  /* Common Colors */
+  --color-destructive: #ef4444;
+  --color-destructive-fg: var(--color-card-light);
+  --color-success: #22c55e;
+  --color-success-fg: #f0fdf4;
 
   /* Typography */
   --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
