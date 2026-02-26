@@ -120,11 +120,11 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                                 <img
                                     src={profile.avatar}
                                     alt={profile.username}
-                                    className="w-32 h-32 rounded-full border-4 border-primary-light dark:border-primary-dark object-cover"
+                                    className="w-32 h-32 rounded-full border-4 border-border-light dark:border-border-dark object-cover"
                                 />
                             ) : (
-                                <div className="w-32 h-32 rounded-full border-4 border-primary-light dark:border-primary-dark bg-gradient-to-br from-primary-light to-purple-600 flex items-center justify-center">
-                                    <User className="w-16 h-16 text-white" />
+                                <div className="w-32 h-32 rounded-full bg-secondary-light dark:bg-secondary-dark flex items-center justify-center">
+                                    <User className="w-16 h-16 text-muted-fg-light dark:text-muted-fg-dark" />
                                 </div>
                             )}
                         </div>
@@ -169,7 +169,7 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
                         {/* Rating */}
                         <div className="text-center">
-                            <div className="text-5xl font-bold bg-gradient-to-r from-primary-light to-purple-500 bg-clip-text text-transparent mb-2">
+                            <div className="text-5xl font-bold mb-2">
                                 {profile.rating}
                             </div>
                             <div className="text-muted-fg-light dark:text-muted-fg-dark text-sm">Rating</div>
@@ -191,7 +191,7 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
 
                         {/* Record */}
                         <div className="text-center">
-                            <div className="text-3xl font-bold text-fg-light dark:text-fg-dark mb-2">
+                            <div className="text-5xl font-bold text-fg-light dark:text-fg-dark mb-2">
                                 {profile.wins}-{profile.losses}-{profile.draws}
                             </div>
                             <div className="text-muted-fg-light dark:text-muted-fg-dark text-sm">W-L-D</div>
@@ -227,7 +227,7 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
 
                 {/* Quick Stats Bar */}
                 <div className="bg-card-light dark:bg-card-dark backdrop-blur-sm rounded-2xl p-8 mb-6 border border-border-light dark:border-border-dark">
-                    <h3 className="text-xl font-bold text-fg-light dark:text-fg-dark mb-4 flex items-center gap-2">
+                    <h3 className="text-2xl font-bold text-fg-light dark:text-fg-dark mb-4 flex items-center gap-2">
                         <TrendingUp className="w-5 h-5 text-primary-light dark:text-primary-dark" />
                         Performance Breakdown
                     </h3>
