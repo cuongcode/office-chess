@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useGameStore } from '@/store/gameStore';
 import toast from 'react-hot-toast';
 import { TimeControlSelector } from './TimeControlSelector';
+import { ColorPickerButton } from './ColorPickerButton';
 import { TimeControlPreset, timeControlPresets } from '@/lib/timeControls';
 import { Button } from "@/components/ui/Button";
 
@@ -62,39 +63,14 @@ export function CreateGameModal({ userId, userName, onClose }: CreateGameModalPr
                         <div>
                             <p className="text-muted-fg-light dark:text-muted-fg-dark mb-3 text-center">Choose your color</p>
                             <div className="grid grid-cols-3 gap-3">
-                                <button
-                                    onClick={() => setSelectedColor('white')}
-                                    className={`p-4 rounded-lg border-2 transition-all ${selectedColor === 'white'
-                                        ? 'border-primary-light dark:border-primary-dark bg-primary-light/10 dark:bg-primary-dark/10'
-                                        : 'border-border-light dark:border-border-dark hover:border-muted-fg-light dark:hover:border-muted-fg-dark'
-                                        }`}
-                                >
-                                    <div className="w-12 h-12 rounded-full bg-white border border-border-light dark:border-border-dark mx-auto mb-2"></div>
-                                    <p className="text-sm font-semibold">White</p>
-                                </button>
-                                <button
-                                    onClick={() => setSelectedColor('black')}
-                                    className={`p-4 rounded-lg border-2 transition-all ${selectedColor === 'black'
-                                        ? 'border-primary-light dark:border-primary-dark bg-primary-light/10 dark:bg-primary-dark/10'
-                                        : 'border-border-light dark:border-border-dark hover:border-muted-fg-light dark:hover:border-muted-fg-dark'
-                                        }`}
-                                >
-                                    <div className="w-12 h-12 rounded-full bg-gray-800 border border-gray-700 mx-auto mb-2"></div>
-                                    <p className="text-sm font-semibold">Black</p>
-                                </button>
-                                <button
-                                    onClick={() => setSelectedColor('random')}
-                                    className={`p-4 rounded-lg border-2 transition-all ${selectedColor === 'random'
-                                        ? 'border-primary-light dark:border-primary-dark bg-primary-light/10 dark:bg-primary-dark/10'
-                                        : 'border-border-light dark:border-border-dark hover:border-muted-fg-light dark:hover:border-muted-fg-dark'
-                                        }`}
-                                >
-                                    <div className="flex items-center justify-center">
-                                        <div className="w-6 h-12 rounded-l-full bg-white mb-2"></div>
-                                        <div className="w-6 h-12 rounded-r-full bg-gray-800 mb-2"></div>
-                                    </div>
-                                    <p className="text-sm font-semibold">Random</p>
-                                </button>
+                                {(['white', 'black', 'random'] as const).map((color) => (
+                                    <ColorPickerButton
+                                        key={color}
+                                        color={color}
+                                        isSelected={selectedColor === color}
+                                        onClick={() => setSelectedColor(color)}
+                                    />
+                                ))}
                             </div>
                         </div>
 
