@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Load .env variables
+set -a; source .env; set +a
+
 echo "🚀 Starting Chess App Deployment..."
 
 # Stop existing containers
@@ -17,7 +20,7 @@ docker-compose up -d
 
 # Wait for database to be healthy (uses healthcheck, not plain sleep)
 echo "⏳ Waiting for database to be ready..."
-until docker-compose exec -T postgres pg_isready -U chessuser -d chessdb > /dev/null 2>&1; do
+until docker-compose exec -T postgres pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB" > /dev/null 2>&1; do
   printf '.'
   sleep 2
 done
@@ -25,7 +28,7 @@ echo " ready!"
 
 # Run database migrations from host (standalone image lacks full Prisma CLI)
 echo "🗄️  Running database migrations..."
-DATABASE_URL="postgresql://chessuser:chesspass123@localhost:5432/chessdb" npx prisma migrate deploy
+DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/${POSTGRES_DB}" npx prisma migrate deploy
 
 # Show status
 echo ""
@@ -35,5 +38,5 @@ echo "Services status:"
 docker-compose ps
 
 echo ""
-echo "🌐 Application running at http://192.168.2.102:3001"
+echo "🌐 Application running at ${DOCKER_APP_URL}"
 echo "📊 View logs: docker-compose logs -f app"

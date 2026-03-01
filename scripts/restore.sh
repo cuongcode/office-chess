@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Load .env variables
+set -a; source "$(dirname "$0")/../.env"; set +a
+
 if [ -z "$1" ]; then
   echo "Usage: ./scripts/restore.sh <backup_file>"
   echo "Example: ./scripts/restore.sh backups/db_backup_20240115_120000.sql"
@@ -23,6 +26,6 @@ if [ "$confirm" != "yes" ]; then
 fi
 
 echo "📥 Restoring database from $BACKUP_FILE..."
-docker-compose exec -T postgres psql -U chessuser -d chessdb < "$BACKUP_FILE"
+docker-compose exec -T postgres psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" < "$BACKUP_FILE"
 
 echo "✅ Database restored!"

@@ -11,20 +11,23 @@
 ./scripts/deploy.sh
 ```
 
-Access at: **http://192.168.2.102:3001** (LAN) or **http://localhost:3001** (local)
+Access URL is read from `DOCKER_APP_URL` in `.env`.
 
 ---
 
 ## Configuration
 
-### Change LAN IP
-Edit `docker-compose.yml` and update both values to your server's IP + port:
-```yaml
-NEXTAUTH_URL: http://YOUR_IP:3001
-NEXT_PUBLIC_SOCKET_URL: http://YOUR_IP:3001
-```
+**All config lives in `.env`. That is the only file you need to edit on a new machine.**
 
-Find your IP on Mac: `ipconfig getifaddr en0`
+| Variable | What to change |
+|---|---|
+| `POSTGRES_USER` / `POSTGRES_PASSWORD` / `POSTGRES_DB` | Database credentials |
+| `DOCKER_APP_URL` | LAN/production URL, e.g. `http://192.168.1.50:3001` |
+| `NEXTAUTH_SECRET` | Generate with `openssl rand -base64 32` |
+| `EMAIL_FROM` / `COMPANY_EMAIL_DOMAIN` | Email sender identity |
+| `EMAIL_SERVER_*` | SMTP server for production email |
+
+Find your server IP on Mac: `ipconfig getifaddr en0`
 
 ---
 
@@ -47,11 +50,11 @@ Find your IP on Mac: `ipconfig getifaddr en0`
 # Restore
 ./scripts/restore.sh backups/db_backup_TIMESTAMP.sql
 
-# Connect interactively
-docker-compose exec postgres psql -U chessuser -d chessdb
+# Connect interactively (reads creds from .env)
+source .env && docker-compose exec postgres psql -U "$POSTGRES_USER" -d "$POSTGRES_DB"
 
-# Run migrations (from host)
-DATABASE_URL="postgresql://chessuser:chesspass123@localhost:5432/chessdb" npx prisma migrate deploy
+# Run migrations from host (reads creds from .env)
+source .env && DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/${POSTGRES_DB}" npx prisma migrate deploy
 ```
 
 ### Rebuild after code changes
@@ -81,17 +84,17 @@ docker-compose build --no-cache app && docker-compose up -d app
 ## Production Hardening
 
 ### Change database password
-In `docker-compose.yml`, update both `POSTGRES_PASSWORD` and the password inside `DATABASE_URL`.
+Only update `POSTGRES_PASSWORD` in `.env` — `docker-compose.yml` builds `DATABASE_URL` from the same variable automatically.
 
 ### Use a real email server
-```yaml
-environment:
-  EMAIL_SERVER_HOST: smtp.yourcompany.com
-  EMAIL_SERVER_PORT: 587
-  EMAIL_SERVER_USER: your-user
-  EMAIL_SERVER_PASSWORD: your-password
-  EMAIL_FROM: "Chess App <chess@yourcompany.com>"
-  COMPANY_EMAIL_DOMAIN: yourcompany.com
+Set these in `.env`:
+```env
+EMAIL_SERVER_HOST="smtp.yourcompany.com"
+EMAIL_SERVER_PORT="587"
+EMAIL_SERVER_USER="your-user"
+EMAIL_SERVER_PASSWORD="your-password"
+EMAIL_FROM="Chess App <chess@yourcompany.com>"
+COMPANY_EMAIL_DOMAIN="yourcompany.com"
 ```
 
 ### Scheduled backups (cron)
