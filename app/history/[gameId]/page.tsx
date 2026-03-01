@@ -263,14 +263,18 @@ export default function GameReplayPage() {
                     <div className="flex flex-col gap-4 w-full lg:w-auto">
                         {/* Board */}
                         <div className="w-full max-w-[520px] mx-auto lg:mx-0">
-                            <Chessboard
-                                options={{
-                                    id: 'ReplayBoard',
-                                    position: currentFEN,
-                                    allowDragging: false,
-                                    animationDurationInMs: 150,
-                                }}
-                            />
+                            <div className="w-full aspect-square rounded-lg overflow-hidden border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark">
+                                <Chessboard
+                                    options={{
+                                        id: 'ReplayBoard',
+                                        position: currentFEN,
+                                        allowDragging: false,
+                                        animationDurationInMs: 150,
+                                        darkSquareStyle: { backgroundColor: 'var(--color-board-dark-light)' },
+                                        lightSquareStyle: { backgroundColor: 'var(--color-board-light-light)' },
+                                    }}
+                                />
+                            </div>
                         </div>
 
                         {/* Navigation Controls */}
