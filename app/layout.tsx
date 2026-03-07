@@ -20,7 +20,8 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   title: "Next.js Chess",
-  description: "A modern chess application built with Next.js and React Chessboard",
+  description:
+    "A modern chess application built with Next.js and React Chessboard",
 };
 
 export default function RootLayout({
@@ -30,12 +31,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
-      <body className="antialiased bg-bg-light dark:bg-bg-dark text-fg-light dark:text-fg-dark">
+      <body className="bg-bg-light text-fg-light antialiased dark:bg-bg-dark dark:text-fg-dark">
         <Providers>
           <Header />
-          <main>
-            {children}
-          </main>
+          <main>{children}</main>
         </Providers>
       </body>
     </html>

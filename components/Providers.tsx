@@ -6,11 +6,9 @@ import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "./ThemeProvider";
 
 export function Providers({ children }: { children: React.ReactNode }) {
-    return (
-        <SessionProvider>
-            <ThemeProvider>
-                {children}
-            </ThemeProvider>
-        </SessionProvider>
-    );
+  return (
+    <SessionProvider>
+      <ThemeProvider>{children}</ThemeProvider>
+    </SessionProvider>
+  );
 }

@@ -19,7 +19,7 @@ export default function Home() {
   const router = useRouter();
   const { connect, isOnline, resetGame, leaveGame } = useGameStore();
 
-  const [view, setView] = useState<'menu' | 'game'>('menu');
+  const [view, setView] = useState<"menu" | "game">("menu");
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [showActiveGames, setShowActiveGames] = useState(false);
@@ -33,9 +33,9 @@ export default function Home() {
 
   // Check for existing game session on mount
   useEffect(() => {
-    const savedRoomId = localStorage.getItem('chess_room_id');
+    const savedRoomId = localStorage.getItem("chess_room_id");
     if (savedRoomId) {
-      setView('game');
+      setView("game");
     }
     setIsRestoring(false);
   }, []);
@@ -50,7 +50,7 @@ export default function Home() {
   // Auto-switch to game view if online game starts
   useEffect(() => {
     if (isOnline) {
-      setView('game');
+      setView("game");
       setShowCreateModal(false);
       setShowJoinModal(false);
       setShowActiveGames(false);
@@ -59,8 +59,8 @@ export default function Home() {
 
   if (status === "loading" || isRestoring) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-light dark:border-primary-dark"></div>
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-primary-light dark:border-primary-dark"></div>
       </div>
     );
   }
@@ -71,7 +71,7 @@ export default function Home() {
     resetGame();
     // Ensure we are offline
     leaveGame();
-    setView('game');
+    setView("game");
   };
 
   const handleCreateOnline = () => {
@@ -79,15 +79,16 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-bg-light dark:bg-bg-dark text-fg-light dark:text-fg-dark flex flex-col pt-36">
+    <main className="flex min-h-screen flex-col bg-bg-light pt-36 text-fg-light dark:bg-bg-dark dark:text-fg-dark">
       <Toaster position="bottom-right" />
 
-      {view === 'menu' && (
-        <div className="flex-1 flex flex-col items-center p-6">
-          <div className="w-full max-w-4xl flex flex-col items-center gap-6">
-
+      {view === "menu" && (
+        <div className="flex flex-1 flex-col items-center p-6">
+          <div className="flex w-full max-w-4xl flex-col items-center gap-6">
             <div className="w-full md:hidden">
-              <PlayerSearchBar onPlayerSelect={(id) => router.push(`/profile/${id}`)} />
+              <PlayerSearchBar
+                onPlayerSelect={(id) => router.push(`/profile/${id}`)}
+              />
             </div>
 
             <GameModeSelector
@@ -104,31 +105,29 @@ export default function Home() {
         </div>
       )}
 
-      {view === 'game' && (
-        <ChessBoard onLeave={() => setView('menu')} />
-      )}
+      {view === "game" && <ChessBoard onLeave={() => setView("menu")} />}
 
       {/* Modals */}
       {showCreateModal && (
         <CreateGameModal
-          userId={(session.user as any)?.id || session.user?.email || 'guest'}
-          userName={session.user?.name || 'Guest'}
+          userId={(session.user as any)?.id || session.user?.email || "guest"}
+          userName={session.user?.name || "Guest"}
           onClose={() => setShowCreateModal(false)}
         />
       )}
 
       {showJoinModal && (
         <JoinGameModal
-          userId={(session.user as any)?.id || session.user?.email || 'guest'}
-          userName={session.user?.name || 'Guest'}
+          userId={(session.user as any)?.id || session.user?.email || "guest"}
+          userName={session.user?.name || "Guest"}
           onClose={() => setShowJoinModal(false)}
         />
       )}
 
       {showActiveGames && (
         <ActiveGamesList
-          userId={(session.user as any)?.id || session.user?.email || 'guest'}
-          userName={session.user?.name || 'Guest'}
+          userId={(session.user as any)?.id || session.user?.email || "guest"}
+          userName={session.user?.name || "Guest"}
           onClose={() => setShowActiveGames(false)}
         />
       )}

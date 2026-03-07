@@ -1,92 +1,90 @@
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 
-import { formatTime, getWarningLevel, WarningLevel } from '@/lib/timeControls';
+import { formatTime, getWarningLevel, WarningLevel } from "@/lib/timeControls";
 
 interface ChessClockProps {
-    timeLeft: number; // seconds
-    playerName: string | null;
-    isActive: boolean;
-    increment?: number;
-    isPaused?: boolean;
-    orientation: 'top' | 'bottom';
+  timeLeft: number; // seconds
+  playerName: string | null;
+  isActive: boolean;
+  increment?: number;
+  isPaused?: boolean;
+  orientation: "top" | "bottom";
 }
 
 export const ChessClock: React.FC<ChessClockProps> = ({
-    timeLeft,
-    playerName,
-    isActive,
-    increment = 0,
-    isPaused = false,
-    orientation
+  timeLeft,
+  playerName,
+  isActive,
+  increment = 0,
+  isPaused = false,
+  orientation,
 }) => {
-    const warningLevel: WarningLevel = getWarningLevel(timeLeft);
-    const formattedTime = formatTime(timeLeft);
-    const isTimeout = timeLeft <= 0;
+  const warningLevel: WarningLevel = getWarningLevel(timeLeft);
+  const formattedTime = formatTime(timeLeft);
+  const isTimeout = timeLeft <= 0;
 
-    // Determine background color based on warning level and active state
-    const getBackgroundColor = () => {
-        if (isTimeout) return 'bg-destructive/90 dark:bg-destructive/90';
-        if (!isActive) return 'bg-card-light dark:bg-card-dark'; // Inactive clock
+  // Determine background color based on warning level and active state
+  const getBackgroundColor = () => {
+    if (isTimeout) return "bg-destructive/90 dark:bg-destructive/90";
+    if (!isActive) return "bg-card-light dark:bg-card-dark"; // Inactive clock
 
-        switch (warningLevel) {
-            case 'critical':
-                return 'bg-destructive dark:bg-destructive animate-pulse-fast';
-            case 'urgent':
-                return 'bg-destructive dark:bg-destructive animate-pulse';
-            case 'warning':
-                return 'bg-yellow-500';
-            default:
-                return 'bg-primary-light dark:bg-primary-dark';
-        }
-    };
+    switch (warningLevel) {
+      case "critical":
+        return "bg-destructive dark:bg-destructive animate-pulse-fast";
+      case "urgent":
+        return "bg-destructive dark:bg-destructive animate-pulse";
+      case "warning":
+        return "bg-yellow-500";
+      default:
+        return "bg-primary-light dark:bg-primary-dark";
+    }
+  };
 
-    // Determine border style
-    const getBorderStyle = () => {
-        if (isActive && !isTimeout) {
-            return '';
-        }
-        return 'ring-1 ring-border-light dark:ring-border-dark';
-    };
+  // Determine border style
+  const getBorderStyle = () => {
+    if (isActive && !isTimeout) {
+      return "";
+    }
+    return "ring-1 ring-border-light dark:ring-border-dark";
+  };
 
-    // Determine text color
-    const getTextColor = () => {
-        if (isTimeout) return 'text-destructive-fg-light dark:text-destructive-fg-dark';
-        if (warningLevel === 'critical' || warningLevel === 'urgent') return 'text-destructive-fg-light dark:text-destructive-fg-dark';
-        if (warningLevel === 'warning') return 'text-yellow-900 dark:text-yellow-100';
-        if (isActive) return 'text-white';
-        return 'text-fg-light dark:text-fg-dark';
-    };
+  // Determine text color
+  const getTextColor = () => {
+    if (isTimeout)
+      return "text-destructive-fg-light dark:text-destructive-fg-dark";
+    if (warningLevel === "critical" || warningLevel === "urgent")
+      return "text-destructive-fg-light dark:text-destructive-fg-dark";
+    if (warningLevel === "warning")
+      return "text-yellow-900 dark:text-yellow-100";
+    if (isActive) return "text-white";
+    return "text-fg-light dark:text-fg-dark";
+  };
 
-    return (
-        <div
-            className={`
-                relative px-4 py-2
-                ${getBackgroundColor()}
-                ${getBorderStyle()}
-                ${isActive ? 'shadow-xl' : 'shadow-md'}
-            `}
-        >
-            {/* Player Name */}
-            {/* <div className="flex items-center justify-between mb-2"> */}
-            {/* Increment Badge */}
-            {/* {increment > 0 && (
+  return (
+    <div
+      className={`relative px-4 py-2 ${getBackgroundColor()} ${getBorderStyle()} ${isActive ? "shadow-xl" : "shadow-md"} `}
+    >
+      {/* Player Name */}
+      {/* <div className="flex items-center justify-between mb-2"> */}
+      {/* Increment Badge */}
+      {/* {increment > 0 && (
                     <span className={`text-xs px-2 py-1 rounded ${isActive ? 'bg-black/20 text-white/90' : 'bg-muted text-muted-foreground'}`}>
                         +{increment}s
                     </span>
                 )} */}
-            {/* </div> */}
+      {/* </div> */}
 
-            {/* Time Display */}
-            <div className="flex items-center justify-center">
-                <span className={`font-mono font-bold ${getTextColor()} tabular-nums`}>
-                    {isTimeout ? '00:00' : formattedTime}
-                </span>
-            </div>
+      {/* Time Display */}
+      <div className="flex items-center justify-center">
+        <span className={`font-mono font-bold ${getTextColor()} tabular-nums`}>
+          {isTimeout ? "00:00" : formattedTime}
+        </span>
+      </div>
 
-            {/* Status Indicators */}
-            {/* <div className="mt-2 flex items-center justify-center gap-2">
+      {/* Status Indicators */}
+      {/* <div className="mt-2 flex items-center justify-center gap-2">
                 {isPaused && (
                     <span className={`text-xs flex items-center gap-1 ${isActive ? 'text-white/80' : 'text-muted-foreground'}`}>
                         <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
@@ -110,15 +108,15 @@ export const ChessClock: React.FC<ChessClockProps> = ({
                 )}
             </div> */}
 
-            {/* Warning Indicator */}
-            {warningLevel === 'critical' && !isTimeout && (
-                <div className="absolute -top-1 -right-1">
-                    <span className="flex h-4 w-4">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-destructive opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-4 w-4 bg-destructive"></span>
-                    </span>
-                </div>
-            )}
+      {/* Warning Indicator */}
+      {warningLevel === "critical" && !isTimeout && (
+        <div className="absolute -top-1 -right-1">
+          <span className="flex h-4 w-4">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-destructive opacity-75"></span>
+            <span className="relative inline-flex h-4 w-4 rounded-full bg-destructive"></span>
+          </span>
         </div>
-    );
+      )}
+    </div>
+  );
 };

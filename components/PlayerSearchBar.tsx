@@ -1,154 +1,158 @@
 "use client";
 
-import { Search } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useCallback,useState } from 'react';
+import { Search } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
 
 interface Player {
-    id: string;
-    username: string | null;
-    email: string;
-    avatar: string | null;
-    rating: number;
-    rank: number;
+  id: string;
+  username: string | null;
+  email: string;
+  avatar: string | null;
+  rating: number;
+  rank: number;
 }
 
 interface PlayerSearchBarProps {
-    onPlayerSelect?: (playerId: string) => void;
+  onPlayerSelect?: (playerId: string) => void;
 }
 
 export function PlayerSearchBar({ onPlayerSelect }: PlayerSearchBarProps) {
-    const [query, setQuery] = useState('');
-    const [results, setResults] = useState<Player[]>([]);
-    const [loading, setLoading] = useState(false);
-    const [showDropdown, setShowDropdown] = useState(false);
-    const router = useRouter();
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<Player[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const router = useRouter();
 
-    // Debounced search
-    const searchPlayers = useCallback(
-        async (searchQuery: string) => {
-            if (searchQuery.trim().length < 2) {
-                setResults([]);
-                setShowDropdown(false);
-                return;
-            }
+  // Debounced search
+  const searchPlayers = useCallback(async (searchQuery: string) => {
+    if (searchQuery.trim().length < 2) {
+      setResults([]);
+      setShowDropdown(false);
+      return;
+    }
 
-            setLoading(true);
-            try {
-                const response = await fetch(`/api/leaderboard/search?q=${encodeURIComponent(searchQuery)}`);
-                if (response.ok) {
-                    const data = await response.json();
-                    setResults(data.players);
-                    setShowDropdown(true);
-                }
-            } catch (error) {
-                console.error('Search error:', error);
-            } finally {
-                setLoading(false);
-            }
-        },
-        []
-    );
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `/api/leaderboard/search?q=${encodeURIComponent(searchQuery)}`,
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setResults(data.players);
+        setShowDropdown(true);
+      }
+    } catch (error) {
+      console.error("Search error:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-    // Debounce timer
-    const handleInputChange = (value: string) => {
-        setQuery(value);
+  // Debounce timer
+  const handleInputChange = (value: string) => {
+    setQuery(value);
 
-        // Clear previous timeout
-        const timeoutId = setTimeout(() => {
-            searchPlayers(value);
-        }, 500);
+    // Clear previous timeout
+    const timeoutId = setTimeout(() => {
+      searchPlayers(value);
+    }, 500);
 
-        return () => clearTimeout(timeoutId);
-    };
+    return () => clearTimeout(timeoutId);
+  };
 
-    const handlePlayerClick = (playerId: string) => {
-        setShowDropdown(false);
-        setQuery('');
-        setResults([]);
+  const handlePlayerClick = (playerId: string) => {
+    setShowDropdown(false);
+    setQuery("");
+    setResults([]);
 
-        if (onPlayerSelect) {
-            onPlayerSelect(playerId);
-        } else {
-            router.push(`/profile/${playerId}`);
-        }
-    };
+    if (onPlayerSelect) {
+      onPlayerSelect(playerId);
+    } else {
+      router.push(`/profile/${playerId}`);
+    }
+  };
 
-    return (
-        <div className="relative">
-            <div className="relative">
-                <input
-                    type="text"
-                    value={query}
-                    onChange={(e) => handleInputChange(e.target.value)}
-                    onFocus={() => results.length > 0 && setShowDropdown(true)}
-                    placeholder="Search other players"
-                    className="w-full p-2 pl-10 border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark rounded-lg text-fg-light dark:text-fg-dark placeholder:text-muted-fg-light dark:placeholder:text-muted-fg-dark placeholder:text-sm"
-                />
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-fg-light dark:text-muted-fg-dark">
-                    <Search className="h-4 w-4" />
-                </div>
-                {loading && (
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                        <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full"></div>
-                    </div>
-                )}
-            </div>
-
-            {/* Dropdown */}
-            {showDropdown && results.length > 0 && (
-                <>
-                    {/* Backdrop to close dropdown */}
-                    <div
-                        className="fixed inset-0 z-10"
-                        onClick={() => setShowDropdown(false)}
-                    ></div>
-
-                    <div className="absolute z-20 mt-2 w-full bg-card-light dark:bg-card-dark rounded-xl border border-border-light dark:border-border-dark max-h-80 overflow-y-auto">
-                        {results.map((player) => (
-                            <button
-                                key={player.id}
-                                onClick={() => handlePlayerClick(player.id)}
-                                className="w-full flex items-center gap-3 p-3 hover:bg-muted-light dark:hover:bg-muted-dark transition-colors text-left"
-                            >
-                                {player.avatar ? (
-                                    <img
-                                        src={player.avatar}
-                                        alt={player.username || player.email}
-                                        className="w-10 h-10 rounded-full object-cover"
-                                    />
-                                ) : (
-                                    <div className="w-10 h-10 rounded-full bg-muted-light dark:bg-muted-dark flex items-center justify-center text-muted-fg-light dark:text-muted-fg-dark font-semibold">
-                                        {(player.username || player.email).charAt(0).toUpperCase()}
-                                    </div>
-                                )}
-
-                                <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-medium text-card-fg-light dark:text-card-fg-dark truncate">
-                                        {player.username || player.email}
-                                    </p>
-                                    <p className="text-xs text-muted-fg-light dark:text-muted-fg-dark">
-                                        Rank #{player.rank} • Rating: {player.rating}
-                                    </p>
-                                </div>
-                            </button>
-                        ))}
-                    </div>
-                </>
-            )}
-
-            {/* No results message */}
-            {showDropdown && query.length >= 2 && !loading && results.length === 0 && (
-                <>
-                    <div
-                        className="fixed inset-0 z-10"
-                        onClick={() => setShowDropdown(false)}
-                    ></div>
-                    <div className="absolute z-20 mt-2 w-full bg-card-light dark:bg-card-dark rounded-xl shadow-lg border border-border-light dark:border-border-dark p-4">
-                        <p className="text-sm text-muted-fg-light dark:text-muted-fg-dark text-center">No players found</p>
-                    </div>
-                </>
-            )}
+  return (
+    <div className="relative">
+      <div className="relative">
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => handleInputChange(e.target.value)}
+          onFocus={() => results.length > 0 && setShowDropdown(true)}
+          placeholder="Search other players"
+          className="w-full rounded-lg border border-border-light bg-card-light p-2 pl-10 text-fg-light placeholder:text-sm placeholder:text-muted-fg-light dark:border-border-dark dark:bg-card-dark dark:text-fg-dark dark:placeholder:text-muted-fg-dark"
+        />
+        <div className="absolute top-1/2 left-3 -translate-y-1/2 text-muted-fg-light dark:text-muted-fg-dark">
+          <Search className="h-4 w-4" />
         </div>
-    );
+        {loading && (
+          <div className="absolute top-1/2 right-3 -translate-y-1/2">
+            <div className="border-primary h-4 w-4 animate-spin rounded-full border-2 border-t-transparent"></div>
+          </div>
+        )}
+      </div>
+
+      {/* Dropdown */}
+      {showDropdown && results.length > 0 && (
+        <>
+          {/* Backdrop to close dropdown */}
+          <div
+            className="fixed inset-0 z-10"
+            onClick={() => setShowDropdown(false)}
+          ></div>
+
+          <div className="absolute z-20 mt-2 max-h-80 w-full overflow-y-auto rounded-xl border border-border-light bg-card-light dark:border-border-dark dark:bg-card-dark">
+            {results.map((player) => (
+              <button
+                key={player.id}
+                onClick={() => handlePlayerClick(player.id)}
+                className="flex w-full items-center gap-3 p-3 text-left transition-colors hover:bg-muted-light dark:hover:bg-muted-dark"
+              >
+                {player.avatar ? (
+                  <img
+                    src={player.avatar}
+                    alt={player.username || player.email}
+                    className="h-10 w-10 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted-light font-semibold text-muted-fg-light dark:bg-muted-dark dark:text-muted-fg-dark">
+                    {(player.username || player.email).charAt(0).toUpperCase()}
+                  </div>
+                )}
+
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-medium text-card-fg-light dark:text-card-fg-dark">
+                    {player.username || player.email}
+                  </p>
+                  <p className="text-xs text-muted-fg-light dark:text-muted-fg-dark">
+                    Rank #{player.rank} • Rating: {player.rating}
+                  </p>
+                </div>
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+
+      {/* No results message */}
+      {showDropdown &&
+        query.length >= 2 &&
+        !loading &&
+        results.length === 0 && (
+          <>
+            <div
+              className="fixed inset-0 z-10"
+              onClick={() => setShowDropdown(false)}
+            ></div>
+            <div className="absolute z-20 mt-2 w-full rounded-xl border border-border-light bg-card-light p-4 shadow-lg dark:border-border-dark dark:bg-card-dark">
+              <p className="text-center text-sm text-muted-fg-light dark:text-muted-fg-dark">
+                No players found
+              </p>
+            </div>
+          </>
+        )}
+    </div>
+  );
 }
