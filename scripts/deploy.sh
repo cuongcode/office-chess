@@ -26,9 +26,7 @@ until docker-compose exec -T postgres pg_isready -U "$POSTGRES_USER" -d "$POSTGR
 done
 echo " ready!"
 
-# Run database migrations from host (standalone image lacks full Prisma CLI)
-echo "🗄️  Running database migrations..."
-DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/${POSTGRES_DB}" npx prisma migrate deploy
+# Migration runs automatically via the db-migrate container before the app starts
 
 # Show status
 echo ""

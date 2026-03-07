@@ -32,6 +32,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      db-migrate:
+        condition: service_completed_successfully
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
       NEXTAUTH_URL: ${DOCKER_APP_URL}
@@ -44,6 +46,22 @@ services:
       - chess-network
     volumes:
       - ./public/avatars:/app/public/avatars
+
+  # Database Migrations
+  db-migrate:
+    image: node:20-alpine
+    container_name: chess-db-migrate
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+    command: sh -c "npx prisma migrate deploy"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - chess-network
 
 networks:
   chess-network:

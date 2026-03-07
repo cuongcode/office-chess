@@ -4,7 +4,6 @@
 
 ### Prerequisites
 - Docker and Docker Compose installed
-- Node.js (for running Prisma migrations from host)
 
 ### Deploy
 ```bash
@@ -53,8 +52,8 @@ Find your server IP on Mac: `ipconfig getifaddr en0`
 # Connect interactively (reads creds from .env)
 source .env && docker-compose exec postgres psql -U "$POSTGRES_USER" -d "$POSTGRES_DB"
 
-# Run migrations from host (reads creds from .env)
-source .env && DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/${POSTGRES_DB}" npx prisma migrate deploy
+# Re-run migrations
+docker-compose up db-migrate
 ```
 
 ### Rebuild after code changes
