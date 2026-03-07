@@ -1,17 +1,19 @@
 'use client';
 
-import { useGameStore } from '@/store/gameStore';
-import { useTheme } from "@/components/ThemeProvider";
-import { Chessboard } from 'react-chessboard';
-import { useState, useEffect } from 'react';
 import { Chess, Square } from 'chess.js';
-import { Flag, MessageSquare, LogOut, Wifi, WifiOff, Handshake } from 'lucide-react';
+import { Flag, Handshake,LogOut, MessageSquare, Wifi, WifiOff } from 'lucide-react';
+import { useEffect,useState } from 'react';
+import { Chessboard } from 'react-chessboard';
 import toast from 'react-hot-toast';
+
+import { useTheme } from "@/components/ThemeProvider";
+import { useGameStore } from '@/store/gameStore';
+
+import { CapturedPieces } from "./CapturedPieces";
+import { ChessClock } from './ChessClock';
+import { ConfirmationModal } from "./ConfirmationModal";
 import { DrawOfferDialog } from "./DrawOfferDialog";
 import { GameOverModal } from "./GameOverModal";
-import { ConfirmationModal } from "./ConfirmationModal";
-import { ChessClock } from './ChessClock';
-import { CapturedPieces } from "./CapturedPieces";
 import { HeaderInfo } from "./HeaderInfo";
 import { PlayerInfo } from "./PlayerInfo";
 

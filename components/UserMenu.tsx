@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
+import { useEffect,useRef, useState } from "react";
 
 interface User {
     name?: string | null;

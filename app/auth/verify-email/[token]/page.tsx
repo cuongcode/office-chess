@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState, use } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { use,useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function VerifyEmailPage({ params }: { params: Promise<{ token: string }> }) {

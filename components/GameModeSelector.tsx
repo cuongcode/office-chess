@@ -1,5 +1,5 @@
+import { Globe, Monitor,Play, Users } from 'lucide-react';
 import { useState } from 'react';
-import { Users, Globe, Play, Monitor } from 'lucide-react';
 
 interface GameModeSelectorProps {
     onSelectLocal: () => void;

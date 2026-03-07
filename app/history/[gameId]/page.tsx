@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
-import { useParams, useRouter } from 'next/navigation';
 import { Chess } from 'chess.js';
 import dynamic from 'next/dynamic';
+import { useParams, useRouter } from 'next/navigation';
+import { useCallback,useEffect, useState } from 'react';
 
 const Chessboard = dynamic(
     () => import('react-chessboard').then((mod) => mod.Chessboard),

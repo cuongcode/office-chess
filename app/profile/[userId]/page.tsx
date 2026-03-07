@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { Calendar, Copy, Edit,Flame, TrendingUp, Trophy, User } from 'lucide-react';
 import Link from 'next/link';
-import { User, Calendar, Trophy, TrendingUp, Flame, Copy, Edit } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+
 import { Button } from "@/components/ui/Button";
 
 interface ProfileData {

@@ -1,17 +1,18 @@
 "use client";
 
-import { ChessBoard } from "@/components/ChessBoard";
-import { GameModeSelector } from "@/components/GameModeSelector";
-import { CreateGameModal } from "@/components/CreateGameModal";
-import { JoinGameModal } from "@/components/JoinGameModal";
-import { ActiveGamesList } from "@/components/ActiveGamesList";
-import { LeaderboardWidget } from "@/components/LeaderboardWidget";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { useGameStore } from "@/store/gameStore";
 import { Toaster } from "react-hot-toast";
+
+import { ActiveGamesList } from "@/components/ActiveGamesList";
+import { ChessBoard } from "@/components/ChessBoard";
+import { CreateGameModal } from "@/components/CreateGameModal";
+import { GameModeSelector } from "@/components/GameModeSelector";
+import { JoinGameModal } from "@/components/JoinGameModal";
+import { LeaderboardWidget } from "@/components/LeaderboardWidget";
 import { PlayerSearchBar } from "@/components/PlayerSearchBar";
+import { useGameStore } from "@/store/gameStore";
 
 export default function Home() {
   const { data: session, status } = useSession();

@@ -1,11 +1,13 @@
-import { Copy, X, Share2, Check } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { useGameStore } from '@/store/gameStore';
+import { Check,Copy, Share2, X } from 'lucide-react';
+import { useEffect,useState } from 'react';
 import toast from 'react-hot-toast';
-import { TimeControlSelector } from './TimeControlSelector';
-import { ColorPickerButton } from './ColorPickerButton';
-import { TimeControlPreset, timeControlPresets } from '@/lib/timeControls';
+
 import { Button } from "@/components/ui/Button";
+import { TimeControlPreset, timeControlPresets } from '@/lib/timeControls';
+import { useGameStore } from '@/store/gameStore';
+
+import { ColorPickerButton } from './ColorPickerButton';
+import { TimeControlSelector } from './TimeControlSelector';
 
 interface CreateGameModalProps {
     userId: string;

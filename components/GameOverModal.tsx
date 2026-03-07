@@ -1,6 +1,7 @@
 'use client';
 
-import { Trophy, Home, Handshake } from 'lucide-react';
+import { Handshake,Home, Trophy } from 'lucide-react';
+
 import { useGameStore } from '@/store/gameStore';
 
 interface GameOverModalProps {

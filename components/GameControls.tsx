@@ -1,7 +1,8 @@
 'use client';
 
+import { Copy, RotateCcw, RotateCw } from 'lucide-react'; // Using icons for better UI
+
 import { useGameStore } from '@/store/gameStore';
-import { RotateCcw, Copy, RotateCw } from 'lucide-react'; // Using icons for better UI
 
 export function GameControls() {
     const { resetGame, undoMove, flipBoard } = useGameStore();

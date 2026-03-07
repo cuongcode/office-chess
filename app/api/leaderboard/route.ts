@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+
 import { getLeaderboard, TimeFilter } from '@/lib/leaderboard';
 
 export async function GET(request: NextRequest) {

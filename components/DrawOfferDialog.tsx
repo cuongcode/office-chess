@@ -1,7 +1,8 @@
-import { X, Check } from 'lucide-react';
-import { useGameStore } from '@/store/gameStore';
+import { Check,X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+
+import { useGameStore } from '@/store/gameStore';
 
 export function DrawOfferDialog() {
     const { socket, roomId, acceptDraw } = useGameStore();

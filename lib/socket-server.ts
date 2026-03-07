@@ -1,21 +1,21 @@
 import { Server as NetServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
+
 import {
     createRoom,
+    GameRoom,
+    getRoom,
+    handleDisconnect,
     joinRoom,
     joinRoomAsPlayer,
     joinRoomAsSpectator,
     leaveRoom,
-    updateGameState,
-    getRoom,
-    handleDisconnect,
     Player,
-    GameRoom
-} from './gameRooms';
-import { updatePlayerStats } from './rating';
-import { TimeControlPreset, getTimeControlDisplay } from './timeControls';
-import { generatePGN, detectOpening, toPgnResult, toDbResult } from './pgn';
+    updateGameState} from './gameRooms';
+import { detectOpening, generatePGN, toDbResult,toPgnResult } from './pgn';
 import { prisma } from './prisma';
+import { updatePlayerStats } from './rating';
+import { getTimeControlDisplay,TimeControlPreset } from './timeControls';
 
 export const initSocketServer = (httpServer: NetServer) => {
     const io = new SocketIOServer(httpServer, {

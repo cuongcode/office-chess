@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+
 import { getAllRooms } from '@/lib/gameRooms';
 
 export const dynamic = 'force-dynamic';

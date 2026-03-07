@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, use } from "react";
 import { useRouter } from "next/navigation";
+import { use,useState } from "react";
 import toast from "react-hot-toast";
 
 export default function ResetPasswordPage({ params }: { params: Promise<{ token: string }> }) {

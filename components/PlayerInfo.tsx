@@ -1,5 +1,5 @@
-import { ChessClock } from './ChessClock';
 import { CapturedPieces } from './CapturedPieces';
+import { ChessClock } from './ChessClock';
 
 interface PlayerInfoProps {
     name: string;

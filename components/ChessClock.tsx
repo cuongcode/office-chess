@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+
 import { formatTime, getWarningLevel, WarningLevel } from '@/lib/timeControls';
 
 interface ChessClockProps {

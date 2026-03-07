@@ -1,7 +1,8 @@
 'use client';
 
+import { useEffect,useRef } from 'react';
+
 import { useGameStore } from '@/store/gameStore';
-import { useRef, useEffect } from 'react';
 
 export function MoveHistory() {
     const { history } = useGameStore();

@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { User, Trophy } from 'lucide-react';
+import { Trophy,User } from 'lucide-react';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 interface ProfileCardProps {
     userId?: string;

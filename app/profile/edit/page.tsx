@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
-import { useSession } from 'next-auth/react';
+import { Check, Loader2,Upload, User, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { User, Upload, X, Check, Loader2 } from 'lucide-react';
+import { useSession } from 'next-auth/react';
+import { useEffect, useRef,useState } from 'react';
 import toast from 'react-hot-toast';
+
 import { Button } from "@/components/ui/Button";
 
 export default function EditProfilePage() {

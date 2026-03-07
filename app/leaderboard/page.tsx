@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+
 import { LeaderboardTable } from "@/components/LeaderboardTable";
 import { PlayerSearchBar } from "@/components/PlayerSearchBar";
 import { RankBadge } from "@/components/RankBadge";

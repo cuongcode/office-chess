@@ -1,13 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import {
-    TimeControlPreset,
-    timeControlPresets,
-    getTimeControlDisplay,
-    TimeControlCategory
-} from '@/lib/timeControls';
+
 import { Button } from "@/components/ui/Button";
+import {
+    getTimeControlDisplay,
+    TimeControlCategory,
+    TimeControlPreset,
+    timeControlPresets} from '@/lib/timeControls';
 
 interface TimeControlSelectorProps {
     selectedPreset: TimeControlPreset | null;

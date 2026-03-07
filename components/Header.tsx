@@ -1,14 +1,16 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
+
+import { useGameStore } from "@/store/gameStore";
+
+import { HeaderInfo } from "./HeaderInfo";
+import { PlayerSearchBar } from "./PlayerSearchBar";
 import { ThemeToggle } from "./ThemeToggle";
 import { UserMenu } from "./UserMenu";
-import { PlayerSearchBar } from "./PlayerSearchBar";
-import { useRouter } from "next/navigation";
-import { useGameStore } from "@/store/gameStore";
-import { HeaderInfo } from "./HeaderInfo";
-import toast from "react-hot-toast";
 
 export function Header() {
     const { data: session, status } = useSession();

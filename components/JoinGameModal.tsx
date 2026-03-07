@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
-import { X, ArrowRight, AlertCircle } from 'lucide-react';
-import { useGameStore } from '@/store/gameStore';
+import { AlertCircle,ArrowRight, X } from 'lucide-react';
+import { useEffect,useState } from 'react';
+
 import { Button } from "@/components/ui/Button";
+import { useGameStore } from '@/store/gameStore';
 
 interface JoinGameModalProps {
     userId: string;

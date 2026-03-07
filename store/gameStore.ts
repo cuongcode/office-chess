@@ -1,6 +1,7 @@
-import { create } from 'zustand';
 import { Chess } from 'chess.js';
 import { Socket } from 'socket.io-client';
+import { create } from 'zustand';
+
 import { getSocket } from '@/lib/socket-client';
 import { TimeControlPreset } from '@/lib/timeControls';
 

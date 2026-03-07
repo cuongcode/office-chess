@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
-import { Users, Eye, ArrowRight, RefreshCw, X } from 'lucide-react';
+import { ArrowRight, Eye, RefreshCw, Users, X } from 'lucide-react';
+import { useEffect,useState } from 'react';
+
 import { useGameStore } from '@/store/gameStore';
 
 interface ActiveGame {

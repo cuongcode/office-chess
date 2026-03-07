@@ -1,6 +1,7 @@
 'use client';
 
 import { defaultPieces } from 'react-chessboard';
+
 import { useTheme } from '@/components/ThemeProvider';
 
 interface CapturedPiecesProps {
