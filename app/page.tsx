@@ -5,13 +5,15 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 
-import { ActiveGamesList } from "@/components/ActiveGamesList";
-import { ChessBoard } from "@/components/ChessBoard";
-import { CreateGameModal } from "@/components/CreateGameModal";
-import { GameModeSelector } from "@/components/GameModeSelector";
-import { JoinGameModal } from "@/components/JoinGameModal";
-import { LeaderboardWidget } from "@/components/LeaderboardWidget";
-import { PlayerSearchBar } from "@/components/PlayerSearchBar";
+import {
+  ActiveGamesList,
+  ChessBoard,
+  CreateGameModal,
+  GameModeSelector,
+  JoinGameModal,
+  LeaderboardWidget,
+  PlayerSearchBar,
+} from "@/components";
 import { useGameStore } from "@/store/gameStore";
 
 export default function Home() {

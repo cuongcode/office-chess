@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components";
 
 export default function EditProfilePage() {
   const { data: session, status } = useSession();

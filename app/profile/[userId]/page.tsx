@@ -15,7 +15,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components";
 
 interface ProfileData {
   id: string;

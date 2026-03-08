@@ -3,10 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
-import { LeaderboardTable } from "@/components/LeaderboardTable";
-import { PlayerSearchBar } from "@/components/PlayerSearchBar";
-import { RankBadge } from "@/components/RankBadge";
-import { Button } from "@/components/ui/Button";
+import { Button, LeaderboardTable, PlayerSearchBar, RankBadge } from "@/components";
 
 type TimeFilter = "all-time" | "monthly" | "weekly";
 

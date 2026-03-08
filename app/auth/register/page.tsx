@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components";
 
 export default function RegisterPage() {
   const router = useRouter();

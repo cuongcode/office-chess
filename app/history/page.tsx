@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useState } from "react";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components";
 
 type ResultFilter = "all" | "win" | "loss" | "draw";
 type SortBy = "recent" | "oldest";
