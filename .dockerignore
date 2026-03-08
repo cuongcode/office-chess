@@ -1,14 +1,53 @@
+# Dependencies
 node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Next.js build output
 .next
+out
+dist
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Git
 .git
 .gitignore
-.env
-.env.local
-.env.development
-*.md
-Dockerfile
-docker-compose.yml
+
+# Docker
+Dockerfile*
+docker-compose*.yml
 .dockerignore
-dist
-coverage
+
+# Development & editor config
 .vscode
+.idea
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Testing
+coverage
+__tests__
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# Logs
+logs
+*.log
+
+# Docs
+*.md
+
+# Agent / tooling config
+.agent
+.agents
