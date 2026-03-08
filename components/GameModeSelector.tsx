@@ -1,3 +1,5 @@
+"use client";
+
 import { Globe, Monitor, Play, Users } from "lucide-react";
 import { useState } from "react";
 

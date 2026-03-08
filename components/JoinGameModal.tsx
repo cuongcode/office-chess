@@ -1,3 +1,5 @@
+"use client";
+
 import { AlertCircle, ArrowRight, X } from "lucide-react";
 import { useEffect, useState } from "react";
 

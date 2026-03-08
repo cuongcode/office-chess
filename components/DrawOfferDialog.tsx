@@ -1,3 +1,5 @@
+"use client";
+
 import { Check, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";

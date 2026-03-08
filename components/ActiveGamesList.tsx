@@ -1,3 +1,5 @@
+"use client";
+
 import { ArrowRight, Eye, RefreshCw, Users, X } from "lucide-react";
 import { useEffect, useState } from "react";
 

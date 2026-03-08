@@ -1,3 +1,5 @@
+"use client";
+
 import { Check, Copy, Share2, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
