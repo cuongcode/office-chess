@@ -16,6 +16,8 @@ export default function LoginPage() {
     password: "",
   });
 
+  const isFormEmpty = !data.email || !data.password;
+
   const loginUser = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -132,7 +134,7 @@ export default function LoginPage() {
           </div>
 
           <div>
-            <Button type="submit" disabled={loading} className="w-full">
+            <Button type="submit" disabled={loading || isFormEmpty} className="w-full">
               {loading ? "Signing in..." : "Sign in"}
             </Button>
           </div>

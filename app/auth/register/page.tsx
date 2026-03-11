@@ -17,6 +17,8 @@ export default function RegisterPage() {
     confirmPassword: "",
   });
 
+  const isFormEmpty = !data.name || !data.email || !data.password || !data.confirmPassword;
+
   const registerUser = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -141,7 +143,7 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <Button type="submit" disabled={loading} className="w-full">
+            <Button type="submit" disabled={loading || isFormEmpty} className="w-full">
               {loading ? "Registering..." : "Register"}
             </Button>
           </div>

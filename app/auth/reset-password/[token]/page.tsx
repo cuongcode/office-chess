@@ -17,6 +17,8 @@ export default function ResetPasswordPage({
     confirmPassword: "",
   });
 
+  const isFormEmpty = !data.password || !data.confirmPassword;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -104,8 +106,8 @@ export default function ResetPasswordPage({
           <div>
             <button
               type="submit"
-              disabled={loading}
-              className="group relative flex w-full justify-center rounded-md border border-transparent bg-primary-light px-4 py-2 text-sm font-medium text-primary-fg-light hover:opacity-90 focus:ring-2 focus:ring-primary-light focus:ring-offset-2 focus:outline-none disabled:opacity-70 dark:bg-primary-dark dark:text-primary-fg-dark dark:focus:ring-primary-dark"
+              disabled={loading || isFormEmpty}
+              className="group relative flex w-full justify-center rounded-md border border-transparent bg-primary-light px-4 py-2 text-sm font-medium text-primary-fg-light hover:opacity-90 focus:ring-2 focus:ring-primary-light focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-primary-dark dark:text-primary-fg-dark dark:focus:ring-primary-dark"
             >
               {loading ? "Resetting..." : "Reset Password"}
             </button>
