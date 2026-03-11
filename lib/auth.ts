@@ -25,7 +25,7 @@ export const authOptions: NextAuthOptions = {
         });
 
         if (!user || !user.password) {
-          throw new Error("Invalid credentials");
+          throw new Error("No account found with that email.");
         }
 
         if (!user.emailVerified) {
