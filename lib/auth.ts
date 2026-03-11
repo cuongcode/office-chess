@@ -38,7 +38,7 @@ export const authOptions: NextAuthOptions = {
         );
 
         if (!isPasswordValid) {
-          throw new Error("Invalid credentials");
+          throw new Error("Incorrect password. Please try again.");
         }
 
         // Initialize player stats if not already done

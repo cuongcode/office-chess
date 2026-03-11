@@ -3,6 +3,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
 
+import { Toaster } from "react-hot-toast";
+
 import { Header, Providers } from "@/components";
 
 const inter = Inter({
@@ -34,6 +36,7 @@ export default function RootLayout({
         <Providers>
           <Header />
           <main>{children}</main>
+          <Toaster position="bottom-right" />
         </Providers>
       </body>
     </html>

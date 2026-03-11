@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { Toaster } from "react-hot-toast";
 
 import {
   ActiveGamesList,
@@ -82,8 +81,6 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col bg-bg-light pt-36 text-fg-light dark:bg-bg-dark dark:text-fg-dark">
-      <Toaster position="bottom-right" />
-
       {view === "menu" && (
         <div className="flex flex-1 flex-col items-center p-6">
           <div className="flex w-full max-w-4xl flex-col items-center gap-6">

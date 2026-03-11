@@ -43,8 +43,7 @@ export default function RegisterPage() {
       const responseData = await response.json();
 
       if (response.ok) {
-        toast.success("Verification email sent! Check your inbox.");
-        router.push("/auth/login");
+        router.push("/auth/check-email");
       } else {
         toast.error(responseData.message || "Registration failed");
       }

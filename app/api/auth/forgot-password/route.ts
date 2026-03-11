@@ -38,7 +38,7 @@ export async function POST(req: Request) {
 
     // Always return success to prevent email enumeration
     return NextResponse.json(
-      { message: "If the email exists, a reset link has been sent." },
+      { message: "If this email is registered, a reset link has been sent." },
       { status: 200 },
     );
   } catch (error) {

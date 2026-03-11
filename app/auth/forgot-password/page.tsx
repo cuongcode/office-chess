@@ -24,7 +24,6 @@ export default function ForgotPasswordPage() {
 
       if (response.ok) {
         setSuccess(true);
-        toast.success("Reset link sent!");
       } else {
         toast.error("Something went wrong");
       }
