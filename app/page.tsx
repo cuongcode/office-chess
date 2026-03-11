@@ -95,6 +95,7 @@ export default function Home() {
               onSelectCreateOnline={handleCreateOnline}
               onSelectJoinOnline={() => setShowJoinModal(true)}
               onSelectActiveGames={() => setShowActiveGames(true)}
+              onSelectHistory={() => router.push("/history")}
             />
 
             <div className="w-full md:w-1/2">

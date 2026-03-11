@@ -8,6 +8,7 @@ interface GameModeSelectorProps {
   onSelectCreateOnline: () => void;
   onSelectJoinOnline: () => void;
   onSelectActiveGames: () => void;
+  onSelectHistory: () => void;
 }
 
 interface GameModeButtonProps {
@@ -33,13 +34,15 @@ export function GameModeSelector({
   onSelectCreateOnline,
   onSelectJoinOnline,
   onSelectActiveGames,
+  onSelectHistory,
 }: GameModeSelectorProps) {
   return (
     <div className="grid w-full max-w-4xl grid-cols-1 gap-6 md:w-1/2">
       <GameModeButton onClick={onSelectCreateOnline} label="Create Game" />
       <GameModeButton onClick={onSelectJoinOnline} label="Join Game" />
       <GameModeButton onClick={onSelectActiveGames} label="Watch Games" />
-      <GameModeButton onClick={onSelectLocal} label="Chess Board" />
+      {/* <GameModeButton onClick={onSelectLocal} label="Chess Board" /> */}
+      <GameModeButton onClick={onSelectHistory} label="History" />
     </div>
   );
 }
