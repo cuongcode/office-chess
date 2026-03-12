@@ -40,8 +40,8 @@ const createTransporter = async () => {
     return nodemailer.createTransport({
       host: process.env.EMAIL_SERVER_HOST,
       port: Number(process.env.EMAIL_SERVER_PORT),
-      secure: false,     // false = STARTTLS (port 587). Set true only for port 465.
-      requireTLS: true,  // Force STARTTLS upgrade — required by Gmail
+      secure: false, // false = STARTTLS (port 587). Set true only for port 465.
+      requireTLS: true, // Force STARTTLS upgrade — required by Gmail
       auth: {
         user: process.env.EMAIL_SERVER_USER,
         pass: process.env.EMAIL_SERVER_PASSWORD,
@@ -82,7 +82,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
   const html = `
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
       <h2>Verify your email</h2>
-      <p>Thanks for signing up for Chess App! Please verify your email address by clicking the link below:</p>
+      <p>Thanks for signing up for Office Chess! Please verify your email address by clicking the link below:</p>
       <a href="${url}" style="display: inline-block; background-color: #2563eb; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Verify Email</a>
       <p>Or copy and paste this link into your browser:</p>
       <p><a href="${url}">${url}</a></p>
@@ -92,7 +92,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
 
   return sendEmail({
     to: email,
-    subject: "Verify your email - Chess App",
+    subject: "Verify your email - Office Chess",
     html,
   });
 };
@@ -114,7 +114,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
 
   return sendEmail({
     to: email,
-    subject: "Reset your password - Chess App",
+    subject: "Reset your password - Office Chess",
     html,
   });
 };
@@ -123,14 +123,14 @@ export const sendPasswordChangedEmail = async (email: string) => {
   const html = `
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
       <h2>Password Changed</h2>
-      <p>Your password for Chess App has been changed successfully.</p>
+      <p>Your password for Office Chess has been changed successfully.</p>
       <p>If you did not make this change, please contact support immediately.</p>
     </div>
   `;
 
   return sendEmail({
     to: email,
-    subject: "Password changed successfully - Chess App",
+    subject: "Password changed successfully - Office Chess",
     html,
   });
 };

@@ -4,7 +4,7 @@ set -e
 # Load .env variables
 set -a; source .env; set +a
 
-echo "🚀 Starting Chess App Deployment..."
+echo "🚀 Starting Office Chess Deployment..."
 
 # Stop existing containers
 echo "⏹️  Stopping existing containers..."

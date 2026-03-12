@@ -51,7 +51,7 @@ export function generatePGN(options: GeneratePGNOptions): string {
 
   const headers = [
     `[Event "Casual Game"]`,
-    `[Site "Chess App"]`,
+    `[Site "Office Chess"]`,
     `[Date "${formatPgnDate(date)}"]`,
     `[White "${whitePlayerName}"]`,
     `[Black "${blackPlayerName}"]`,

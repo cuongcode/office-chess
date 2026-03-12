@@ -1,11 +1,13 @@
-# Chess App Deployment Guide
+# Office Chess Deployment Guide
 
 ## Quick Start
 
 ### Prerequisites
+
 - Docker and Docker Compose installed
 
 ### Deploy
+
 ```bash
 ./scripts/deploy.sh
 ```
@@ -18,13 +20,13 @@ Access URL is read from `DOCKER_APP_URL` in `.env`.
 
 **All config lives in `.env`. That is the only file you need to edit on a new machine.**
 
-| Variable | What to change |
-|---|---|
-| `POSTGRES_USER` / `POSTGRES_PASSWORD` / `POSTGRES_DB` | Database credentials |
-| `DOCKER_APP_URL` | LAN/production URL, e.g. `http://192.168.1.50:3001` |
-| `NEXTAUTH_SECRET` | Generate with `openssl rand -base64 32` |
-| `EMAIL_FROM` / `COMPANY_EMAIL_DOMAIN` | Email sender identity |
-| `EMAIL_SERVER_*` | SMTP server for production email |
+| Variable                                              | What to change                                      |
+| ----------------------------------------------------- | --------------------------------------------------- |
+| `POSTGRES_USER` / `POSTGRES_PASSWORD` / `POSTGRES_DB` | Database credentials                                |
+| `DOCKER_APP_URL`                                      | LAN/production URL, e.g. `http://192.168.1.50:3001` |
+| `NEXTAUTH_SECRET`                                     | Generate with `openssl rand -base64 32`             |
+| `EMAIL_FROM` / `COMPANY_EMAIL_DOMAIN`                 | Email sender identity                               |
+| `EMAIL_SERVER_*`                                      | SMTP server for production email                    |
 
 Find your server IP on Mac: `ipconfig getifaddr en0`
 
@@ -32,16 +34,17 @@ Find your server IP on Mac: `ipconfig getifaddr en0`
 
 ## Management Commands
 
-| Task | Command |
-|---|---|
-| Start | `docker-compose up -d` |
-| Stop | `docker-compose down` |
+| Task             | Command                      |
+| ---------------- | ---------------------------- |
+| Start            | `docker-compose up -d`       |
+| Stop             | `docker-compose down`        |
 | Restart app only | `docker-compose restart app` |
-| App logs | `docker-compose logs -f app` |
-| All logs | `docker-compose logs -f` |
-| Status | `docker-compose ps` |
+| App logs         | `docker-compose logs -f app` |
+| All logs         | `docker-compose logs -f`     |
+| Status           | `docker-compose ps`          |
 
 ### Database
+
 ```bash
 # Backup
 ./scripts/backup.sh              # saves to ./backups/
@@ -57,6 +60,7 @@ docker-compose up db-migrate
 ```
 
 ### Rebuild after code changes
+
 ```bash
 git pull
 ./scripts/deploy.sh
@@ -73,6 +77,7 @@ git pull
 **JWT session errors in browser** — Clear cookies / open incognito. Happens when `NEXTAUTH_SECRET` changes.
 
 **App won't start:**
+
 ```bash
 docker-compose logs app
 docker-compose build --no-cache app && docker-compose up -d app
@@ -83,20 +88,24 @@ docker-compose build --no-cache app && docker-compose up -d app
 ## Production Hardening
 
 ### Change database password
+
 Only update `POSTGRES_PASSWORD` in `.env` — `docker-compose.yml` builds `DATABASE_URL` from the same variable automatically.
 
 ### Use a real email server
+
 Set these in `.env`:
+
 ```env
 EMAIL_SERVER_HOST="smtp.yourcompany.com"
 EMAIL_SERVER_PORT="587"
 EMAIL_SERVER_USER="your-user"
 EMAIL_SERVER_PASSWORD="your-password"
-EMAIL_FROM="Chess App <chess@yourcompany.com>"
-COMPANY_EMAIL_DOMAIN="yourcompany.com"
+EMAIL_FROM="Office Chess <chess@yourcompany.com>"
+COMPANY_EMAIL_DOMAIN s="yourcompany.com"
 ```
 
 ### Scheduled backups (cron)
+
 ```bash
 # Daily backup at 2am
 0 2 * * * /path/to/office-chess/scripts/backup.sh >> /var/log/chess-backup.log 2>&1

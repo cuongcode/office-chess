@@ -20,9 +20,9 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Next.js Chess",
+  title: "Office Chess",
   description:
-    "A modern chess application built with Next.js and React Chessboard",
+    "A modern chess application built for playing chess with colleagues at office",
 };
 
 export default function RootLayout({
