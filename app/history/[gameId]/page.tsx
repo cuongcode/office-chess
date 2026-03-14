@@ -1,6 +1,7 @@
 "use client";
 
 import { useTheme } from "@/components/ThemeProvider";
+import { PlayerInfo } from "@/components/PlayerInfo";
 import { Chess } from "chess.js";
 import dynamic from "next/dynamic";
 import { useParams, useRouter } from "next/navigation";
@@ -42,6 +43,10 @@ export default function GameReplayPage() {
     "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
   const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
   const [currentFEN, setCurrentFEN] = useState(STARTING_FEN);
+  const [capturedPieces, setCapturedPieces] = useState<{
+    white: string[];
+    black: string[];
+  }>({ white: [], black: [] });
 
   // Fetch game data
   useEffect(() => {
@@ -60,6 +65,7 @@ export default function GameReplayPage() {
           "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
         );
         setCurrentMoveIndex(0);
+        setCapturedPieces({ white: [], black: [] });
       })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
@@ -72,11 +78,20 @@ export default function GameReplayPage() {
       const moves = game.movesArray as string[];
       const clamped = Math.max(0, Math.min(index, moves.length));
       const chess = new Chess();
+      const newCapturedPieces = {
+        white: [] as string[],
+        black: [] as string[],
+      };
       for (let i = 0; i < clamped; i++) {
-        chess.move(moves[i]);
+        const move = chess.move(moves[i]);
+        if (move && move.captured) {
+          const capturingColor = move.color === "w" ? "white" : "black";
+          newCapturedPieces[capturingColor].push(move.captured);
+        }
       }
       setCurrentFEN(chess.fen());
       setCurrentMoveIndex(clamped);
+      setCapturedPieces(newCapturedPieces);
     },
     [game],
   );
@@ -194,9 +209,28 @@ export default function GameReplayPage() {
         {/* Main layout: board + info side by side on Desktop, stacked on Mobile */}
         <div className="flex flex-col items-start gap-4 lg:flex-row">
           {/* ── LEFT: Board + Controls ───────────────────────────── */}
-          <div className="flex w-full flex-col gap-4 lg:w-auto">
+          <div className="mx-auto flex w-full max-w-[520px] flex-col gap-4 lg:w-auto">
+            {/* Top Player (Opponent) */}
+            <PlayerInfo
+              name={
+                game.blackPlayer.username || game.blackPlayer.name || "Unknown"
+              }
+              subLabel="Black"
+              avatarLabel="B"
+              isMe={false}
+              capturedPieces={capturedPieces.black}
+              playerColor="black"
+              opponentCapturedPieces={capturedPieces.white}
+              showClock={false}
+              timeLeft={0}
+              isActive={false}
+              isPaused={false}
+              increment={0}
+              clockOrientation="top"
+            />
+
             {/* Board */}
-            <div className="mx-auto aspect-square w-full max-w-[520px] overflow-hidden rounded-lg border border-border-light bg-card-light lg:mx-0 dark:border-border-dark dark:bg-card-dark">
+            <div className="mx-auto aspect-square w-full overflow-hidden rounded-lg border border-border-light bg-card-light lg:mx-0 dark:border-border-dark dark:bg-card-dark">
               <Chessboard
                 options={{
                   id: "ReplayBoard",
@@ -219,6 +253,25 @@ export default function GameReplayPage() {
               />
             </div>
 
+            {/* Bottom Player (You) */}
+            <PlayerInfo
+              name={
+                game.whitePlayer.username || game.whitePlayer.name || "Unknown"
+              }
+              subLabel="White"
+              avatarLabel="W"
+              isMe={false}
+              capturedPieces={capturedPieces.white}
+              playerColor="white"
+              opponentCapturedPieces={capturedPieces.black}
+              showClock={false}
+              timeLeft={0}
+              isActive={false}
+              isPaused={false}
+              increment={0}
+              clockOrientation="bottom"
+            />
+
             <NavigationControls
               currentMoveIndex={currentMoveIndex}
               totalMoves={totalMoves}
@@ -232,7 +285,7 @@ export default function GameReplayPage() {
           </div>
 
           {/* ── RIGHT: Game Info Panel ───────────────────────────── */}
-          <div className="flex w-full min-w-0 flex-1 flex-col gap-4">
+          <div className="mx-auto flex w-full max-w-[520px] min-w-0 flex-1 flex-col gap-4">
             {/* <GameHeader game={game} resultInfo={resultInfo} /> */}
             {/* <GameDetails game={game} totalMoves={totalMoves} /> */}
             <MoveList
