@@ -1,5 +1,6 @@
 "use client";
 
+import { useTheme } from "@/components/ThemeProvider";
 import { Chess } from "chess.js";
 import dynamic from "next/dynamic";
 import { useParams, useRouter } from "next/navigation";
@@ -29,6 +30,7 @@ const Chessboard = dynamic(
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function GameReplayPage() {
+  const { theme } = useTheme();
   const params = useParams();
   const router = useRouter();
   const gameId = params?.gameId as string;
@@ -190,27 +192,31 @@ export default function GameReplayPage() {
         <BackLink />
 
         {/* Main layout: board + info side by side on Desktop, stacked on Mobile */}
-        <div className="flex flex-col items-start gap-6 lg:flex-row">
+        <div className="flex flex-col items-start gap-4 lg:flex-row">
           {/* ── LEFT: Board + Controls ───────────────────────────── */}
           <div className="flex w-full flex-col gap-4 lg:w-auto">
             {/* Board */}
-            <div className="mx-auto w-full max-w-[520px] lg:mx-0">
-              <div className="aspect-square w-full overflow-hidden rounded-lg border border-border-light bg-card-light dark:border-border-dark dark:bg-card-dark">
-                <Chessboard
-                  options={{
-                    id: "ReplayBoard",
-                    position: currentFEN,
-                    allowDragging: false,
-                    animationDurationInMs: 150,
-                    darkSquareStyle: {
-                      backgroundColor: "var(--color-board-dark-light)",
-                    },
-                    lightSquareStyle: {
-                      backgroundColor: "var(--color-board-light-light)",
-                    },
-                  }}
-                />
-              </div>
+            <div className="mx-auto aspect-square w-full max-w-[520px] overflow-hidden rounded-lg border border-border-light bg-card-light lg:mx-0 dark:border-border-dark dark:bg-card-dark">
+              <Chessboard
+                options={{
+                  id: "ReplayBoard",
+                  position: currentFEN,
+                  allowDragging: false,
+                  animationDurationInMs: 150,
+                  darkSquareStyle: {
+                    backgroundColor:
+                      theme === "dark"
+                        ? "var(--color-board-dark-dark)"
+                        : "var(--color-board-dark-light)",
+                  },
+                  lightSquareStyle: {
+                    backgroundColor:
+                      theme === "dark"
+                        ? "var(--color-board-light-dark)"
+                        : "var(--color-board-light-light)",
+                  },
+                }}
+              />
             </div>
 
             <NavigationControls
@@ -222,13 +228,13 @@ export default function GameReplayPage() {
               goToEnd={goToEnd}
             />
 
-            <KeyboardHint />
+            {/* <KeyboardHint /> */}
           </div>
 
           {/* ── RIGHT: Game Info Panel ───────────────────────────── */}
           <div className="flex w-full min-w-0 flex-1 flex-col gap-4">
-            <GameHeader game={game} resultInfo={resultInfo} />
-            <GameDetails game={game} totalMoves={totalMoves} />
+            {/* <GameHeader game={game} resultInfo={resultInfo} /> */}
+            {/* <GameDetails game={game} totalMoves={totalMoves} /> */}
             <MoveList
               moveRows={moveRows}
               currentMoveIndex={currentMoveIndex}

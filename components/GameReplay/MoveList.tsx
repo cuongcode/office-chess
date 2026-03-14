@@ -14,7 +14,7 @@ export function MoveList({
   goToMove: (idx: number) => void;
 }) {
   return (
-    <div className="flex min-h-0 flex-col rounded-2xl border border-border-light bg-card-light shadow-sm dark:border-border-dark dark:bg-card-dark">
+    <div className="mx-auto flex min-h-0 w-full max-w-[520px] flex-col rounded-2xl border border-border-light bg-card-light shadow-sm dark:border-border-dark dark:bg-card-dark">
       <div className="border-b border-border-light px-5 py-3 dark:border-border-dark">
         <h3 className="text-xs font-semibold tracking-widest text-muted-fg-light uppercase dark:text-muted-fg-dark">
           Move List
