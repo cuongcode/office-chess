@@ -6,6 +6,7 @@ export * from './ColorPickerButton';
 export * from './ConfirmationModal';
 export * from './CreateGameModal';
 export * from './DrawOfferDialog';
+export * from './Footer';
 export * from './GameControls';
 export * from './GameModeSelector';
 export * from './GameOverModal';

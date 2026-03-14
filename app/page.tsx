@@ -12,6 +12,7 @@ import {
   JoinGameModal,
   LeaderboardWidget,
   PlayerSearchBar,
+  Footer,
 } from "@/components";
 import { useGameStore } from "@/store/gameStore";
 
@@ -80,9 +81,9 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col bg-bg-light pt-36 text-fg-light dark:bg-bg-dark dark:text-fg-dark">
+    <main className="flex min-h-screen flex-col bg-bg-light pt-20 text-fg-light dark:bg-bg-dark dark:text-fg-dark">
       {view === "menu" && (
-        <div className="flex flex-1 flex-col items-center p-6">
+        <div className="flex flex-1 flex-col items-center justify-between p-6">
           <div className="flex w-full max-w-4xl flex-col items-center gap-6">
             <div className="w-full md:hidden">
               <PlayerSearchBar
@@ -102,6 +103,7 @@ export default function Home() {
               <LeaderboardWidget />
             </div>
           </div>
+          <Footer />
         </div>
       )}
 
