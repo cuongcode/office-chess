@@ -66,14 +66,16 @@ function formatDate(dateStr: string): string {
 function getResultLabel(result: string): { text: string; colorClass: string } {
   switch (result) {
     case "white_win":
+    case "timeout_black":
       return {
-        text: "White Wins",
+        text: result === "white_win" ? "White Wins" : "White Wins on Time",
         colorClass:
           "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300 border border-amber-300 dark:border-amber-700",
       };
     case "black_win":
+    case "timeout_white":
       return {
-        text: "Black Wins",
+        text: result === "black_win" ? "Black Wins" : "Black Wins on Time",
         colorClass:
           "bg-slate-700 text-slate-100 dark:bg-slate-800 dark:text-slate-200 border border-slate-500",
       };

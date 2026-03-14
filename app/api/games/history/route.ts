@@ -58,7 +58,9 @@ export async function GET(request: NextRequest) {
           {
             OR: [
               { whitePlayerId: userId, result: "white_win" },
+              { whitePlayerId: userId, result: "timeout_black" },
               { blackPlayerId: userId, result: "black_win" },
+              { blackPlayerId: userId, result: "timeout_white" },
             ],
           },
         ],
@@ -128,8 +130,8 @@ export async function GET(request: NextRequest) {
       if (game.result === "draw") {
         userResult = "draw";
       } else if (
-        (isWhite && game.result === "white_win") ||
-        (!isWhite && game.result === "black_win")
+        (isWhite && (game.result === "white_win" || game.result === "timeout_black")) ||
+        (!isWhite && (game.result === "black_win" || game.result === "timeout_white"))
       ) {
         userResult = "win";
       } else {
