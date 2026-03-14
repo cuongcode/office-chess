@@ -184,10 +184,12 @@ export const useGameStore = create<GameState>((set, get) => ({
           status = "check";
         }
 
+        const newHistory = [...get().history, move.san];
+
         set({
           fen: chess.fen(),
           turn: chess.turn(),
-          history: chess.history(),
+          history: newHistory,
           status,
           winner,
           lastMove: { from: source, to: target },
@@ -213,7 +215,7 @@ export const useGameStore = create<GameState>((set, get) => ({
             move: { from: source, to: target, promotion },
             gameState: {
               fen: chess.fen(),
-              moveHistory: chess.history(),
+              moveHistory: newHistory,
               turn: chess.turn(),
               status: status,
               lastMove: { from: source, to: target },
