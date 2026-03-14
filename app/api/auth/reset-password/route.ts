@@ -40,6 +40,7 @@ export async function POST(req: Request) {
         password: hashedPassword,
         resetPasswordToken: null,
         resetPasswordExpiry: null,
+        emailVerified: new Date(),
       },
     });
 
