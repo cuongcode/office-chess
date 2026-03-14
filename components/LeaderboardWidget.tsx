@@ -8,6 +8,7 @@ import { RankBadge } from "./RankBadge";
 interface Player {
   id: string;
   username: string | null;
+  name: string | null;
   email: string;
   avatar: string | null;
   rating: number;
@@ -107,18 +108,18 @@ export function LeaderboardWidget() {
               {player.avatar ? (
                 <img
                   src={player.avatar}
-                  alt={player.username || player.email}
+                  alt={player.username || player.name || player.email}
                   className="h-8 w-8 rounded-full object-cover"
                 />
               ) : (
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted-light text-sm font-semibold text-muted-fg-light dark:bg-muted-dark dark:text-muted-fg-dark">
-                  {(player.username || player.email).charAt(0).toUpperCase()}
+                  {(player.username || player.name || player.email).charAt(0).toUpperCase()}
                 </div>
               )}
 
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium text-card-fg-light dark:text-card-fg-dark">
-                  {player.username || player.email}
+                  {player.username || player.name || player.email}
                 </p>
               </div>
 

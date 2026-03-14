@@ -7,6 +7,7 @@ import { RankBadge } from "./RankBadge";
 interface Player {
   id: string;
   username: string | null;
+  name: string | null;
   email: string;
   avatar: string | null;
   rating: number;
@@ -182,19 +183,19 @@ export function LeaderboardTable({
                       {player.avatar ? (
                         <img
                           src={player.avatar}
-                          alt={player.username || player.email}
+                          alt={player.username || player.name || player.email}
                           className="h-10 w-10 rounded-full object-cover"
                         />
                       ) : (
                         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted-light font-semibold text-muted-fg-light dark:bg-muted-dark dark:text-muted-fg-dark">
-                          {(player.username || player.email)
+                          {(player.username || player.name || player.email)
                             .charAt(0)
                             .toUpperCase()}
                         </div>
                       )}
                       <div>
                         <p className="text-sm font-medium text-card-fg-light dark:text-card-fg-dark">
-                          {player.username || player.email}
+                          {player.username || player.name || player.email}
                           {isCurrentUser && (
                             <span className="ml-2 text-xs font-semibold text-primary-light dark:text-primary-dark">
                               (You)
@@ -270,17 +271,17 @@ export function LeaderboardTable({
                 {player.avatar ? (
                   <img
                     src={player.avatar}
-                    alt={player.username || player.email}
+                    alt={player.username || player.name || player.email}
                     className="h-12 w-12 rounded-full object-cover"
                   />
                 ) : (
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted-light font-semibold text-muted-fg-light dark:bg-muted-dark dark:text-muted-fg-dark">
-                    {(player.username || player.email).charAt(0).toUpperCase()}
+                    {(player.username || player.name || player.email).charAt(0).toUpperCase()}
                   </div>
                 )}
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium text-card-fg-light dark:text-card-fg-dark">
-                    {player.username || player.email}
+                    {player.username || player.name || player.email}
                     {isCurrentUser && (
                       <span className="ml-2 text-xs font-semibold text-primary-light dark:text-primary-dark">
                         (You)

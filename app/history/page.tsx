@@ -12,6 +12,7 @@ type SortBy = "recent" | "oldest";
 interface GamePlayer {
   id: string;
   username: string | null;
+  name: string | null;
   avatar: string | null;
 }
 
@@ -92,7 +93,7 @@ function PlayerAvatar({
   player: GamePlayer;
   label: string;
 }) {
-  const displayName = player.username || "Unknown";
+  const displayName = player.username || player.name || "Unknown";
   return (
     <div className="flex min-w-0 flex-col items-center gap-1">
       <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-secondary-light text-sm font-bold ring-2 ring-border-light dark:bg-secondary-dark dark:ring-border-dark">
@@ -139,7 +140,7 @@ function GameCard({
         </span>
         <PlayerAvatar
           player={opponent}
-          label={opponent.username || "Unknown"}
+          label={opponent.username || opponent.name || "Unknown"}
         />
       </div>
 

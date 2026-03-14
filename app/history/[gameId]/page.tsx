@@ -20,6 +20,7 @@ const Chessboard = dynamic(
 interface GamePlayer {
   id: string;
   username: string | null;
+  name: string | null;
   avatar: string | null;
 }
 
@@ -98,7 +99,7 @@ function formatResultMethod(method: string): string {
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
 function PlayerAvatar({ player }: { player: GamePlayer }) {
-  const name = player.username || "Unknown";
+  const name = player.username || player.name || "Unknown";
   return (
     <div className="flex flex-col items-center gap-1.5">
       <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-secondary-light text-base font-bold ring-2 ring-border-light dark:bg-secondary-dark dark:ring-border-dark">

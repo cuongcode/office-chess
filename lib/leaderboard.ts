@@ -5,6 +5,7 @@ export type TimeFilter = "all-time" | "monthly" | "weekly";
 export interface LeaderboardPlayer {
   id: string;
   username: string | null;
+  name: string | null;
   email: string;
   avatar: string | null;
   rating: number;
@@ -36,10 +37,12 @@ export interface LeaderboardStats {
   averageRating: number;
   mostActivePlayer: {
     username: string | null;
+    name: string | null;
     totalGames: number;
   } | null;
   highestRatedPlayer: {
     username: string | null;
+    name: string | null;
     rating: number;
   } | null;
 }
@@ -102,6 +105,7 @@ export async function getLeaderboard(
     select: {
       id: true,
       username: true,
+      name: true,
       email: true,
       avatar: true,
       rating: true,
@@ -148,6 +152,7 @@ export async function getUserRank(
     select: {
       id: true,
       username: true,
+      name: true,
       email: true,
       avatar: true,
       rating: true,
@@ -266,6 +271,7 @@ export async function getLeaderboardStats(): Promise<LeaderboardStats> {
     },
     select: {
       username: true,
+      name: true,
       totalGames: true,
     },
     orderBy: {
@@ -282,6 +288,7 @@ export async function getLeaderboardStats(): Promise<LeaderboardStats> {
     },
     select: {
       username: true,
+      name: true,
       rating: true,
     },
     orderBy: {
@@ -334,6 +341,7 @@ export async function searchPlayers(
     select: {
       id: true,
       username: true,
+      name: true,
       email: true,
       avatar: true,
       rating: true,

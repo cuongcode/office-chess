@@ -102,6 +102,7 @@ export async function GET(request: NextRequest) {
             select: {
               id: true,
               username: true,
+              name: true,
               avatar: true,
             },
           },
@@ -109,6 +110,7 @@ export async function GET(request: NextRequest) {
             select: {
               id: true,
               username: true,
+              name: true,
               avatar: true,
             },
           },
