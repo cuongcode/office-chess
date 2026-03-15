@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useState } from "react";
+import { Clock, ChevronRight } from "lucide-react";
 
 import { Button } from "@/components";
 
@@ -156,19 +157,7 @@ function GameCard({
         </div>
         <div className="flex items-center gap-3 text-xs text-muted-fg-light dark:text-muted-fg-dark">
           <span className="flex items-center gap-1">
-            <svg
-              className="h-3 w-3"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
+            <Clock className="h-3 w-3" />
             {game.timeControl === "unlimited" ? "∞" : game.timeControl}
           </span>
           <span className="text-xs capitalize">
@@ -191,19 +180,7 @@ function GameCard({
       <div className="flex-shrink-0">
         <span className="inline-flex items-center gap-1 rounded-lg bg-secondary-light px-3 py-1.5 text-xs font-medium text-fg-light transition-colors group-hover:bg-primary-light group-hover:text-white dark:bg-secondary-dark dark:text-fg-dark dark:group-hover:bg-primary-dark">
           View
-          <svg
-            className="h-3 w-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
+          <ChevronRight className="h-3 w-3" />
         </span>
       </div>
     </div>
