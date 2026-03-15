@@ -6,7 +6,7 @@ export function Footer() {
       Developed by{" "}
       <Link
         href="#"
-        className="font-medium text-primary-light hover:text-primary-light/80 dark:text-primary-dark dark:hover:text-primary-dark/80"
+        className="font-medium text-fg-light hover:text-primary-light/80 dark:text-fg-dark dark:hover:text-primary-dark/80"
       >
         One
       </Link>
