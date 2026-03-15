@@ -4,23 +4,28 @@ import React from "react";
 
 import { formatTime, getWarningLevel, WarningLevel } from "@/lib/timeControls";
 
+import { useGameStore } from "@/store/gameStore";
+
 interface ChessClockProps {
-  timeLeft: number; // seconds
+  playerColor: "white" | "black";
   playerName: string | null;
-  isActive: boolean;
-  increment?: number;
-  isPaused?: boolean;
   orientation: "top" | "bottom";
 }
 
 export const ChessClock: React.FC<ChessClockProps> = ({
-  timeLeft,
+  playerColor,
   playerName,
-  isActive,
-  increment = 0,
-  isPaused = false,
   orientation,
 }) => {
+  const timeLeft = useGameStore((state) =>
+    playerColor === "white" ? state.whiteTimeLeft : state.blackTimeLeft,
+  );
+  const isActive = useGameStore(
+    (state) => state.activeTimerColor === playerColor,
+  );
+  const isPaused = useGameStore((state) => !state.timerActive);
+  const increment = useGameStore((state) => state.timeControl?.increment || 0);
+
   const warningLevel: WarningLevel = getWarningLevel(timeLeft);
   const formattedTime = formatTime(timeLeft);
   const isTimeout = timeLeft <= 0;

@@ -222,10 +222,6 @@ export default function GameReplayPage() {
               playerColor="black"
               opponentCapturedPieces={capturedPieces.white}
               showClock={false}
-              timeLeft={0}
-              isActive={false}
-              isPaused={false}
-              increment={0}
               clockOrientation="top"
             />
 
@@ -265,10 +261,6 @@ export default function GameReplayPage() {
               playerColor="white"
               opponentCapturedPieces={capturedPieces.black}
               showClock={false}
-              timeLeft={0}
-              isActive={false}
-              isPaused={false}
-              increment={0}
               clockOrientation="bottom"
             />
 

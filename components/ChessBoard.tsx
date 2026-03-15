@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import { Chessboard } from "react-chessboard";
 import toast from "react-hot-toast";
+import { useShallow } from "zustand/react/shallow";
 
 import { useTheme } from "@/components/ThemeProvider";
 import { useGameStore } from "@/store/gameStore";
@@ -30,6 +31,37 @@ interface ChessBoardProps {
 
 export function ChessBoard({ onLeave }: ChessBoardProps) {
   const { theme } = useTheme();
+  const state = useGameStore(
+    useShallow((state) => ({
+      fen: state.fen,
+      makeMove: state.makeMove,
+      boardOrientation: state.boardOrientation,
+      lastMove: state.lastMove,
+      chess: state.chess,
+      isOnline: state.isOnline,
+      roomId: state.roomId,
+      playerColor: state.playerColor,
+      whitePlayerName: state.whitePlayerName,
+      blackPlayerName: state.blackPlayerName,
+      isConnected: state.isConnected,
+      spectatorCount: state.spectatorCount,
+      turn: state.turn,
+      status: state.status,
+      leaveGame: state.leaveGame,
+      resign: state.resign,
+      offerDraw: state.offerDraw,
+      timeControl: state.timeControl,
+      activeTimerColor: state.activeTimerColor,
+      timerActive: state.timerActive,
+      whiteReady: state.whiteReady,
+      blackReady: state.blackReady,
+      setPlayerReady: state.setPlayerReady,
+      capturedPieces: state.capturedPieces,
+      gameHasStarted: state.gameHasStarted,
+      gameIsActive: state.gameIsActive,
+    })),
+  );
+
   const {
     fen,
     makeMove,
@@ -49,8 +81,6 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
     resign,
     offerDraw,
     timeControl,
-    whiteTimeLeft,
-    blackTimeLeft,
     activeTimerColor,
     timerActive,
     whiteReady,
@@ -59,7 +89,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
     capturedPieces,
     gameHasStarted,
     gameIsActive,
-  } = useGameStore();
+  } = state;
 
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
   const [optionSquares, setOptionSquares] = useState<
@@ -336,13 +366,6 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
             : capturedPieces.black
         }
         showClock={!!(timeControl && timeControl.category !== "unlimited")}
-        timeLeft={boardOrientation === "white" ? blackTimeLeft : whiteTimeLeft}
-        isActive={
-          activeTimerColor ===
-          (boardOrientation === "white" ? "black" : "white")
-        }
-        isPaused={!timerActive}
-        increment={timeControl ? timeControl.increment : 0}
         clockOrientation="top"
         isReady={boardOrientation === "white" ? blackReady : whiteReady}
         showReadyStatus={
@@ -437,13 +460,6 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
             : capturedPieces.white
         }
         showClock={!!(timeControl && timeControl.category !== "unlimited")}
-        timeLeft={boardOrientation === "white" ? whiteTimeLeft : blackTimeLeft}
-        isActive={
-          activeTimerColor ===
-          (boardOrientation === "white" ? "white" : "black")
-        }
-        isPaused={!timerActive}
-        increment={timeControl ? timeControl.increment : 0}
         clockOrientation="bottom"
         isReady={boardOrientation === "white" ? whiteReady : blackReady}
         showReadyStatus={

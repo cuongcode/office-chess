@@ -9,12 +9,8 @@ interface PlayerInfoProps {
   capturedPieces: string[];
   playerColor: "white" | "black";
   opponentCapturedPieces: string[];
-  // Clock props
+  // Clock state
   showClock: boolean;
-  timeLeft: number;
-  isActive: boolean;
-  isPaused: boolean;
-  increment: number;
   clockOrientation: "top" | "bottom";
   // Ready state
   isReady?: boolean;
@@ -30,10 +26,6 @@ export function PlayerInfo({
   playerColor,
   opponentCapturedPieces,
   showClock,
-  timeLeft,
-  isActive,
-  isPaused,
-  increment,
   clockOrientation,
   isReady,
   showReadyStatus,
@@ -79,11 +71,8 @@ export function PlayerInfo({
         />
         {showClock && (
           <ChessClock
-            timeLeft={timeLeft}
+            playerColor={playerColor}
             playerName={name}
-            isActive={isActive}
-            increment={increment}
-            isPaused={isPaused}
             orientation={clockOrientation}
           />
         )}

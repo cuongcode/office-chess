@@ -1,9 +1,17 @@
 "use client";
 
+import { useShallow } from "zustand/react/shallow";
+
 import { useGameStore } from "@/store/gameStore";
 
 export function GameStatus() {
-  const { status, turn, winner } = useGameStore();
+  const { status, turn, winner } = useGameStore(
+    useShallow((state) => ({
+      status: state.status,
+      turn: state.turn,
+      winner: state.winner,
+    })),
+  );
 
   let message = "";
   let subMessage = "";

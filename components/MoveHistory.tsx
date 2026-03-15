@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 import { useGameStore } from "@/store/gameStore";
 
 export function MoveHistory() {
-  const { moveHistory } = useGameStore();
+  const moveHistory = useGameStore((state) => state.moveHistory);
   const listRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

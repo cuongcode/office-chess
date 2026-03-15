@@ -790,7 +790,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     // Start new interval
     const intervalId = setInterval(() => {
       get().updateTimerTick();
-    }, 100); // Update every 100ms for smooth display
+    }, 1000); // Update every 1000ms for performance
 
     set({
       timerActive: true,
