@@ -104,7 +104,7 @@ export function PlayerSearchBar({ onPlayerSelect }: PlayerSearchBarProps) {
                 size="none"
                 key={player.id}
                 onClick={() => handlePlayerClick(player.id)}
-                className="flex w-full cursor-pointer items-center gap-3 p-3 text-left hover:bg-muted-light dark:hover:bg-muted-dark"
+                className="flex w-full items-center gap-3 p-3 text-left hover:bg-muted-light dark:hover:bg-muted-dark"
               >
                 {player.avatar ? (
                   <img

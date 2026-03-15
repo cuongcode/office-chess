@@ -95,7 +95,7 @@ export function GameOverModal({ onReturnHome }: GameOverModalProps) {
           variant="unstyled"
           size="none"
           onClick={handleReturn}
-          className="flex flex-shrink-0 cursor-pointer items-center gap-1.5 rounded-lg bg-muted-light px-3 py-1.5 text-xs font-semibold text-fg-light hover:bg-accent-light dark:bg-muted-dark dark:text-fg-dark dark:hover:bg-accent-dark"
+          className="flex flex-shrink-0 items-center gap-1.5 rounded-lg bg-muted-light px-3 py-1.5 text-xs font-semibold text-fg-light hover:bg-accent-light dark:bg-muted-dark dark:text-fg-dark dark:hover:bg-accent-dark"
         >
           <Home className="h-3.5 w-3.5" />
           Leave Room

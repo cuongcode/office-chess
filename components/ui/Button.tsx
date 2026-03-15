@@ -15,7 +15,7 @@ export function Button({
   ...props
 }: ButtonProps) {
   const baseStyles =
-    "inline-flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none cursor-pointer";
+    "inline-flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2";
 
   const variants = {
     primary:
@@ -40,6 +40,7 @@ export function Button({
   return (
     <button
       className={clsx(
+        "cursor-pointer disabled:opacity-50 disabled:pointer-events-none",
         variant !== "unstyled" && baseStyles,
         variant !== "unstyled" && sizes[size],
         variants[variant],

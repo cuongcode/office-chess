@@ -91,7 +91,7 @@ export function ConfirmationModal({
             variant="unstyled"
             size="none"
             onClick={onConfirm}
-            className={`flex-1 cursor-pointer rounded-lg px-4 py-3 font-medium ${getConfirmButtonStyles()}`}
+            className={`flex-1 rounded-lg px-4 py-3 font-medium ${getConfirmButtonStyles()}`}
           >
             {confirmText}
           </Button>

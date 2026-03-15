@@ -288,7 +288,7 @@ export default function HistoryPage() {
               size="none"
               id={`filter-${tab.value}`}
               onClick={() => handleFilterChange(tab.value)}
-              className={`cursor-pointer rounded-lg px-4 py-2 text-sm font-medium ${
+              className={`rounded-lg px-4 py-2 text-sm font-medium ${
                 resultFilter === tab.value
                   ? "bg-card-light text-fg-light shadow-sm dark:bg-card-dark dark:text-fg-dark"
                   : "text-muted-fg-light hover:text-fg-light dark:text-muted-fg-dark dark:hover:text-fg-dark"

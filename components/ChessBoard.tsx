@@ -422,7 +422,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                 variant="unstyled"
                 size="none"
                 onClick={setPlayerReady}
-                className="text-success-fg-light animate-in fade-in zoom-in cursor-pointer rounded-xl bg-success px-8 py-4 text-xl font-bold shadow-lg hover:scale-105"
+                className="text-success-fg-light animate-in fade-in zoom-in rounded-xl bg-success px-8 py-4 text-xl font-bold shadow-lg hover:scale-105"
               >
                 Ready
               </Button>
@@ -503,7 +503,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
               variant="unstyled"
               size="none"
               onClick={handleLeave}
-              className="flex cursor-pointer items-center gap-2 rounded-lg bg-muted-light px-4 py-2 text-sm font-medium text-muted-fg-light hover:bg-destructive/10 hover:text-destructive dark:bg-muted-dark dark:text-muted-fg-dark"
+              className="flex items-center gap-2 rounded-lg bg-muted-light px-4 py-2 text-sm font-medium text-muted-fg-light hover:bg-destructive/10 hover:text-destructive dark:bg-muted-dark dark:text-muted-fg-dark"
             >
               <LogOut className="h-4 w-4" />
               {gameIsActive() ? "Leave Game" : "Leave Room"}

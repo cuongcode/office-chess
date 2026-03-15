@@ -53,7 +53,7 @@ export function UserMenu({ user }: UserMenuProps) {
           variant="unstyled"
           size="none"
           type="button"
-          className="focus:ring-ring flex max-w-xs cursor-pointer items-center rounded-full bg-card-light text-sm focus:ring-2 focus:ring-offset-2 focus:outline-none dark:bg-card-dark"
+          className="focus:ring-ring flex max-w-xs items-center rounded-full bg-card-light text-sm focus:ring-2 focus:ring-offset-2 focus:outline-none dark:bg-card-dark"
           id="user-menu-button"
           aria-expanded={isOpen}
           aria-haspopup="true"

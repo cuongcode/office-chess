@@ -23,7 +23,7 @@ function GameModeButton({ onClick, label }: GameModeButtonProps) {
       variant="unstyled"
       size="none"
       onClick={onClick}
-      className="group flex cursor-pointer flex-col items-center justify-center rounded-xl border border-border-light bg-card-light p-4 hover:scale-105 hover:bg-accent-light dark:border-border-dark dark:bg-card-dark dark:hover:bg-accent-dark w-full"
+      className="group flex flex-col items-center justify-center rounded-xl border border-border-light bg-card-light p-4 hover:scale-105 hover:bg-accent-light dark:border-border-dark dark:bg-card-dark dark:hover:bg-accent-dark w-full"
     >
       <h3 className="text-xl font-bold text-card-fg-light dark:text-card-fg-dark">
         {label}
