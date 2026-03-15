@@ -53,18 +53,14 @@ export function UserMenu({ user }: UserMenuProps) {
           variant="unstyled"
           size="none"
           type="button"
-          className="focus:ring-ring flex max-w-xs items-center rounded-full bg-card-light text-sm focus:ring-2 focus:ring-offset-2 focus:outline-none dark:bg-card-dark cursor-pointer"
+          className="focus:ring-ring flex max-w-xs cursor-pointer items-center rounded-full bg-card-light text-sm focus:ring-2 focus:ring-offset-2 focus:outline-none dark:bg-card-dark"
           id="user-menu-button"
           aria-expanded={isOpen}
           aria-haspopup="true"
           onClick={() => setIsOpen(!isOpen)}
         >
           <span className="sr-only">Open user menu</span>
-          <UserAvatar 
-            name={user.name} 
-            avatarUrl={user.avatar} 
-            size="h-8 w-8"
-          />
+          <UserAvatar name={user.name} avatarUrl={user.avatar} size="h-8 w-8" />
         </Button>
       </div>
 
@@ -105,7 +101,7 @@ export function UserMenu({ user }: UserMenuProps) {
             variant="ghost"
             size="none"
             onClick={() => signOut()}
-            className="block w-full px-4 py-2 text-left text-sm text-card-fg-light hover:bg-muted-light hover:text-fg-light dark:text-card-fg-dark dark:hover:bg-muted-dark dark:hover:text-fg-dark rounded-none"
+            className="block w-full justify-start rounded-none px-4 py-2 text-left text-sm text-card-fg-light hover:bg-muted-light hover:text-fg-light dark:text-card-fg-dark dark:hover:bg-muted-dark dark:hover:text-fg-dark"
             role="menuitem"
             tabIndex={-1}
           >
