@@ -51,7 +51,7 @@ model Game {
 
   // Move data
   movesPGN       String
-  movesArray     Json
+  moveHistory    Json     @map("movesArray")
   finalPosition  String
   moveCount      Int
 

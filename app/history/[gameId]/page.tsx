@@ -75,7 +75,7 @@ export default function GameReplayPage() {
   const goToMove = useCallback(
     (index: number) => {
       if (!game) return;
-      const moves = game.movesArray as string[];
+      const moves = game.moveHistory as string[];
       const clamped = Math.max(0, Math.min(index, moves.length));
       const chess = new Chess();
       const newCapturedPieces = {
@@ -106,7 +106,7 @@ export default function GameReplayPage() {
     [goToMove, currentMoveIndex],
   );
   const goToEnd = useCallback(
-    () => game && goToMove(game.movesArray.length),
+    () => game && goToMove(game.moveHistory.length),
     [goToMove, game],
   );
 
@@ -175,7 +175,7 @@ export default function GameReplayPage() {
   }
 
   // ─── Derived data ─────────────────────────────────────────────────────────
-  const moves = game.movesArray as string[];
+  const moves = game.moveHistory as string[];
   const totalMoves = moves.length;
   const resultInfo = getResultLabel(game.result);
 

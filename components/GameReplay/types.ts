@@ -13,7 +13,7 @@ export interface GameData {
   blackPlayer: GamePlayer;
   result: string;
   resultMethod: string;
-  movesArray: string[];
+  moveHistory: string[];
   movesPGN: string;
   finalPosition: string;
   moveCount: number;

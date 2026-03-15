@@ -82,7 +82,7 @@ export const initSocketServer = (httpServer: NetServer) => {
           result: dbResult,
           resultMethod,
           movesPGN: pgn,
-          movesArray: moves,
+          moveHistory: moves,
           finalPosition: room.gameState.fen,
           moveCount: moves.length,
           timeControl: timeControlStr,
