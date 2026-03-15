@@ -4,21 +4,7 @@ import { useRouter } from "next/navigation";
 
 import { RankBadge } from "./RankBadge";
 
-interface Player {
-  id: string;
-  username: string | null;
-  name: string | null;
-  email: string;
-  avatar: string | null;
-  rating: number;
-  wins: number;
-  losses: number;
-  draws: number;
-  totalGames: number;
-  lastGameAt: Date | null;
-  rank: number;
-  winRate: number;
-}
+import { Player } from "@/types/player";
 
 interface LeaderboardTableProps {
   players: Player[];

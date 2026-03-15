@@ -4,15 +4,7 @@ import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 
-interface Player {
-  id: string;
-  username: string | null;
-  name: string | null;
-  email: string;
-  avatar: string | null;
-  rating: number;
-  rank: number;
-}
+import { Player } from "@/types/player";
 
 interface PlayerSearchBarProps {
   onPlayerSelect?: (playerId: string) => void;

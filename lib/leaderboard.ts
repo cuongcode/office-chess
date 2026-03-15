@@ -1,25 +1,11 @@
 import { prisma } from "./prisma";
 
+import { Player } from "@/types/player";
+
 export type TimeFilter = "all-time" | "monthly" | "weekly";
 
-export interface LeaderboardPlayer {
-  id: string;
-  username: string | null;
-  name: string | null;
-  email: string;
-  avatar: string | null;
-  rating: number;
-  wins: number;
-  losses: number;
-  draws: number;
-  totalGames: number;
-  lastGameAt: Date | null;
-  rank: number;
-  winRate: number;
-}
-
 export interface LeaderboardResult {
-  players: LeaderboardPlayer[];
+  players: Player[];
   totalPlayers: number;
   hasMore: boolean;
 }
@@ -28,7 +14,7 @@ export interface UserRankResult {
   rank: number;
   totalPlayers: number;
   percentile: number;
-  nearbyPlayers: LeaderboardPlayer[];
+  nearbyPlayers: Player[];
 }
 
 export interface LeaderboardStats {
@@ -124,7 +110,7 @@ export async function getLeaderboard(
   });
 
   // Calculate ranks and win rates
-  const players: LeaderboardPlayer[] = users.map((user, index) => ({
+  const players: Player[] = users.map((user, index) => ({
     ...user,
     rank: offset + index + 1,
     winRate: user.totalGames > 0 ? (user.wins / user.totalGames) * 100 : 0,
@@ -226,7 +212,7 @@ export async function getUserRank(
  */
 export async function getTopPlayers(
   limit: number = 10,
-): Promise<LeaderboardPlayer[]> {
+): Promise<Player[]> {
   const result = await getLeaderboard("all-time", limit, 0);
   return result.players;
 }
@@ -311,7 +297,7 @@ export async function getLeaderboardStats(): Promise<LeaderboardStats> {
 export async function searchPlayers(
   query: string,
   limit: number = 10,
-): Promise<LeaderboardPlayer[]> {
+): Promise<Player[]> {
   const users = await prisma.user.findMany({
     where: {
       AND: [
@@ -356,7 +342,7 @@ export async function searchPlayers(
   });
 
   // Calculate ranks (approximate - based on rating)
-  const players: LeaderboardPlayer[] = await Promise.all(
+  const players: Player[] = await Promise.all(
     users.map(async (user, index) => {
       // Count users with higher rating for accurate rank
       const usersAbove = await prisma.user.count({

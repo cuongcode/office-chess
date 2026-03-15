@@ -7,20 +7,7 @@ import { Button, LeaderboardTable, PlayerSearchBar, RankBadge } from "@/componen
 
 type TimeFilter = "all-time" | "monthly" | "weekly";
 
-interface Player {
-  id: string;
-  username: string | null;
-  email: string;
-  avatar: string | null;
-  rating: number;
-  wins: number;
-  losses: number;
-  draws: number;
-  totalGames: number;
-  lastGameAt: Date | null;
-  rank: number;
-  winRate: number;
-}
+import { Player } from "@/types/player";
 
 interface LeaderboardStats {
   totalPlayers: number;

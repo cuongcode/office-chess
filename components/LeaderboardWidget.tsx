@@ -5,15 +5,7 @@ import { useEffect, useState } from "react";
 
 import { RankBadge } from "./RankBadge";
 
-interface Player {
-  id: string;
-  username: string | null;
-  name: string | null;
-  email: string;
-  avatar: string | null;
-  rating: number;
-  rank: number;
-}
+import { Player } from "@/types/player";
 
 export function LeaderboardWidget() {
   const [players, setPlayers] = useState<Player[]>([]);

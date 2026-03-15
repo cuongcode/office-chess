@@ -10,12 +10,7 @@ import { Button } from "@/components";
 type ResultFilter = "all" | "win" | "loss" | "draw";
 type SortBy = "recent" | "oldest";
 
-interface GamePlayer {
-  id: string;
-  username: string | null;
-  name: string | null;
-  avatar: string | null;
-}
+import { GamePlayer } from "@/types/player";
 
 interface Game {
   id: string;
