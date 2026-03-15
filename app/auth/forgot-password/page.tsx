@@ -85,7 +85,7 @@ export default function ForgotPasswordPage() {
                   autoComplete="email"
                   required
                   className="relative block w-full appearance-none rounded-md border border-border-light px-3 py-2 text-fg-light placeholder-muted-fg-light focus:z-10 focus:border-primary-light focus:ring-primary-light focus:outline-none sm:text-sm dark:border-border-dark dark:text-fg-dark dark:placeholder-muted-fg-dark dark:focus:border-primary-dark dark:focus:ring-primary-dark"
-                  placeholder="Email address"
+                  placeholder={`Email address (must be @${process.env.NEXT_PUBLIC_COMPANY_EMAIL_DOMAIN})`}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />

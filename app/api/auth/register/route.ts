@@ -24,9 +24,9 @@ export async function POST(req: Request) {
       );
     }
 
-    if (!email.endsWith(`@${process.env.COMPANY_EMAIL_DOMAIN}`)) {
+    if (!email.endsWith(`@${process.env.NEXT_PUBLIC_COMPANY_EMAIL_DOMAIN}`)) {
       return NextResponse.json(
-        { message: `Email must be from ${process.env.COMPANY_EMAIL_DOMAIN}` },
+        { message: `Email must be from ${process.env.NEXT_PUBLIC_COMPANY_EMAIL_DOMAIN}` },
         { status: 400 },
       );
     }

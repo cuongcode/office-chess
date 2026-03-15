@@ -84,7 +84,7 @@ export default function LoginPage() {
                 autoComplete="email"
                 required
                 className="relative block w-full appearance-none rounded-t-md border border-border-light bg-secondary-light px-3 py-2 text-fg-light placeholder-muted-fg-light focus:z-10 focus:border-primary-light focus:ring-primary-light focus:outline-none sm:text-sm dark:border-border-dark dark:bg-secondary-dark dark:text-fg-dark dark:placeholder-muted-fg-dark dark:focus:border-primary-dark dark:focus:ring-primary-dark"
-                placeholder="Email address"
+                placeholder={`Email address (must be @${process.env.NEXT_PUBLIC_COMPANY_EMAIL_DOMAIN})`}
                 value={data.email}
                 onChange={(e) => setData({ ...data, email: e.target.value })}
               />
