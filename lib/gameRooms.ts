@@ -1,4 +1,5 @@
 import { TimeControlPreset } from "./timeControls";
+import { BaseGameState } from "@/types/game";
 
 export interface Player {
   id: string;
@@ -6,23 +7,8 @@ export interface Player {
   socketId: string;
 }
 
-export interface GameState {
-  fen: string;
-  moveHistory: string[];
-  turn: "w" | "b";
-  status:
-    | "playing"
-    | "checkmate"
-    | "draw"
-    | "stalemate"
-    | "resignation"
-    | "check";
+export interface GameState extends BaseGameState {
   winner?: "white" | "black" | "draw";
-  lastMove: { from: string; to: string } | null;
-  capturedPieces: {
-    white: string[]; // Pieces captured BY white (black's lost pieces)
-    black: string[]; // Pieces captured BY black (white's lost pieces)
-  };
 }
 
 export interface GameRoom {

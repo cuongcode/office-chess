@@ -4,26 +4,12 @@ import { create } from "zustand";
 
 import { getSocket } from "@/lib/socket-client";
 import { TimeControlPreset } from "@/lib/timeControls";
+import { BaseGameState } from "@/types/game";
 
-interface GameState {
+interface GameState extends BaseGameState {
   chess: Chess;
-  fen: string;
-  turn: "w" | "b";
-  history: string[];
-  status:
-    | "playing"
-    | "checkmate"
-    | "stalemate"
-    | "draw"
-    | "check"
-    | "resignation";
   winner: "w" | "b" | null;
   boardOrientation: "white" | "black";
-  lastMove: { from: string; to: string } | null;
-  capturedPieces: {
-    white: string[]; // Pieces captured BY white (black's lost pieces)
-    black: string[]; // Pieces captured BY black (white's lost pieces)
-  };
 
   // Online State
   socket: Socket | null;
@@ -94,7 +80,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   chess: new Chess(),
   fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
   turn: "w",
-  history: [],
+  moveHistory: [],
   status: "playing",
   winner: null,
   boardOrientation: "white",
@@ -184,12 +170,12 @@ export const useGameStore = create<GameState>((set, get) => ({
           status = "check";
         }
 
-        const newHistory = [...get().history, move.san];
+        const newHistory = [...get().moveHistory, move.san];
 
         set({
           fen: chess.fen(),
           turn: chess.turn(),
-          history: newHistory,
+          moveHistory: newHistory,
           status,
           winner,
           lastMove: { from: source, to: target },
@@ -240,7 +226,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({
       fen: chess.fen(),
       turn: chess.turn(),
-      history: chess.history(),
+      moveHistory: chess.history(),
       status: "playing", // Simple reset to playing or check re-eval
       winner: null,
       lastMove: null,
@@ -261,7 +247,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       chess: newChess,
       fen: newChess.fen(),
       turn: "w",
-      history: [],
+      moveHistory: [],
       status: "playing",
       winner: null,
       lastMove: null,
@@ -375,7 +361,7 @@ export const useGameStore = create<GameState>((set, get) => ({
           chess: new Chess(),
           fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
           turn: "w",
-          history: [],
+          moveHistory: [],
           lastMove: null,
           winner: null,
           capturedPieces: { white: [], black: [] },
@@ -429,7 +415,7 @@ export const useGameStore = create<GameState>((set, get) => ({
           chess: newChess,
           fen: gameState.fen,
           turn: gameState.turn,
-          history: gameState.moveHistory || [],
+          moveHistory: gameState.moveHistory || [],
           status: gameState.status as any,
           spectatorCount,
           whitePlayerName: whitePlayer?.name || null,
@@ -513,7 +499,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         chess: updatedChess,
         fen: gameState.fen,
         turn: gameState.turn,
-        history: gameState.moveHistory || updatedChess.history(),
+        moveHistory: gameState.moveHistory || updatedChess.history(),
         status: gameState.status as any,
         lastMove: { from: move.from, to: move.to },
         capturedPieces: gameState.capturedPieces || { white: [], black: [] },

@@ -5,21 +5,21 @@ import { useEffect, useRef } from "react";
 import { useGameStore } from "@/store/gameStore";
 
 export function MoveHistory() {
-  const { history } = useGameStore();
+  const { moveHistory } = useGameStore();
   const listRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (listRef.current) {
       listRef.current.scrollTop = listRef.current.scrollHeight;
     }
-  }, [history]);
+  }, [moveHistory]);
 
   const moves = [];
-  for (let i = 0; i < history.length; i += 2) {
+  for (let i = 0; i < moveHistory.length; i += 2) {
     moves.push({
       number: Math.floor(i / 2) + 1,
-      white: history[i],
-      black: history[i + 1] || "",
+      white: moveHistory[i],
+      black: moveHistory[i + 1] || "",
     });
   }
 
