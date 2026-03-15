@@ -1,3 +1,5 @@
+import { Repeat } from "lucide-react";
+
 import { NavButton } from "./NavButton";
 
 export function NavigationControls({
@@ -7,6 +9,7 @@ export function NavigationControls({
   goToPrev,
   goToNext,
   goToEnd,
+  onFlipBoard,
 }: {
   currentMoveIndex: number;
   totalMoves: number;
@@ -14,6 +17,7 @@ export function NavigationControls({
   goToPrev: () => void;
   goToNext: () => void;
   goToEnd: () => void;
+  onFlipBoard: () => void;
 }) {
   const atStart = currentMoveIndex === 0;
   const atEnd = currentMoveIndex === totalMoves;
@@ -39,6 +43,12 @@ export function NavigationControls({
       </NavButton>
       <NavButton onClick={goToEnd} disabled={atEnd} title="Go to end (End)">
         ⏭
+      </NavButton>
+
+      <div className="mx-1 h-6 w-px bg-border-light dark:bg-border-dark" />
+
+      <NavButton onClick={onFlipBoard} disabled={false} title="Flip board">
+        <Repeat className="h-5 w-5" />
       </NavButton>
     </div>
   );

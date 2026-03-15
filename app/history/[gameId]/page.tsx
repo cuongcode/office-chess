@@ -3,6 +3,7 @@
 import { useTheme } from "@/components/ThemeProvider";
 import { PlayerInfo } from "@/components/PlayerInfo";
 import { Chess } from "chess.js";
+import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -39,6 +40,10 @@ export default function GameReplayPage() {
   const [game, setGame] = useState<GameData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { data: session } = useSession();
+  const [boardOrientation, setBoardOrientation] = useState<"white" | "black">(
+    "white",
+  );
   const STARTING_FEN =
     "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
   const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
@@ -60,6 +65,13 @@ export default function GameReplayPage() {
       })
       .then((data: GameData) => {
         setGame(data);
+        // Set initial orientation based on player color if they participated
+        const userId = (session?.user as any)?.id;
+        if (userId === data.whitePlayerId) {
+          setBoardOrientation("white");
+        } else if (userId === data.blackPlayerId) {
+          setBoardOrientation("black");
+        }
         // Start at position 0 (before any moves)
         setCurrentFEN(
           "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
@@ -69,7 +81,7 @@ export default function GameReplayPage() {
       })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
-  }, [gameId]);
+  }, [gameId, (session?.user as any)?.id]);
 
   // Navigate to a specific move index (0 = start, n = after n moves)
   const goToMove = useCallback(
@@ -136,6 +148,10 @@ export default function GameReplayPage() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [goToPrev, goToNext, goToStart, goToEnd]);
+
+  const flipBoard = useCallback(() => {
+    setBoardOrientation((prev) => (prev === "white" ? "black" : "white"));
+  }, []);
 
   // ─── Loading ─────────────────────────────────────────────────────────────
   if (loading) {
@@ -210,17 +226,31 @@ export default function GameReplayPage() {
         <div className="flex flex-col items-start gap-4 lg:flex-row">
           {/* ── LEFT: Board + Controls ───────────────────────────── */}
           <div className="mx-auto flex w-full max-w-[520px] flex-col gap-4 lg:w-auto">
-            {/* Top Player (Opponent) */}
+            {/* Top Player */}
             <PlayerInfo
               name={
-                game.blackPlayer.username || game.blackPlayer.name || "Unknown"
+                boardOrientation === "white"
+                  ? game.blackPlayer.username || game.blackPlayer.name || "Unknown"
+                  : game.whitePlayer.username || game.whitePlayer.name || "Unknown"
               }
-              subLabel="Black"
-              avatarLabel="B"
-              isMe={false}
-              capturedPieces={capturedPieces.black}
-              playerColor="black"
-              opponentCapturedPieces={capturedPieces.white}
+              subLabel={boardOrientation === "white" ? "Black" : "White"}
+              avatarLabel={boardOrientation === "white" ? "B" : "W"}
+              isMe={
+                boardOrientation === "white"
+                  ? (session?.user as any)?.id === game.blackPlayerId
+                  : (session?.user as any)?.id === game.whitePlayerId
+              }
+              capturedPieces={
+                boardOrientation === "white"
+                  ? capturedPieces.black
+                  : capturedPieces.white
+              }
+              playerColor={boardOrientation === "white" ? "black" : "white"}
+              opponentCapturedPieces={
+                boardOrientation === "white"
+                  ? capturedPieces.white
+                  : capturedPieces.black
+              }
               showClock={false}
               clockOrientation="top"
             />
@@ -231,6 +261,7 @@ export default function GameReplayPage() {
                 options={{
                   id: "ReplayBoard",
                   position: currentFEN,
+                  boardOrientation: boardOrientation,
                   allowDragging: false,
                   animationDurationInMs: 150,
                   darkSquareStyle: {
@@ -249,17 +280,31 @@ export default function GameReplayPage() {
               />
             </div>
 
-            {/* Bottom Player (You) */}
+            {/* Bottom Player */}
             <PlayerInfo
               name={
-                game.whitePlayer.username || game.whitePlayer.name || "Unknown"
+                boardOrientation === "white"
+                  ? game.whitePlayer.username || game.whitePlayer.name || "Unknown"
+                  : game.blackPlayer.username || game.blackPlayer.name || "Unknown"
               }
-              subLabel="White"
-              avatarLabel="W"
-              isMe={false}
-              capturedPieces={capturedPieces.white}
-              playerColor="white"
-              opponentCapturedPieces={capturedPieces.black}
+              subLabel={boardOrientation === "white" ? "White" : "Black"}
+              avatarLabel={boardOrientation === "white" ? "W" : "B"}
+              isMe={
+                boardOrientation === "white"
+                  ? (session?.user as any)?.id === game.whitePlayerId
+                  : (session?.user as any)?.id === game.blackPlayerId
+              }
+              capturedPieces={
+                boardOrientation === "white"
+                  ? capturedPieces.white
+                  : capturedPieces.black
+              }
+              playerColor={boardOrientation === "white" ? "white" : "black"}
+              opponentCapturedPieces={
+                boardOrientation === "white"
+                  ? capturedPieces.black
+                  : capturedPieces.white
+              }
               showClock={false}
               clockOrientation="bottom"
             />
@@ -271,6 +316,7 @@ export default function GameReplayPage() {
               goToPrev={goToPrev}
               goToNext={goToNext}
               goToEnd={goToEnd}
+              onFlipBoard={flipBoard}
             />
 
             {/* <KeyboardHint /> */}
