@@ -57,6 +57,8 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
     blackReady,
     setPlayerReady,
     capturedPieces,
+    gameHasStarted,
+    gameIsActive,
   } = useGameStore();
 
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
@@ -181,22 +183,31 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
   };
 
   const handleLeave = () => {
-    setConfirmModal({
-      isOpen: true,
-      title: "Leave Game",
-      message:
-        "Are you sure you want to leave the game? You will lose your current position.",
-      onConfirm: () => {
+    const isActive = gameIsActive();
+    
+    // Only warn them if the game is fundamentally active.
+    // If it's over, or never started, just leave the room cleanly.
+    if (isActive) {
+        setConfirmModal({
+        isOpen: true,
+        title: "Leave Game",
+        message:
+            "Are you sure you want to leave the game? This will count as a resignation.",
+        onConfirm: () => {
+            leaveGame();
+            onLeave();
+            setConfirmModal({
+            isOpen: false,
+            title: "",
+            message: "",
+            onConfirm: () => {},
+            });
+        },
+        });
+    } else {
         leaveGame();
         onLeave();
-        setConfirmModal({
-          isOpen: false,
-          title: "",
-          message: "",
-          onConfirm: () => {},
-        });
-      },
-    });
+    }
   };
 
   const handleResign = () => {
@@ -470,7 +481,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
               className="flex cursor-pointer items-center gap-2 rounded-lg bg-muted-light px-4 py-2 text-sm font-medium text-muted-fg-light hover:bg-destructive/10 hover:text-destructive dark:bg-muted-dark dark:text-muted-fg-dark"
             >
               <LogOut className="h-4 w-4" />
-              Leave Game
+              {gameIsActive() ? "Leave Game" : "Leave Room"}
             </button>
           )}
         </div>

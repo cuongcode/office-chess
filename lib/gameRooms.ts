@@ -265,9 +265,12 @@ export const leaveRoom = (
       : (room.whitePlayer ?? undefined);
 
   // If a player resigned by leaving, update game state
-  // Only trigger if the game was still active AND hasn't been saved yet
+  // Only trigger if the game has functionally started (is not just an idle room)
+  // AND the game was still active AND hasn't been saved yet.
   let gameJustEnded = false;
-  if (resignedColor && room.gameState.status === "playing" && !room.gameSaved) {
+  const hasGameStarted = room.gameStartedAt !== null || (room.whiteReady && room.blackReady);
+  
+  if (resignedColor && room.gameState.status === "playing" && !room.gameSaved && hasGameStarted) {
     const winner = resignedColor === "white" ? "black" : "white";
     room.gameState.status = "resignation";
     room.gameState.winner = winner;

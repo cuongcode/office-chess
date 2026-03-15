@@ -40,6 +40,10 @@ interface GameState extends BaseGameState {
   resetGame: () => void;
   flipBoard: () => void;
 
+  // Derived Status
+  gameHasStarted: () => boolean;
+  gameIsActive: () => boolean;
+
   // Socket Actions
   connect: () => Promise<void>;
   createGame: (
@@ -113,6 +117,22 @@ export const useGameStore = create<GameState>((set, get) => ({
   // Ready State
   whiteReady: false,
   blackReady: false,
+  
+  // Derived Status
+  gameHasStarted: () => {
+    const { moveHistory, whiteReady, blackReady, timeControl } = get();
+    // For unlimited time controls, game starts on first move.
+    // For timed ones, game starts when both are ready.
+    if (!timeControl || timeControl.category === "unlimited") {
+        return moveHistory.length > 0;
+    }
+    return whiteReady && blackReady;
+  },
+  
+  gameIsActive: () => {
+    const { status, gameHasStarted } = get();
+    return gameHasStarted() && (status === "playing" || status === "check");
+  },
 
   makeMove: (source, target, promotion = "q") => {
     const { chess, isOnline, socket, roomId, capturedPieces, status } = get();
@@ -654,14 +674,13 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   leaveGame: () => {
-    const { socket, roomId, playerColor, status } = get();
+    const { socket, roomId, playerColor, gameIsActive } = get();
 
-    // Immediately freeze the board on the leaving client
-    // so no further moves can be made while the socket round-trip completes.
-    if (status === "playing" || status === "check") {
-      const winner =
-        playerColor === "white" ? "b" : playerColor === "black" ? "w" : null;
+    // Immediately freeze the board on the leaving client if the game was active
+    if (gameIsActive() && playerColor && playerColor !== "spectator") {
+      const winner = playerColor === "white" ? "b" : "w";
       set({ status: "resignation", winner });
+      get().pauseTimer();
     }
 
     if (socket && roomId) {
