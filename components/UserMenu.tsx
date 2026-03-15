@@ -5,6 +5,7 @@ import { signOut } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { UserAvatar } from "./UserAvatar";
 import { Button } from "./ui";
+import { ConfirmationModal } from "./ConfirmationModal";
 
 interface User {
   name?: string | null;
@@ -20,6 +21,7 @@ interface UserMenuProps {
 
 export function UserMenu({ user }: UserMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -100,7 +102,10 @@ export function UserMenu({ user }: UserMenuProps) {
           <Button
             variant="ghost"
             size="none"
-            onClick={() => signOut()}
+            onClick={() => {
+              setIsOpen(false);
+              setShowLogoutConfirm(true);
+            }}
             className="block w-full justify-start rounded-none px-4 py-2 text-left text-sm text-card-fg-light hover:bg-muted-light hover:text-fg-light dark:text-card-fg-dark dark:hover:bg-muted-dark dark:hover:text-fg-dark"
             role="menuitem"
             tabIndex={-1}
@@ -108,6 +113,18 @@ export function UserMenu({ user }: UserMenuProps) {
             Sign out
           </Button>
         </div>
+      )}
+      {showLogoutConfirm && (
+        <ConfirmationModal
+          isOpen={showLogoutConfirm}
+          title="Sign Out"
+          message="Are you sure you want to sign out?"
+          confirmText="Sign Out"
+          cancelText="Stay Logged In"
+          confirmVariant="danger"
+          onConfirm={() => signOut()}
+          onCancel={() => setShowLogoutConfirm(false)}
+        />
       )}
     </div>
   );
