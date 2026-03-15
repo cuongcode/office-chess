@@ -540,9 +540,8 @@ export const useGameStore = create<GameState>((set, get) => ({
         status = "draw";
       } else if (reason === "resignation") {
         status = "resignation";
-      } else if (reason === "timeout") {
-        // Use checkmate status for timeout to show proper game over modal
-        status = "checkmate";
+      } else if (reason === "timeout" || gameState?.status === "timeout") {
+        status = "timeout";
       }
 
       set({
@@ -912,7 +911,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     // Set game over state
     const winner = color === "white" ? "b" : "w";
     set({
-      status: "checkmate", // Use checkmate status for timeout to avoid confusion with resignation
+      status: "timeout",
       winner,
     });
 

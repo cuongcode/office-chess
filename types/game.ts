@@ -4,7 +4,8 @@ export type GameStatus =
   | "stalemate"
   | "draw"
   | "check"
-  | "resignation";
+  | "resignation"
+  | "timeout";
 
 export interface BaseGameState {
   fen: string;

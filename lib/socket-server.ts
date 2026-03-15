@@ -189,7 +189,7 @@ export const initSocketServer = (httpServer: NetServer) => {
 
     // Set game over state
     const winner = color === "white" ? "black" : "white";
-    room.gameState.status = "resignation"; // Using resignation for timeout
+    room.gameState.status = "timeout";
     room.gameState.winner = winner;
 
     // Update player stats

@@ -38,6 +38,12 @@ export function GameOverModal({ onReturnHome }: GameOverModalProps) {
         ? "White Wins (Resignation)"
         : "Black Wins (Resignation)";
     }
+    if (status === "timeout") {
+      if (isOnline && !isSpectator) {
+        return isWinner ? "You Won on Time!" : "You Lost on Time";
+      }
+      return winner === "w" ? "White Wins on Time!" : "Black Wins on Time!";
+    }
     return "Game Over";
   };
 
@@ -46,6 +52,7 @@ export function GameOverModal({ onReturnHome }: GameOverModalProps) {
     if (status === "draw") return "by agreement";
     if (status === "stalemate") return "no legal moves";
     if (status === "resignation") return "by resignation";
+    if (status === "timeout") return "by timeout";
     return "";
   };
 
@@ -60,7 +67,7 @@ export function GameOverModal({ onReturnHome }: GameOverModalProps) {
     <div className="animate-in slide-in-from-bottom-4 fade-in w-full duration-300">
       <div className="flex items-center justify-between gap-3 rounded-xl border border-border-light bg-card-light px-4 py-3 text-card-fg-light shadow-lg dark:border-border-dark dark:bg-card-dark dark:text-card-fg-dark">
         <div className="flex min-w-0 items-center gap-3">
-          {status === "checkmate" || status === "resignation" ? (
+          {status === "checkmate" || status === "resignation" || status === "timeout" ? (
             <Trophy
               className={`h-5 w-5 flex-shrink-0 ${
                 (isWinner || isSpectator || !isOnline) && winner
