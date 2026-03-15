@@ -437,6 +437,12 @@ export const useGameStore = create<GameState>((set, get) => ({
           turn: gameState.turn,
           moveHistory: gameState.moveHistory || [],
           status: gameState.status as any,
+          winner:
+            gameState.winner === "white"
+              ? "w"
+              : gameState.winner === "black"
+                ? "b"
+                : null,
           spectatorCount,
           whitePlayerName: whitePlayer?.name || null,
           blackPlayerName: blackPlayer?.name || null,

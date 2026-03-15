@@ -452,6 +452,7 @@ export const initSocketServer = (httpServer: NetServer) => {
 
             stopTimerSync(data.roomId);
             const resultColor = winner === "w" ? "white" : "black";
+            updatedRoom.gameState.winner = resultColor;
             saveGame(updatedRoom, resultColor, "checkmate").then((gameId) => {
               updatedRoom.gameSaved = true;
               io.to(data.roomId).emit("game_over", {
@@ -477,6 +478,7 @@ export const initSocketServer = (httpServer: NetServer) => {
             stopTimerSync(data.roomId);
             const drawReason =
               data.gameState.status === "stalemate" ? "stalemate" : "draw";
+            updatedRoom.gameState.winner = "draw";
             saveGame(updatedRoom, "draw", drawReason).then((gameId) => {
               updatedRoom.gameSaved = true;
               io.to(data.roomId).emit("game_over", {
