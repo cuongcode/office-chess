@@ -3,6 +3,7 @@
 import { Handshake, Home, Trophy } from "lucide-react";
 
 import { useGameStore } from "@/store/gameStore";
+import { useModal } from "@/hooks/useModal";
 import { Button } from "./ui";
 
 interface GameOverModalProps {
@@ -12,7 +13,14 @@ interface GameOverModalProps {
 export function GameOverModal({ onReturnHome }: GameOverModalProps) {
   const { status, winner, playerColor, isOnline, leaveGame } = useGameStore();
 
-  if (status === "playing" || status === "check") return null;
+  const isVisible = status !== "playing" && status !== "check";
+
+  useModal({
+    onClose: () => handleReturn(),
+    isOpen: isVisible,
+  });
+
+  if (!isVisible) return null;
 
   const isWinner =
     winner &&

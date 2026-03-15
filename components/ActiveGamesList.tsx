@@ -4,7 +4,7 @@ import { ArrowRight, Eye, RefreshCw, Users, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { useGameStore } from "@/store/gameStore";
-import { Button } from "./ui";
+import { Button, Modal } from "./ui";
 
 interface ActiveGame {
   roomId: string;
@@ -54,8 +54,11 @@ export function ActiveGamesList({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
-      <div className="relative flex max-h-[80vh] w-full max-w-2xl flex-col rounded-2xl border border-border-light bg-card-light p-8 text-card-fg-light shadow-xl dark:border-border-dark dark:bg-card-dark dark:text-card-fg-dark">
+    <Modal
+      isOpen={true}
+      onClose={onClose}
+      className="max-h-[80vh] max-w-2xl flex flex-col"
+    >
         <Button
           variant="ghost"
           size="icon"
@@ -126,7 +129,6 @@ export function ActiveGamesList({
             ))
           )}
         </div>
-      </div>
-    </div>
+    </Modal>
   );
 }

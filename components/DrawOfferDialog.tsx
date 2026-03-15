@@ -5,12 +5,15 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 import { useGameStore } from "@/store/gameStore";
+import { useModal } from "@/hooks/useModal";
 import { Button } from "./ui";
 
 export function DrawOfferDialog() {
   const { socket, roomId, acceptDraw, playerColor } = useGameStore();
   const [show, setShow] = useState(false);
   const [opponentColor, setOpponentColor] = useState<string>("");
+
+  useModal({ onClose: () => handleRespond(false), isOpen: show });
 
   useEffect(() => {
     if (!socket) return;

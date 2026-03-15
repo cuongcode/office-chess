@@ -1,7 +1,7 @@
 "use client";
 
 import { AlertTriangle, X } from "lucide-react";
-import { Button } from "./ui";
+import { Button, Modal } from "./ui";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -53,9 +53,8 @@ export function ConfirmationModal({
   };
 
   return (
-    <div className="animate-fade-in fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-      <div className="w-full max-w-md scale-100 transform rounded-2xl border border-border-light bg-card-light p-6 text-card-fg-light shadow-2xl dark:border-border-dark dark:bg-card-dark dark:text-card-fg-dark">
-        {/* Header */}
+    <Modal isOpen={isOpen} onClose={onCancel}>
+      {/* Header */}
         <div className="mb-4 flex items-start justify-between">
           <div className="flex items-center gap-3">
             <div
@@ -96,7 +95,6 @@ export function ConfirmationModal({
             {confirmText}
           </Button>
         </div>
-      </div>
-    </div>
+    </Modal>
   );
 }
