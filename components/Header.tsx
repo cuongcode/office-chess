@@ -71,11 +71,11 @@ export function Header() {
                   isConnected={isConnected}
                   onCopyRoomId={copyRoomId}
                 />
-              ) : (
+              ) : session?.user ? (
                 <PlayerSearchBar
                   onPlayerSelect={(id) => router.push(`/profile/${id}`)}
                 />
-              )}
+              ) : null}
             </div>
             <ThemeToggle />
             {status === "loading" ? (
