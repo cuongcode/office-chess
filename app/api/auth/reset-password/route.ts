@@ -16,6 +16,13 @@ export async function POST(req: Request) {
       );
     }
 
+    if (newPassword.length < 8) {
+      return NextResponse.json(
+        { message: "Password must be at least 8 characters" },
+        { status: 400 },
+      );
+    }
+
     const user = await prisma.user.findFirst({
       where: {
         resetPasswordToken: token,

@@ -17,7 +17,7 @@ export default function RegisterPage() {
     confirmPassword: "",
   });
 
-  const isFormEmpty = !data.name || !data.email || !data.password || !data.confirmPassword;
+  const isFormEmpty = !data.name || !data.email || !data.password || !data.confirmPassword || data.password.length < 8;
 
   const registerUser = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,6 +25,12 @@ export default function RegisterPage() {
 
     if (data.password !== data.confirmPassword) {
       toast.error("Passwords do not match");
+      setLoading(false);
+      return;
+    }
+
+    if (data.password.length < 8) {
+      toast.error("Password must be at least 8 characters");
       setLoading(false);
       return;
     }
@@ -118,7 +124,7 @@ export default function RegisterPage() {
                 type="password"
                 required
                 className="relative block w-full appearance-none border border-border-light bg-secondary-light px-3 py-2 text-fg-light placeholder-muted-fg-light focus:z-10 focus:border-primary-light focus:ring-primary-light focus:outline-none sm:text-sm dark:border-border-dark dark:bg-secondary-dark dark:text-fg-dark dark:placeholder-muted-fg-dark dark:focus:border-primary-dark dark:focus:ring-primary-dark"
-                placeholder="Password"
+                placeholder="Password (min 8 characters)"
                 value={data.password}
                 onChange={(e) => setData({ ...data, password: e.target.value })}
               />

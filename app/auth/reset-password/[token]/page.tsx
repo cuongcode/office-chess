@@ -17,7 +17,7 @@ export default function ResetPasswordPage({
     confirmPassword: "",
   });
 
-  const isFormEmpty = !data.password || !data.confirmPassword;
+  const isFormDisabled = !data.password || !data.confirmPassword || data.password.length < 8;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,6 +25,12 @@ export default function ResetPasswordPage({
 
     if (data.password !== data.confirmPassword) {
       toast.error("Passwords do not match");
+      setLoading(false);
+      return;
+    }
+
+    if (data.password.length < 8) {
+      toast.error("Password must be at least 8 characters");
       setLoading(false);
       return;
     }
@@ -79,7 +85,7 @@ export default function ResetPasswordPage({
                 type="password"
                 required
                 className="relative block w-full appearance-none rounded-t-md border border-border-light bg-secondary-light px-3 py-2 text-fg-light placeholder-muted-fg-light focus:z-10 focus:border-primary-light focus:ring-primary-light focus:outline-none sm:text-sm dark:border-border-dark dark:bg-secondary-dark dark:text-fg-dark dark:placeholder-muted-fg-dark dark:focus:border-primary-dark dark:focus:ring-primary-dark"
-                placeholder="New Password"
+                placeholder="New Password (min 8 characters)"
                 value={data.password}
                 onChange={(e) => setData({ ...data, password: e.target.value })}
               />
@@ -106,7 +112,7 @@ export default function ResetPasswordPage({
           <div>
             <button
               type="submit"
-              disabled={loading || isFormEmpty}
+              disabled={loading || isFormDisabled}
               className="group relative flex w-full justify-center rounded-md border border-transparent bg-primary-light px-4 py-2 text-sm font-medium text-primary-fg-light hover:opacity-90 focus:ring-2 focus:ring-primary-light focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-primary-dark dark:text-primary-fg-dark dark:focus:ring-primary-dark"
             >
               {loading ? "Resetting..." : "Reset Password"}
