@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
+import { UserAvatar } from "./UserAvatar";
 
 interface User {
   name?: string | null;
@@ -56,19 +57,11 @@ export function UserMenu({ user }: UserMenuProps) {
           onClick={() => setIsOpen(!isOpen)}
         >
           <span className="sr-only">Open user menu</span>
-          {user.avatar ? (
-            <img
-              src={user.avatar}
-              alt={user.name || "User"}
-              className="h-8 w-8 rounded-full object-cover"
-            />
-          ) : (
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted-light font-bold text-muted-fg-light dark:bg-muted-dark dark:text-muted-fg-dark">
-              {user.name
-                ? user.name.charAt(0).toUpperCase()
-                : user.email?.charAt(0).toUpperCase()}
-            </div>
-          )}
+          <UserAvatar 
+            name={user.name} 
+            avatarUrl={user.avatar} 
+            size="h-8 w-8"
+          />
         </button>
       </div>
 

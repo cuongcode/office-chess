@@ -352,7 +352,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
       <PlayerInfo
         name={isOnline ? topPlayer.name : "Black"}
         subLabel={isOnline && topPlayer.colorLabel ? topPlayer.colorLabel : ""}
-        avatarLabel={boardOrientation === "white" ? "B" : "W"}
+        avatarUrl={isOnline ? (topPlayer as any).avatar : null}
         isMe={topPlayer.isMe}
         capturedPieces={
           boardOrientation === "white"
@@ -446,7 +446,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
         subLabel={
           isOnline && bottomPlayer.colorLabel ? bottomPlayer.colorLabel : ""
         }
-        avatarLabel={boardOrientation === "white" ? "W" : "B"}
+        avatarUrl={isOnline ? (bottomPlayer as any).avatar : null}
         isMe={bottomPlayer.isMe}
         capturedPieces={
           boardOrientation === "white"

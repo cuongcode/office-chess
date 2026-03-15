@@ -25,5 +25,6 @@ export * from './RankBadge';
 export * from './ThemeProvider';
 export * from './ThemeToggle';
 export * from './TimeControlSelector';
+export * from './UserAvatar';
 export * from './UserMenu';
 export * from './ui';

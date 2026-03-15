@@ -1,8 +1,9 @@
 "use client";
 
-import { Trophy, User } from "lucide-react";
+import { Trophy } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { UserAvatar } from "./UserAvatar";
 
 interface ProfileCardProps {
   userId?: string;
@@ -73,18 +74,12 @@ export function ProfileCard({ userId, playerData }: ProfileCardProps) {
       className="block cursor-pointer rounded-lg border border-border-light bg-card-light p-4 transition-all hover:border-primary-light hover:shadow-lg hover:shadow-primary-light/20 dark:border-border-dark dark:bg-card-dark dark:hover:border-primary-dark"
     >
       <div className="flex items-center gap-3">
-        {/* Avatar */}
-        {profile.avatar ? (
-          <img
-            src={profile.avatar}
-            alt={profile.username}
-            className="h-12 w-12 rounded-full border-2 border-primary-light object-cover dark:border-primary-dark"
-          />
-        ) : (
-          <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-primary-light bg-gradient-to-br from-primary-light to-purple-600 dark:border-primary-dark">
-            <User className="h-6 w-6 text-white" />
-          </div>
-        )}
+        <UserAvatar
+          name={profile.username}
+          avatarUrl={profile.avatar}
+          size="h-12 w-12"
+          className="border-2 border-primary-light dark:border-primary-dark"
+        />
 
         {/* Info */}
         <div className="min-w-0 flex-1">

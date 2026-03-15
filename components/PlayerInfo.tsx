@@ -1,10 +1,11 @@
 import { CapturedPieces } from "./CapturedPieces";
 import { ChessClock } from "./ChessClock";
+import { UserAvatar } from "./UserAvatar";
 
 interface PlayerInfoProps {
   name: string;
   subLabel: string;
-  avatarLabel: string;
+  avatarUrl?: string | null;
   isMe: boolean;
   capturedPieces: string[];
   playerColor: "white" | "black";
@@ -20,7 +21,7 @@ interface PlayerInfoProps {
 export function PlayerInfo({
   name,
   subLabel,
-  avatarLabel,
+  avatarUrl,
   isMe,
   capturedPieces,
   playerColor,
@@ -34,19 +35,12 @@ export function PlayerInfo({
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2">
-          <div
-            className={`flex h-8 w-8 items-center justify-center rounded-full border ${
-              isMe
-                ? "border-primary-light bg-primary-light/10 dark:border-primary-dark dark:bg-primary-dark/10"
-                : "border-border-light bg-muted-light dark:border-border-dark dark:bg-muted-dark"
-            }`}
-          >
-            <span
-              className={`text-xs font-bold ${isMe ? "text-primary-light dark:text-primary-dark" : "text-muted-fg-light dark:text-muted-fg-dark"}`}
-            >
-              {avatarLabel}
-            </span>
-          </div>
+          <UserAvatar
+            name={name}
+            avatarUrl={avatarUrl}
+            size="h-8 w-8"
+            isMe={isMe}
+          />
           <div>
             <div className="flex items-center gap-2 font-bold text-fg-light dark:text-fg-dark">
               {name}

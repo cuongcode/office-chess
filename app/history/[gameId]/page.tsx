@@ -234,7 +234,11 @@ export default function GameReplayPage() {
                   : game.whitePlayer.username || game.whitePlayer.name || "Unknown"
               }
               subLabel={boardOrientation === "white" ? "Black" : "White"}
-              avatarLabel={boardOrientation === "white" ? "B" : "W"}
+              avatarUrl={
+                boardOrientation === "white"
+                  ? game.blackPlayer.avatar
+                  : game.whitePlayer.avatar
+              }
               isMe={
                 boardOrientation === "white"
                   ? (session?.user as any)?.id === game.blackPlayerId
@@ -288,7 +292,11 @@ export default function GameReplayPage() {
                   : game.blackPlayer.username || game.blackPlayer.name || "Unknown"
               }
               subLabel={boardOrientation === "white" ? "White" : "Black"}
-              avatarLabel={boardOrientation === "white" ? "W" : "B"}
+              avatarUrl={
+                boardOrientation === "white"
+                  ? game.whitePlayer.avatar
+                  : game.blackPlayer.avatar
+              }
               isMe={
                 boardOrientation === "white"
                   ? (session?.user as any)?.id === game.whitePlayerId

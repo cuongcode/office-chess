@@ -6,6 +6,7 @@ import { RankBadge } from "./RankBadge";
 import { formatRelativeTime } from "@/lib/utils/date";
 
 import { Player } from "@/types/player";
+import { UserAvatar } from "./UserAvatar";
 
 interface LeaderboardTableProps {
   players: Player[];
@@ -152,19 +153,12 @@ export function LeaderboardTable({
                                         </td> */}
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center gap-3">
-                      {player.avatar ? (
-                        <img
-                          src={player.avatar}
-                          alt={player.username || player.name || player.email}
-                          className="h-10 w-10 rounded-full object-cover"
-                        />
-                      ) : (
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted-light font-semibold text-muted-fg-light dark:bg-muted-dark dark:text-muted-fg-dark">
-                          {(player.username || player.name || player.email)
-                            .charAt(0)
-                            .toUpperCase()}
-                        </div>
-                      )}
+                      <UserAvatar
+                        name={player.username || player.name || player.email}
+                        avatarUrl={player.avatar}
+                        size="h-10 w-10"
+                        isMe={isCurrentUser}
+                      />
                       <div>
                         <p className="text-sm font-medium text-card-fg-light dark:text-card-fg-dark">
                           {player.username || player.name || player.email}
@@ -240,17 +234,12 @@ export function LeaderboardTable({
             >
               <div className="mb-3 flex items-start gap-3">
                 {/* <RankBadge rank={player.rank} size="sm" /> */}
-                {player.avatar ? (
-                  <img
-                    src={player.avatar}
-                    alt={player.username || player.name || player.email}
-                    className="h-12 w-12 rounded-full object-cover"
-                  />
-                ) : (
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted-light font-semibold text-muted-fg-light dark:bg-muted-dark dark:text-muted-fg-dark">
-                    {(player.username || player.name || player.email).charAt(0).toUpperCase()}
-                  </div>
-                )}
+                <UserAvatar
+                  name={player.username || player.name || player.email}
+                  avatarUrl={player.avatar}
+                  size="h-12 w-12"
+                  isMe={isCurrentUser}
+                />
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium text-card-fg-light dark:text-card-fg-dark">
                     {player.username || player.name || player.email}
