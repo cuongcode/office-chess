@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { Button } from "@/components";
 
 import {
   BackLink,
@@ -180,12 +181,11 @@ export default function GameReplayPage() {
             ? "This game doesn't exist or may have been deleted."
             : "Something went wrong while loading the game. Please try again."}
         </p>
-        <button
+        <Button
           onClick={() => router.push("/history")}
-          className="rounded-xl bg-primary-light px-6 py-2.5 font-semibold text-white transition-opacity hover:opacity-90 dark:bg-primary-dark"
         >
           ← Back to History
-        </button>
+        </Button>
       </div>
     );
   }

@@ -1,3 +1,5 @@
+import { Button } from "../ui";
+
 export function MoveList({
   moveRows,
   currentMoveIndex,
@@ -51,28 +53,32 @@ export function MoveList({
                   {row.number}.
                 </span>
 
-                <button
+                <Button
+                  variant="unstyled"
+                  size="none"
                   onClick={() => goToMove(row.whiteIdx)}
-                  className={`rounded-lg px-2 py-1.5 text-left font-mono text-sm transition-colors duration-100 ${
+                  className={`rounded-lg px-2 py-1.5 text-left font-mono text-sm transition-colors duration-100 cursor-pointer ${
                     whiteActive
                       ? "bg-primary-light font-semibold text-white dark:bg-primary-dark"
                       : "text-fg-light hover:bg-secondary-light dark:text-fg-dark dark:hover:bg-secondary-dark"
                   }`}
                 >
                   {row.white}
-                </button>
+                </Button>
 
                 {row.black ? (
-                  <button
+                  <Button
+                    variant="unstyled"
+                    size="none"
                     onClick={() => goToMove(row.blackIdx)}
-                    className={`rounded-lg px-2 py-1.5 text-left font-mono text-sm transition-colors duration-100 ${
+                    className={`rounded-lg px-2 py-1.5 text-left font-mono text-sm transition-colors duration-100 cursor-pointer ${
                       blackActive
                         ? "bg-primary-light font-semibold text-white dark:bg-primary-dark"
                         : "text-fg-light hover:bg-secondary-light dark:text-fg-dark dark:hover:bg-secondary-dark"
                     }`}
                   >
                     {row.black}
-                  </button>
+                  </Button>
                 ) : (
                   <span />
                 )}

@@ -3,35 +3,41 @@
 import { Copy, RotateCcw, RotateCw } from "lucide-react"; // Using icons for better UI
 
 import { useGameStore } from "@/store/gameStore";
+import { Button } from "./ui";
 
 export function GameControls() {
   const { resetGame, undoMove, flipBoard } = useGameStore();
 
   return (
     <div className="flex gap-4 rounded-lg border border-border-light bg-card-light p-4 shadow-md dark:border-border-dark dark:bg-card-dark">
-      <button
+      <Button
         onClick={resetGame}
-        className="flex items-center gap-2 rounded-md bg-primary-light px-4 py-2 text-primary-fg-light transition-colors hover:bg-primary-light/90 dark:bg-primary-dark dark:text-primary-fg-dark dark:hover:bg-primary-dark/90"
+        size="sm"
+        className="flex items-center gap-2"
       >
         <RotateCcw size={18} />
         New Game
-      </button>
+      </Button>
 
-      <button
+      <Button
+        variant="secondary"
+        size="sm"
         onClick={undoMove}
-        className="flex items-center gap-2 rounded-md border border-border-light bg-secondary-light px-4 py-2 text-secondary-fg-light transition-colors hover:bg-secondary-light/80 dark:border-border-dark dark:bg-secondary-dark dark:text-secondary-fg-dark dark:hover:bg-secondary-dark/80"
+        className="flex items-center gap-2"
       >
         <Copy size={18} className="rotate-180" /> {/* Simulate Undo Icon */}
         Undo
-      </button>
+      </Button>
 
-      <button
+      <Button
+        variant="secondary"
+        size="sm"
         onClick={flipBoard}
-        className="ml-auto flex items-center gap-2 rounded-md border border-border-light bg-secondary-light px-4 py-2 text-secondary-fg-light transition-colors hover:bg-secondary-light/80 dark:border-border-dark dark:bg-secondary-dark dark:text-secondary-fg-dark dark:hover:bg-secondary-dark/80"
+        className="ml-auto flex items-center gap-2"
       >
         <RotateCw size={18} />
         Flip
-      </button>
+      </Button>
     </div>
   );
 }

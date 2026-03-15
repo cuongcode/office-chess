@@ -24,6 +24,7 @@ import { DrawOfferDialog } from "./DrawOfferDialog";
 import { GameOverModal } from "./GameOverModal";
 import { HeaderInfo } from "./HeaderInfo";
 import { PlayerInfo } from "./PlayerInfo";
+import { Button } from "./ui";
 
 interface ChessBoardProps {
   onLeave: () => void;
@@ -417,12 +418,14 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
           ((playerColor === "white" && !whiteReady) ||
             (playerColor === "black" && !blackReady)) && (
             <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/40 backdrop-blur-[2px]">
-              <button
+              <Button
+                variant="unstyled"
+                size="none"
                 onClick={setPlayerReady}
-                className="text-success-fg-light animate-in fade-in zoom-in rounded-xl bg-success px-8 py-4 text-xl font-bold transition-all duration-300 hover:scale-105"
+                className="text-success-fg-light animate-in fade-in zoom-in rounded-xl bg-success px-8 py-4 text-xl font-bold transition-all duration-300 hover:scale-105 cursor-pointer shadow-lg"
               >
                 Ready
-              </button>
+              </Button>
             </div>
           )}
 
@@ -474,31 +477,37 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
         <div className="flex items-center justify-end gap-2">
           {isOnline && playerColor !== "spectator" && (
             <div className="flex gap-2">
-              <button
+              <Button
+                variant="ghost"
+                size="icon"
                 onClick={offerDraw}
-                className="flex cursor-pointer items-center rounded p-2 text-muted-fg-light transition-colors hover:bg-accent-light hover:text-fg-light dark:text-muted-fg-dark dark:hover:bg-accent-dark dark:hover:text-fg-dark"
+                className="text-muted-fg-light hover:text-fg-light dark:text-muted-fg-dark dark:hover:text-fg-dark h-9 w-9"
                 title="Offer Draw"
               >
                 <Handshake className="h-5 w-5" />
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
                 onClick={handleResign}
-                className="cursor-pointer rounded p-2 text-muted-fg-light transition-colors hover:bg-destructive/10 hover:text-destructive dark:text-muted-fg-dark"
+                className="text-muted-fg-light hover:bg-destructive/10 hover:text-destructive dark:text-muted-fg-dark h-9 w-9"
                 title="Resign"
               >
                 <Flag className="h-5 w-5" />
-              </button>
+              </Button>
             </div>
           )}
           {/* Controls */}
           {isOnline && (
-            <button
+            <Button
+              variant="unstyled"
+              size="none"
               onClick={handleLeave}
-              className="flex cursor-pointer items-center gap-2 rounded-lg bg-muted-light px-4 py-2 text-sm font-medium text-muted-fg-light hover:bg-destructive/10 hover:text-destructive dark:bg-muted-dark dark:text-muted-fg-dark"
+              className="flex cursor-pointer items-center gap-2 rounded-lg bg-muted-light px-4 py-2 text-sm font-medium text-muted-fg-light hover:bg-destructive/10 hover:text-destructive transition-all duration-200 dark:bg-muted-dark dark:text-muted-fg-dark"
             >
               <LogOut className="h-4 w-4" />
               {gameIsActive() ? "Leave Game" : "Leave Room"}
-            </button>
+            </Button>
           )}
         </div>
       )}

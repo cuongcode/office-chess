@@ -4,6 +4,7 @@ import { ArrowRight, Eye, RefreshCw, Users, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { useGameStore } from "@/store/gameStore";
+import { Button } from "./ui";
 
 interface ActiveGame {
   roomId: string;
@@ -55,22 +56,25 @@ export function ActiveGamesList({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
       <div className="relative flex max-h-[80vh] w-full max-w-2xl flex-col rounded-2xl border border-border-light bg-card-light p-8 text-card-fg-light shadow-xl dark:border-border-dark dark:bg-card-dark dark:text-card-fg-dark">
-        <button
+        <Button
+          variant="ghost"
+          size="icon"
           onClick={onClose}
-          className="absolute top-4 right-4 cursor-pointer text-muted-fg-light transition-colors hover:text-fg-light dark:text-muted-fg-dark dark:hover:text-fg-dark"
+          className="absolute top-4 right-4"
         >
           <X className="h-6 w-6" />
-        </button>
+        </Button>
 
         <div className="mb-6 flex items-center gap-6">
           <h2 className="text-2xl font-bold">Active Games</h2>
-          <button
+          <Button
+            variant="secondary"
+            size="icon"
             onClick={fetchGames}
-            className="cursor-pointer rounded-lg bg-muted-light/50 p-2 transition-colors hover:bg-muted-light dark:bg-muted-dark/50 dark:hover:bg-muted-dark"
             title="Refresh"
           >
             <RefreshCw className={`h-5 w-5 ${loading ? "animate-spin" : ""}`} />
-          </button>
+          </Button>
         </div>
 
         <div className="flex-1 space-y-3 overflow-y-auto pr-2">
@@ -111,12 +115,13 @@ export function ActiveGamesList({
                   </div>
                 </div>
 
-                <button
+                <Button
                   onClick={() => handleSpectate(game.roomId)}
-                  className="flex items-center gap-2 rounded-lg bg-primary-light px-4 py-2 font-semibold text-primary-fg-light shadow-sm transition-colors hover:opacity-90 dark:bg-primary-dark dark:text-primary-fg-dark"
+                  size="sm"
+                  className="gap-2"
                 >
                   Watch <ArrowRight className="h-4 w-4" />
-                </button>
+                </Button>
               </div>
             ))
           )}

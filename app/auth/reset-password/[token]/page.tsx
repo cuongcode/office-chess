@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { use, useState } from "react";
 import toast from "react-hot-toast";
+import { Button } from "@/components";
 
 export default function ResetPasswordPage({
   params,
@@ -109,15 +110,15 @@ export default function ResetPasswordPage({
             </div>
           </div>
 
-          <div>
-            <button
-              type="submit"
-              disabled={loading || isFormDisabled}
-              className="group relative flex w-full justify-center rounded-md border border-transparent bg-primary-light px-4 py-2 text-sm font-medium text-primary-fg-light hover:opacity-90 focus:ring-2 focus:ring-primary-light focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-primary-dark dark:text-primary-fg-dark dark:focus:ring-primary-dark"
-            >
-              {loading ? "Resetting..." : "Reset Password"}
-            </button>
-          </div>
+            <div>
+              <Button
+                type="submit"
+                disabled={loading || isFormDisabled}
+                className="w-full"
+              >
+                {loading ? "Resetting..." : "Reset Password"}
+              </Button>
+            </div>
         </form>
       </div>
     </div>

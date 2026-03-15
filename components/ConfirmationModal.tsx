@@ -1,6 +1,7 @@
 "use client";
 
 import { AlertTriangle, X } from "lucide-react";
+import { Button } from "./ui";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -66,12 +67,14 @@ export function ConfirmationModal({
               {title}
             </h2>
           </div>
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={onCancel}
-            className="rounded p-1 text-muted-fg-light transition-colors hover:bg-muted-light hover:text-fg-light dark:text-muted-fg-dark dark:hover:bg-muted-dark dark:hover:text-fg-dark"
+            className="text-muted-fg-light hover:text-fg-light dark:text-muted-fg-dark dark:hover:text-fg-dark"
           >
             <X className="h-5 w-5" />
-          </button>
+          </Button>
         </div>
 
         {/* Message */}
@@ -81,18 +84,21 @@ export function ConfirmationModal({
 
         {/* Actions */}
         <div className="flex gap-3">
-          <button
+          <Button
+            variant="secondary"
             onClick={onCancel}
-            className="flex-1 rounded-lg bg-muted-light px-4 py-2.5 font-medium text-fg-light transition-colors hover:bg-muted-light/80 dark:bg-muted-dark dark:text-fg-dark dark:hover:bg-muted-dark/80"
+            className="flex-1"
           >
             {cancelText}
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="unstyled"
+            size="none"
             onClick={onConfirm}
-            className={`flex-1 rounded-lg px-4 py-2.5 font-medium transition-colors ${getConfirmButtonStyles()}`}
+            className={`flex-1 rounded-lg px-4 py-3 font-medium transition-all duration-200 cursor-pointer ${getConfirmButtonStyles()}`}
           >
             {confirmText}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

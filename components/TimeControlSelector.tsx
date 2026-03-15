@@ -64,10 +64,12 @@ export const TimeControlSelector: React.FC<TimeControlSelectorProps> = ({
 
       <div className="grid max-h-48 grid-cols-2 gap-3 overflow-y-auto pr-1">
         {groupedPresets[selectedCategory]?.map((preset) => (
-          <button
+          <Button
+            variant="unstyled"
+            size="none"
             key={preset.id}
             onClick={() => onSelect(preset)}
-            className={`rounded-lg border p-3 text-left transition-all ${
+            className={`rounded-lg border p-3 text-left transition-all cursor-pointer ${
               selectedPreset?.id === preset.id
                 ? "border-primary-light bg-primary-light/10 dark:border-primary-dark dark:bg-primary-dark/10"
                 : "border-border-light bg-card-light hover:border-muted-fg-light/50 dark:border-border-dark dark:bg-card-dark dark:hover:border-muted-fg-dark/50"
@@ -81,7 +83,7 @@ export const TimeControlSelector: React.FC<TimeControlSelectorProps> = ({
                 ? `+ ${preset.increment}s per move`
                 : "No increment"}
             </div>
-          </button>
+          </Button>
         ))}
       </div>
 

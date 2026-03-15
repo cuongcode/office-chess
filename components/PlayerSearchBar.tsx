@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 
 import { Player } from "@/types/player";
+import { Button } from "./ui";
 
 interface PlayerSearchBarProps {
   onPlayerSelect?: (playerId: string) => void;
@@ -98,10 +99,12 @@ export function PlayerSearchBar({ onPlayerSelect }: PlayerSearchBarProps) {
 
           <div className="absolute z-20 mt-2 max-h-80 w-full overflow-y-auto rounded-xl border border-border-light bg-card-light dark:border-border-dark dark:bg-card-dark">
             {results.map((player) => (
-              <button
+              <Button
+                variant="unstyled"
+                size="none"
                 key={player.id}
                 onClick={() => handlePlayerClick(player.id)}
-                className="flex w-full items-center gap-3 p-3 text-left transition-colors hover:bg-muted-light dark:hover:bg-muted-dark"
+                className="flex w-full items-center gap-3 p-3 text-left transition-colors hover:bg-muted-light dark:hover:bg-muted-dark cursor-pointer"
               >
                 {player.avatar ? (
                   <img
@@ -123,7 +126,7 @@ export function PlayerSearchBar({ onPlayerSelect }: PlayerSearchBarProps) {
                     Rank #{player.rank} • Rating: {player.rating}
                   </p>
                 </div>
-              </button>
+              </Button>
             ))}
           </div>
         </>

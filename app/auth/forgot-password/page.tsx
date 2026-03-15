@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { CheckCircle } from "lucide-react";
+import { Button } from "@/components";
 
 export default function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false);
@@ -104,13 +105,13 @@ export default function ForgotPasswordPage() {
             </div>
 
             <div>
-              <button
+              <Button
                 type="submit"
                 disabled={loading || isFormEmpty}
-                className="group relative flex w-full justify-center rounded-md border border-transparent bg-primary-light px-4 py-2 text-sm font-medium text-primary-fg-light hover:opacity-90 focus:ring-2 focus:ring-primary-light focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-primary-dark dark:text-primary-fg-dark dark:focus:ring-primary-dark"
+                className="w-full"
               >
                 {loading ? "Sending..." : "Send Reset Link"}
-              </button>
+              </Button>
             </div>
           </form>
         )}

@@ -69,12 +69,14 @@ export function CreateGameModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
       <div className="relative w-full max-w-md rounded-2xl border border-border-light bg-card-light p-8 text-card-fg-light dark:border-border-dark dark:bg-card-dark dark:text-card-fg-dark">
-        <button
+        <Button
+          variant="ghost"
+          size="icon"
           onClick={onClose}
-          className="absolute top-4 right-4 cursor-pointer text-muted-fg-light transition-colors hover:text-fg-light dark:text-muted-fg-dark dark:hover:text-fg-dark"
+          className="absolute top-4 right-4"
         >
           <X className="h-6 w-6" />
-        </button>
+        </Button>
 
         <h2 className="mb-6 text-center text-2xl font-bold">Create Game</h2>
 

@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { Button } from "./ui";
 
 interface ColorPickerButtonProps {
   color: "white" | "black" | "random";
@@ -42,10 +43,12 @@ export function ColorPickerButton({
   className,
 }: ColorPickerButtonProps) {
   return (
-    <button
+    <Button
+      variant="unstyled"
+      size="none"
       onClick={onClick}
       className={clsx(
-        "rounded-lg border-2 p-4 transition-all",
+        "rounded-lg border-2 p-4 transition-all cursor-pointer",
         isSelected
           ? "border-primary-light bg-primary-light/10 dark:border-primary-dark dark:bg-primary-dark/10"
           : "border-border-light hover:border-muted-fg-light dark:border-border-dark dark:hover:border-muted-fg-dark",
@@ -54,6 +57,6 @@ export function ColorPickerButton({
     >
       <ColorSwatch color={color} />
       <p className="text-sm font-semibold">{LABEL[color]}</p>
-    </button>
+    </Button>
   );
 }

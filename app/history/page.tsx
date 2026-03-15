@@ -284,18 +284,20 @@ export default function HistoryPage() {
         {/* Result filter tabs */}
         <div className="flex items-center gap-1 rounded-xl bg-secondary-light p-1 dark:bg-secondary-dark">
           {RESULT_TABS.map((tab) => (
-            <button
+            <Button
               key={tab.value}
+              variant="unstyled"
+              size="none"
               id={`filter-${tab.value}`}
               onClick={() => handleFilterChange(tab.value)}
-              className={`rounded-lg px-4 py-2 text-sm font-medium transition-all duration-150 ${
+              className={`rounded-lg px-4 py-2 text-sm font-medium transition-all duration-150 cursor-pointer ${
                 resultFilter === tab.value
                   ? "bg-card-light text-fg-light shadow-sm dark:bg-card-dark dark:text-fg-dark"
                   : "text-muted-fg-light hover:text-fg-light dark:text-muted-fg-dark dark:hover:text-fg-dark"
               }`}
             >
               {tab.label}
-            </button>
+            </Button>
           ))}
         </div>
 
