@@ -84,18 +84,14 @@ export function ConfirmationModal({
 
         {/* Actions */}
         <div className="flex gap-3">
-          <Button
-            variant="secondary"
-            onClick={onCancel}
-            className="flex-1"
-          >
+          <Button variant="secondary" onClick={onCancel} className="flex-1">
             {cancelText}
           </Button>
           <Button
             variant="unstyled"
             size="none"
             onClick={onConfirm}
-            className={`flex-1 rounded-lg px-4 py-3 font-medium transition-all duration-200 cursor-pointer ${getConfirmButtonStyles()}`}
+            className={`flex-1 cursor-pointer rounded-lg px-4 py-3 font-medium ${getConfirmButtonStyles()}`}
           >
             {confirmText}
           </Button>

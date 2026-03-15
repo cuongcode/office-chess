@@ -215,29 +215,29 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
 
   const handleLeave = () => {
     const isActive = gameIsActive();
-    
+
     // Only warn them if the game is fundamentally active.
     // If it's over, or never started, just leave the room cleanly.
     if (isActive) {
-        setConfirmModal({
+      setConfirmModal({
         isOpen: true,
         title: "Leave Game",
         message:
-            "Are you sure you want to leave the game? This will count as a resignation.",
+          "Are you sure you want to leave the game? This will count as a resignation.",
         onConfirm: () => {
-            leaveGame();
-            onLeave();
-            setConfirmModal({
+          leaveGame();
+          onLeave();
+          setConfirmModal({
             isOpen: false,
             title: "",
             message: "",
             onConfirm: () => {},
-            });
+          });
         },
-        });
+      });
     } else {
-        leaveGame();
-        onLeave();
+      leaveGame();
+      onLeave();
     }
   };
 
@@ -422,7 +422,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                 variant="unstyled"
                 size="none"
                 onClick={setPlayerReady}
-                className="text-success-fg-light animate-in fade-in zoom-in rounded-xl bg-success px-8 py-4 text-xl font-bold transition-all duration-300 hover:scale-105 cursor-pointer shadow-lg"
+                className="text-success-fg-light animate-in fade-in zoom-in cursor-pointer rounded-xl bg-success px-8 py-4 text-xl font-bold shadow-lg hover:scale-105"
               >
                 Ready
               </Button>
@@ -431,7 +431,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
 
         {/* Connection Overlay */}
         {isOnline && !isConnected && (
-          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-white/80 backdrop-blur-sm transition-all dark:bg-black/80">
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-white/80 backdrop-blur-sm dark:bg-black/80">
             <WifiOff className="mb-4 h-12 w-12 text-destructive dark:text-destructive" />
             <h3 className="text-xl font-bold text-fg-light dark:text-fg-dark">
               Disconnected
@@ -481,7 +481,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                 variant="ghost"
                 size="icon"
                 onClick={offerDraw}
-                className="text-muted-fg-light hover:text-fg-light dark:text-muted-fg-dark dark:hover:text-fg-dark h-9 w-9"
+                className="h-9 w-9 text-muted-fg-light hover:text-fg-light dark:text-muted-fg-dark dark:hover:text-fg-dark"
                 title="Offer Draw"
               >
                 <Handshake className="h-5 w-5" />
@@ -490,7 +490,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
                 variant="ghost"
                 size="icon"
                 onClick={handleResign}
-                className="text-muted-fg-light hover:bg-destructive/10 hover:text-destructive dark:text-muted-fg-dark h-9 w-9"
+                className="h-9 w-9 text-muted-fg-light hover:bg-destructive/10 hover:text-destructive dark:text-muted-fg-dark"
                 title="Resign"
               >
                 <Flag className="h-5 w-5" />
@@ -503,7 +503,7 @@ export function ChessBoard({ onLeave }: ChessBoardProps) {
               variant="unstyled"
               size="none"
               onClick={handleLeave}
-              className="flex cursor-pointer items-center gap-2 rounded-lg bg-muted-light px-4 py-2 text-sm font-medium text-muted-fg-light hover:bg-destructive/10 hover:text-destructive transition-all duration-200 dark:bg-muted-dark dark:text-muted-fg-dark"
+              className="flex cursor-pointer items-center gap-2 rounded-lg bg-muted-light px-4 py-2 text-sm font-medium text-muted-fg-light hover:bg-destructive/10 hover:text-destructive dark:bg-muted-dark dark:text-muted-fg-dark"
             >
               <LogOut className="h-4 w-4" />
               {gameIsActive() ? "Leave Game" : "Leave Room"}

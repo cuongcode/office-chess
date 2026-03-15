@@ -38,8 +38,6 @@ export function LeaderboardTable({
     return "bg-success";
   };
 
-
-
   if (loading) {
     return (
       <div className="overflow-hidden rounded-lg border border-border-light bg-card-light dark:border-border-dark dark:bg-card-dark">
@@ -142,7 +140,7 @@ export function LeaderboardTable({
                 <tr
                   key={player.id}
                   onClick={() => router.push(`/profile/${player.id}`)}
-                  className={`cursor-pointer transition-colors ${
+                  className={`cursor-pointer ${
                     isCurrentUser
                       ? "bg-primary-light/10 hover:bg-primary-light/20 dark:bg-primary-dark/10 dark:hover:bg-primary-dark/20"
                       : "hover:bg-accent-light dark:hover:bg-accent-dark"
@@ -226,7 +224,7 @@ export function LeaderboardTable({
             <div
               key={player.id}
               onClick={() => router.push(`/profile/${player.id}`)}
-              className={`cursor-pointer rounded-lg border border-border-light bg-card-light p-4 shadow transition-colors dark:border-border-dark dark:bg-card-dark ${
+              className={`cursor-pointer rounded-lg border border-border-light bg-card-light p-4 shadow dark:border-border-dark dark:bg-card-dark ${
                 isCurrentUser
                   ? "ring-2 ring-primary-light dark:ring-primary-dark"
                   : ""

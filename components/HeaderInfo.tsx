@@ -24,7 +24,7 @@ export function HeaderInfo({
       {isOnline && (
         <div
           onClick={onCopyRoomId}
-          className="bg-muted hover:bg-accent flex cursor-pointer items-center gap-2 rounded px-3 py-1 transition-colors"
+          className="bg-muted hover:bg-accent flex cursor-pointer items-center gap-2 rounded px-3 py-1"
           title="Copy Room Code"
         >
           <span className="text-muted-foreground text-xs tracking-wider uppercase">

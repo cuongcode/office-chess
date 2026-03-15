@@ -71,7 +71,7 @@ export function ProfileCard({ userId, playerData }: ProfileCardProps) {
   return (
     <Link
       href={`/profile/${profile.id}`}
-      className="block cursor-pointer rounded-lg border border-border-light bg-card-light p-4 transition-all hover:border-primary-light hover:shadow-lg hover:shadow-primary-light/20 dark:border-border-dark dark:bg-card-dark dark:hover:border-primary-dark"
+      className="block cursor-pointer rounded-lg border border-border-light bg-card-light p-4 hover:border-primary-light hover:shadow-lg hover:shadow-primary-light/20 dark:border-border-dark dark:bg-card-dark dark:hover:border-primary-dark"
     >
       <div className="flex items-center gap-3">
         <UserAvatar

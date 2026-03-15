@@ -45,8 +45,6 @@ const RESULT_TABS: { label: string; value: ResultFilter }[] = [
   { label: "Draws", value: "draw" },
 ];
 
-
-
 function ResultBadge({ result }: { result: "win" | "loss" | "draw" }) {
   const styles = {
     win: "bg-success/15 text-success border border-success/30",
@@ -108,7 +106,7 @@ function GameCard({
   return (
     <div
       onClick={onClick}
-      className="group flex cursor-pointer items-center gap-4 rounded-xl border border-border-light bg-card-light p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary-light hover:shadow-hover dark:border-border-dark dark:bg-card-dark dark:hover:border-primary-dark"
+      className="group flex cursor-pointer items-center gap-4 rounded-xl border border-border-light bg-card-light p-4 hover:-translate-y-0.5 hover:border-primary-light hover:shadow-hover dark:border-border-dark dark:bg-card-dark dark:hover:border-primary-dark"
     >
       {/* Players */}
       <div className="flex flex-shrink-0 items-center gap-2">
@@ -155,7 +153,7 @@ function GameCard({
 
       {/* View button */}
       <div className="flex-shrink-0">
-        <span className="inline-flex items-center gap-1 rounded-lg bg-secondary-light px-3 py-1.5 text-xs font-medium text-fg-light transition-colors group-hover:bg-primary-light group-hover:text-white dark:bg-secondary-dark dark:text-fg-dark dark:group-hover:bg-primary-dark">
+        <span className="inline-flex items-center gap-1 rounded-lg bg-secondary-light px-3 py-1.5 text-xs font-medium text-fg-light group-hover:bg-primary-light group-hover:text-white dark:bg-secondary-dark dark:text-fg-dark dark:group-hover:bg-primary-dark">
           View
           <ChevronRight className="h-3 w-3" />
         </span>
@@ -290,7 +288,7 @@ export default function HistoryPage() {
               size="none"
               id={`filter-${tab.value}`}
               onClick={() => handleFilterChange(tab.value)}
-              className={`rounded-lg px-4 py-2 text-sm font-medium transition-all duration-150 cursor-pointer ${
+              className={`cursor-pointer rounded-lg px-4 py-2 text-sm font-medium ${
                 resultFilter === tab.value
                   ? "bg-card-light text-fg-light shadow-sm dark:bg-card-dark dark:text-fg-dark"
                   : "text-muted-fg-light hover:text-fg-light dark:text-muted-fg-dark dark:hover:text-fg-dark"

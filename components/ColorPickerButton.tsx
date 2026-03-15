@@ -48,7 +48,7 @@ export function ColorPickerButton({
       size="none"
       onClick={onClick}
       className={clsx(
-        "rounded-lg border-2 p-4 transition-all cursor-pointer",
+        "cursor-pointer rounded-lg border-2 p-4",
         isSelected
           ? "border-primary-light bg-primary-light/10 dark:border-primary-dark dark:bg-primary-dark/10"
           : "border-border-light hover:border-muted-fg-light dark:border-border-dark dark:hover:border-muted-fg-dark",

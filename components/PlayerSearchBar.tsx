@@ -104,7 +104,7 @@ export function PlayerSearchBar({ onPlayerSelect }: PlayerSearchBarProps) {
                 size="none"
                 key={player.id}
                 onClick={() => handlePlayerClick(player.id)}
-                className="flex w-full items-center gap-3 p-3 text-left transition-colors hover:bg-muted-light dark:hover:bg-muted-dark cursor-pointer"
+                className="flex w-full cursor-pointer items-center gap-3 p-3 text-left hover:bg-muted-light dark:hover:bg-muted-dark"
               >
                 {player.avatar ? (
                   <img
@@ -114,7 +114,9 @@ export function PlayerSearchBar({ onPlayerSelect }: PlayerSearchBarProps) {
                   />
                 ) : (
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted-light font-semibold text-muted-fg-light dark:bg-muted-dark dark:text-muted-fg-dark">
-                    {(player.username || player.name || player.email).charAt(0).toUpperCase()}
+                    {(player.username || player.name || player.email)
+                      .charAt(0)
+                      .toUpperCase()}
                   </div>
                 )}
 

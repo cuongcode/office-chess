@@ -93,7 +93,7 @@ export function LeaderboardWidget() {
             <Link
               key={player.id}
               href={`/profile/${player.id}`}
-              className="flex items-center gap-3 rounded-lg p-2 transition-colors hover:bg-accent-light dark:hover:bg-accent-dark"
+              className="flex items-center gap-3 rounded-lg p-2 hover:bg-accent-light dark:hover:bg-accent-dark"
             >
               {/* <RankBadge rank={player.rank} size="sm" /> */}
 
@@ -105,7 +105,9 @@ export function LeaderboardWidget() {
                 />
               ) : (
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted-light text-sm font-semibold text-muted-fg-light dark:bg-muted-dark dark:text-muted-fg-dark">
-                  {(player.username || player.name || player.email).charAt(0).toUpperCase()}
+                  {(player.username || player.name || player.email)
+                    .charAt(0)
+                    .toUpperCase()}
                 </div>
               )}
 

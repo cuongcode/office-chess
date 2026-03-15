@@ -57,7 +57,7 @@ export function MoveList({
                   variant="unstyled"
                   size="none"
                   onClick={() => goToMove(row.whiteIdx)}
-                  className={`rounded-lg px-2 py-1.5 text-left font-mono text-sm transition-colors duration-100 cursor-pointer ${
+                  className={`cursor-pointer rounded-lg px-2 py-1.5 text-left font-mono text-sm duration-100 ${
                     whiteActive
                       ? "bg-primary-light font-semibold text-white dark:bg-primary-dark"
                       : "text-fg-light hover:bg-secondary-light dark:text-fg-dark dark:hover:bg-secondary-dark"
@@ -71,7 +71,7 @@ export function MoveList({
                     variant="unstyled"
                     size="none"
                     onClick={() => goToMove(row.blackIdx)}
-                    className={`rounded-lg px-2 py-1.5 text-left font-mono text-sm transition-colors duration-100 cursor-pointer ${
+                    className={`cursor-pointer rounded-lg px-2 py-1.5 text-left font-mono text-sm duration-100 ${
                       blackActive
                         ? "bg-primary-light font-semibold text-white dark:bg-primary-dark"
                         : "text-fg-light hover:bg-secondary-light dark:text-fg-dark dark:hover:bg-secondary-dark"

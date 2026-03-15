@@ -117,7 +117,7 @@ export default function ProfilePage({
           </p>
           <Link
             href="/"
-            className="rounded-lg bg-primary-light px-6 py-3 text-primary-fg-light transition hover:opacity-90 dark:bg-primary-dark dark:text-primary-fg-dark"
+            className="rounded-lg bg-primary-light px-6 py-3 text-primary-fg-light hover:opacity-90 dark:bg-primary-dark dark:text-primary-fg-dark"
           >
             Go Home
           </Link>
@@ -171,7 +171,7 @@ export default function ProfilePage({
                 {isOwnProfile && (
                   <Link
                     href="/profile/edit"
-                    className="flex items-center gap-2 rounded-lg bg-primary-light px-4 py-2 text-primary-fg-light transition hover:opacity-90 dark:bg-primary-dark dark:text-primary-fg-dark"
+                    className="flex items-center gap-2 rounded-lg bg-primary-light px-4 py-2 text-primary-fg-light hover:opacity-90 dark:bg-primary-dark dark:text-primary-fg-dark"
                   >
                     <Edit className="h-4 w-4" />
                     Edit Profile
@@ -295,7 +295,7 @@ export default function ProfilePage({
               </div>
               <div className="h-3 overflow-hidden rounded-full bg-muted-light dark:bg-muted-dark">
                 <div
-                  className="h-full bg-gradient-to-r from-success to-success/70 transition-all duration-500"
+                  className="h-full bg-gradient-to-r from-success to-success/70"
                   style={{ width: `${winPercentage}%` }}
                 />
               </div>
@@ -311,7 +311,7 @@ export default function ProfilePage({
               </div>
               <div className="h-3 overflow-hidden rounded-full bg-muted-light dark:bg-muted-dark">
                 <div
-                  className="h-full bg-gradient-to-r from-yellow-500 to-yellow-400 transition-all duration-500"
+                  className="h-full bg-gradient-to-r from-yellow-500 to-yellow-400"
                   style={{ width: `${drawPercentage}%` }}
                 />
               </div>
@@ -327,7 +327,7 @@ export default function ProfilePage({
               </div>
               <div className="h-3 overflow-hidden rounded-full bg-muted-light dark:bg-muted-dark">
                 <div
-                  className="h-full bg-gradient-to-r from-destructive to-destructive/70 transition-all duration-500"
+                  className="h-full bg-gradient-to-r from-destructive to-destructive/70"
                   style={{ width: `${lossPercentage}%` }}
                 />
               </div>

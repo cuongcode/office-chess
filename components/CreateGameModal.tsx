@@ -122,7 +122,7 @@ export function CreateGameModal({
               </p>
               <div
                 onClick={copyToClipboard}
-                className="cursor-pointer font-mono text-4xl font-bold tracking-wider text-card-fg-light transition-transform select-all hover:scale-105 dark:text-card-fg-dark"
+                className="cursor-pointer font-mono text-4xl font-bold tracking-wider text-card-fg-light select-all hover:scale-105 dark:text-card-fg-dark"
               >
                 {roomId}
               </div>

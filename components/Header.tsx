@@ -94,7 +94,7 @@ export function Header() {
                 </Link>
                 <Link
                   href="/auth/register"
-                  className="inline-flex items-center justify-center rounded-lg bg-primary-light px-6 py-3 text-sm font-medium tracking-[0.3px] text-white shadow-sm transition-all duration-200 ease-out hover:-translate-y-px hover:opacity-90 focus:ring-2 focus:ring-ring-light focus:ring-offset-2 focus:outline-none active:translate-y-0 dark:bg-primary-dark dark:focus:ring-ring-dark"
+                  className="inline-flex items-center justify-center rounded-lg bg-primary-light px-6 py-3 text-sm font-medium tracking-[0.3px] text-white shadow-sm hover:-translate-y-px hover:opacity-90 focus:ring-2 focus:ring-ring-light focus:ring-offset-2 focus:outline-none active:translate-y-0 dark:bg-primary-dark dark:focus:ring-ring-dark"
                 >
                   Sign up
                 </Link>

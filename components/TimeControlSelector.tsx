@@ -51,7 +51,7 @@ export const TimeControlSelector: React.FC<TimeControlSelectorProps> = ({
             key={category}
             variant={selectedCategory === category ? "primary" : "secondary"}
             onClick={() => setSelectedCategory(category)}
-            className={`text-sm font-medium transition-colors ${
+            className={`text-sm font-medium ${
               selectedCategory === category
                 ? "" // primary variant handles bg color
                 : "border-transparent bg-muted-light text-muted-fg-light hover:bg-muted-light/80 dark:bg-muted-dark dark:text-muted-fg-dark dark:hover:bg-muted-dark/80"
@@ -69,7 +69,7 @@ export const TimeControlSelector: React.FC<TimeControlSelectorProps> = ({
             size="none"
             key={preset.id}
             onClick={() => onSelect(preset)}
-            className={`rounded-lg border p-3 text-left transition-all cursor-pointer ${
+            className={`cursor-pointer rounded-lg border p-3 text-left ${
               selectedPreset?.id === preset.id
                 ? "border-primary-light bg-primary-light/10 dark:border-primary-dark dark:bg-primary-dark/10"
                 : "border-border-light bg-card-light hover:border-muted-fg-light/50 dark:border-border-dark dark:bg-card-dark dark:hover:border-muted-fg-dark/50"

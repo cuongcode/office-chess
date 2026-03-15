@@ -86,7 +86,7 @@ export function ActiveGamesList({
             games.map((game) => (
               <div
                 key={game.roomId}
-                className="flex items-center justify-between rounded-xl border border-border-light bg-muted-light/30 p-4 transition-colors hover:border-muted-fg-light/30 dark:border-border-dark dark:bg-muted-dark/30 dark:hover:border-muted-fg-dark/30"
+                className="flex items-center justify-between rounded-xl border border-border-light bg-muted-light/30 p-4 hover:border-muted-fg-light/30 dark:border-border-dark dark:bg-muted-dark/30 dark:hover:border-muted-fg-dark/30"
               >
                 <div className="flex flex-col">
                   <div className="mb-1 flex items-center gap-2 text-lg font-bold">
