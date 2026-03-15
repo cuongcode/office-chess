@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { useGameStore } from "@/store/gameStore";
 
 export function DrawOfferDialog() {
-  const { socket, roomId, acceptDraw } = useGameStore();
+  const { socket, roomId, acceptDraw, playerColor } = useGameStore();
   const [show, setShow] = useState(false);
   const [opponentColor, setOpponentColor] = useState<string>("");
 
@@ -43,7 +43,7 @@ export function DrawOfferDialog() {
     setShow(false);
   };
 
-  if (!show) return null;
+  if (!show || playerColor === "spectator") return null;
 
   return (
     <div className="animate-slide-down fixed top-4 left-1/2 z-50 -translate-x-1/2">
