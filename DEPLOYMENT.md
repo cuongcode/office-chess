@@ -25,7 +25,7 @@ Access URL is read from `DOCKER_APP_URL` in `.env`.
 | `POSTGRES_USER` / `POSTGRES_PASSWORD` / `POSTGRES_DB` | Database credentials                                |
 | `DOCKER_APP_URL`                                      | LAN/production URL, e.g. `http://192.168.1.50:3001` |
 | `NEXTAUTH_SECRET`                                     | Generate with `openssl rand -base64 32`             |
-| `EMAIL_FROM` / `COMPANY_EMAIL_DOMAIN`                 | Email sender identity                               |
+| `EMAIL_FROM` / `NEXT_PUBLIC_COMPANY_EMAIL_DOMAIN`      | Email sender identity                               |
 | `EMAIL_SERVER_*`                                      | SMTP server for production email                    |
 
 Find your server IP on Mac: `ipconfig getifaddr en0`
@@ -101,7 +101,7 @@ EMAIL_SERVER_PORT="587"
 EMAIL_SERVER_USER="your-user"
 EMAIL_SERVER_PASSWORD="your-password"
 EMAIL_FROM="Office Chess <chess@yourcompany.com>"
-COMPANY_EMAIL_DOMAIN s="yourcompany.com"
+NEXT_PUBLIC_COMPANY_EMAIL_DOMAIN="yourcompany.com"
 ```
 
 ### Scheduled backups (cron)

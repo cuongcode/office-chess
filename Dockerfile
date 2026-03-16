@@ -16,6 +16,14 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# Add build arguments for Next.js build-time environment variables
+ARG NEXT_PUBLIC_COMPANY_EMAIL_DOMAIN
+ARG NEXT_PUBLIC_SOCKET_URL
+
+# Set them as environment variables so they are available during build
+ENV NEXT_PUBLIC_COMPANY_EMAIL_DOMAIN=$NEXT_PUBLIC_COMPANY_EMAIL_DOMAIN
+ENV NEXT_PUBLIC_SOCKET_URL=$NEXT_PUBLIC_SOCKET_URL
+
 # Generate Prisma Client
 RUN npx prisma generate
 

@@ -25,6 +25,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_COMPANY_EMAIL_DOMAIN=${NEXT_PUBLIC_COMPANY_EMAIL_DOMAIN}
+        - NEXT_PUBLIC_SOCKET_URL=${NEXT_PUBLIC_SOCKET_URL}
     container_name: chess-app
     restart: unless-stopped
     ports:
